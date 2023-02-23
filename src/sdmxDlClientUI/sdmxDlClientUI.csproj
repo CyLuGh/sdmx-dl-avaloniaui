@@ -30,6 +30,10 @@
     <PackageReference Include="ReactiveUI" Version="18.4.22" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.4.22" />
     <PackageReference Include="ScottPlot.Avalonia" Version="5.0.1-beta" />
+    <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.93">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>

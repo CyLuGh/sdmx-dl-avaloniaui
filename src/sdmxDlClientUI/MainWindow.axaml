@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:sdmxDlClientUI"
         xmlns:views="using:sdmxDlClientUI.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="sdmxDlClientUI.MainWindow"
@@ -25,7 +26,11 @@
                  HorizontalAlignment="Center"
                  IsHitTestVisible="False"
                  Margin="0 2">SDMX-DL UI</TextBlock>
-      <views:NavigationView HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+      <views:NavigationView ViewModel="{x:Static local:ViewModelLocator.Navigation}"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" />
     </DockPanel>
   </Panel>
 </Window>

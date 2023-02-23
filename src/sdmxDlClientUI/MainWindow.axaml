@@ -17,7 +17,7 @@
             BackgroundSource="Digger"
             TintColor="White"
             TintOpacity="1"
-            MaterialOpacity="0.65" />
+            MaterialOpacity="0.45" />
       </ExperimentalAcrylicBorder.Material>
     </ExperimentalAcrylicBorder>
 
@@ -25,7 +25,7 @@
       <TextBlock DockPanel.Dock="Top"
                  HorizontalAlignment="Center"
                  IsHitTestVisible="False"
-                 Margin="0 2">SDMX-DL UI</TextBlock>
+                 Margin="0 7 0 5">SDMX-DL UI</TextBlock>
       <views:NavigationView ViewModel="{x:Static local:ViewModelLocator.Navigation}"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"

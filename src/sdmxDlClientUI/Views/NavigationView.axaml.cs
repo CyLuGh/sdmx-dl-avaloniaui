@@ -30,6 +30,50 @@ namespace sdmxDlClientUI.Views
 
         private static void PopulateFromViewModel( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )
         {
+            PopulateSources( navigationView , viewModel , disposables );
+            PopulateFlows( navigationView , viewModel , disposables );
+        }
+
+        private static void PopulateFlows( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )
+        {
+            navigationView.Bind( viewModel ,
+                vm => vm.CurrentFlow ,
+                v => v.AutoCompleteBoxFlow.SelectedItem )
+                .DisposeWith( disposables );
+
+            navigationView.Bind( viewModel ,
+                vm => vm.CurrentFlow ,
+                v => v.ComboBoxFlow.SelectedItem )
+                .DisposeWith( disposables );
+
+            navigationView.OneWayBind( viewModel ,
+                    vm => vm.Flows ,
+                    v => v.ComboBoxFlow.Items )
+                    .DisposeWith( disposables );
+
+            navigationView.Bind( viewModel ,
+                vm => vm.IsActiveSearchFlow ,
+                v => v.ToggleButtonActiveSearchFlow.IsChecked )
+                .DisposeWith( disposables );
+
+            navigationView.OneWayBind( viewModel ,
+                vm => vm.IsActiveSearchFlow ,
+                v => v.ComboBoxFlow.IsVisible ,
+                b => !b )
+                .DisposeWith( disposables );
+
+            navigationView.OneWayBind( viewModel ,
+                vm => vm.IsActiveSearchFlow ,
+                v => v.AutoCompleteBoxFlow.IsVisible ,
+                b => b )
+                .DisposeWith( disposables );
+
+            //see https://github.com/AvaloniaUI/Avalonia/blob/master/samples/ControlCatalog/Pages/AutoCompleteBoxPage.xaml.cs
+            navigationView.AutoCompleteBoxFlow.AsyncPopulator = viewModel.PopulateFlowsAsync;
+        }
+
+        private static void PopulateSources( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )
+        {
             navigationView.Bind( viewModel ,
                 vm => vm.CurrentSource ,
                 v => v.AutoCompleteBoxSource.SelectedItem )
@@ -62,24 +106,8 @@ namespace sdmxDlClientUI.Views
                 b => b )
                 .DisposeWith( disposables );
 
-            //navigationView.OneWayBind( viewModel ,
-            //    vm => vm.Sources ,
-            //    v => v.AutoCompleteBoxSource.Items )
-            //    .DisposeWith( disposables );
-
-            //navigationView.AutoCompleteBoxSource.IsTextCompletionEnabled = true;
-
-            //var binding = new MultiBinding();
-            //binding.Bindings.Add( new Binding( "Name" ) );
-            //binding.Bindings.Add( new Binding( "Description" ) );
-            //navigationView.AutoCompleteBoxSource.ValueMemberBinding = binding;
-
-            //avigationView.AutoCompleteBoxSource.ItemFilter = NavigationViewModel.FindSource;
-
-            navigationView.AutoCompleteBoxSource.AsyncPopulator = viewModel.PopulateSourcesAsync;
-
-            //navigationView.AutoCompleteBoxSource.TextSelector = new AutoCompleteSelector<string?>()
             //see https://github.com/AvaloniaUI/Avalonia/blob/master/samples/ControlCatalog/Pages/AutoCompleteBoxPage.xaml.cs
+            navigationView.AutoCompleteBoxSource.AsyncPopulator = viewModel.PopulateSourcesAsync;
         }
     }
 }

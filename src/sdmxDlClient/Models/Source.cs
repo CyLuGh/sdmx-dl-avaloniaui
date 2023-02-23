@@ -11,4 +11,7 @@ public record Source
     public string Properties { get; init; } = string.Empty;
     public string Website { get; init; } = string.Empty;
     public string Monitor { get; init; } = string.Empty;
+
+    public override string ToString()
+        => Description;
 }

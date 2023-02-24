@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using LanguageExt;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using sdmxDlClient.Models;
 using System;
@@ -11,16 +12,19 @@ namespace sdmxDlClient.ViewModels
 {
     public class DimensionViewModel : ReactiveObject
     {
-        private readonly Dimension _dimension;
+        public Dimension Dimension { get; }
 
-        public string Label => _dimension.Label;
-        public string Concept => _dimension.Concept;
+        public string Label => Dimension.Label;
+        public string Concept => Dimension.Concept;
+        public int Position => Dimension.Position ?? 0;
 
         [Reactive] public int DesiredPosition { get; set; }
 
+        public Seq<CodeLabel> Values { get; init; }
+
         public DimensionViewModel( Dimension dimension )
         {
-            _dimension = dimension;
+            Dimension = dimension;
         }
     }
 }

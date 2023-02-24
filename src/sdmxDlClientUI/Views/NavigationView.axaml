@@ -172,7 +172,15 @@
 
         <TabControl Margin="5" Grid.Row="1" Grid.Column="1">
           <TabItem Header="Browser">
-            <TreeView Margin="5" />
+            <TreeView Name="TreeViewHierarchy"
+                      Margin="5">
+              <TreeView.ItemTemplate>
+                <TreeDataTemplate DataType="{x:Type viewModels:HierarchicalCodeLabelViewModel}"
+                                  ItemsSource="{Binding Path=Children}">
+                  <TextBlock Text="{Binding Path=Label}" />
+                </TreeDataTemplate>
+              </TreeView.ItemTemplate>
+            </TreeView>
           </TabItem>
           <TabItem Header="Dimensions">
             <Grid>

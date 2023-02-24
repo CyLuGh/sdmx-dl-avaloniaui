@@ -19,4 +19,10 @@ public interface IClient
     /// Get dimensions for a given flow in a source.
     /// </summary>
     Seq<Dimension> GetDimensions( Source? source , Flow? flow );
+
+    Seq<CodeLabel> GetCodes( Source source , Flow flow , Dimension dimension );
+
+    Seq<SeriesKey> GetKeys( Source? source , Flow? flow , Seq<Dimension> dimensions );
+
+    Seq<SeriesKey> GetKeys( Source? source , Flow? flow , string key );
 }

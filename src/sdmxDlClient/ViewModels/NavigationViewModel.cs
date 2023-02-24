@@ -15,7 +15,10 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     public ReactiveCommand<RxUnit , Seq<Source>>? GetSourcesCommand { get; private set; }
     public ReactiveCommand<Source? , Seq<Flow>>? GetFlowsCommand { get; private set; }
     public ReactiveCommand<(Source?, Flow?) , Seq<Dimension>>? GetDimensionsCommand { get; private set; }
+    public ReactiveCommand<Seq<Dimension> , Seq<DimensionViewModel>>? TransformDimensionsCommand { get; private set; }
+    public ReactiveCommand<Seq<Dimension> , Seq<SeriesKey>>? GetKeysCommand { get; private set; }
 
+    public ReactiveCommand<(Seq<DimensionViewModel>, Seq<LanguageExt.HashSet<string>>) , Seq<HierarchicalCodeLabelViewModel>>? BuildHierarchyCommand { get; private set; }
     public ReactiveCommand<DimensionViewModel , RxUnit>? ForwardPositionCommand { get; private set; }
     public ReactiveCommand<DimensionViewModel , RxUnit>? BackwardPositionCommand { get; private set; }
 
@@ -33,6 +36,8 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     /* Work around SourceCache having weird results in UI */
     [Reactive] private Seq<DimensionViewModel> RawDimensions { get; set; }
     public Seq<DimensionViewModel> Dimensions { [ObservableAsProperty] get; }
+    public Seq<LanguageExt.HashSet<string>> KeysOccurrences { [ObservableAsProperty] get; }
+    public Seq<HierarchicalCodeLabelViewModel> Hierarchy { [ObservableAsProperty] get; }
 
     private readonly IObservable<int>? _positionChangedObservable;
 
@@ -63,9 +68,37 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
             GetFlowsCommand!.ToPropertyEx( this , x => x.Flows , scheduler: RxApp.MainThreadScheduler )
                 .DisposeWith( disposables );
 
-            GetDimensionsCommand!.Select( dims => dims.Select( ( d , i ) => new DimensionViewModel( d ) { DesiredPosition = i + 1 } ).ToSeq() )
-                .Subscribe( dims => RawDimensions = dims )
+            GetDimensionsCommand!.InvokeCommand( TransformDimensionsCommand )
+                .DisposeWith( disposables );
 
+            GetDimensionsCommand!.InvokeCommand( GetKeysCommand )
+                .DisposeWith( disposables );
+
+            TransformDimensionsCommand!
+                .Subscribe( dims => RawDimensions = dims )
+                .DisposeWith( disposables );
+
+            GetKeysCommand!
+                .ObserveOn( RxApp.TaskpoolScheduler )
+                .Select( keys =>
+                {
+                    if ( keys.IsEmpty )
+                        return Seq<LanguageExt.HashSet<string>>.Empty;
+
+                    var splits = keys.AsParallel()
+                        .Select( k => k.Series.Split( '.' ) )
+                        .ToSeq();
+                    var count = splits.First().Length;
+
+                    return Enumerable.Range( 0 , count )
+                        .Select( i => LanguageExt.HashSet.createRange( splits.Select( s => s[i] ) ) )
+                        .ToSeq();
+                } )
+                .ToPropertyEx( this , x => x.KeysOccurrences , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
+            BuildHierarchyCommand!
+                .ToPropertyEx( this , x => x.Hierarchy , scheduler: RxApp.MainThreadScheduler )
                 .DisposeWith( disposables );
 
             Observable.Return( RxUnit.Default )
@@ -100,6 +133,12 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                         SelectedDimension = selected;
                 } )
                 .DisposeWith( disposables );
+
+            this.WhenAnyValue( x => x.Dimensions , x => x.KeysOccurrences )
+                .Throttle( TimeSpan.FromMilliseconds( 200 ) )
+                .DistinctUntilChanged()
+                .InvokeCommand( BuildHierarchyCommand )
+                .DisposeWith( disposables );
         } );
     }
 
@@ -113,6 +152,35 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
         {
             var (source, flow) = t;
             return _client.GetDimensions( source , flow );
+        } ) );
+
+        TransformDimensionsCommand = ReactiveCommand.CreateFromObservable( ( Seq<Dimension> dimensions ) => Observable.Start( () =>
+            dimensions
+                .Select( ( d , i ) => (d, i) )
+                .AsParallel()
+                .Select( t =>
+                {
+                    var (d, idx) = t;
+                    var codes = _client.GetCodes( CurrentSource! , CurrentFlow! , d );
+                    return new DimensionViewModel( d )
+                    {
+                        DesiredPosition = idx + 1 ,
+                        Values = codes
+                    };
+                } )
+                .ToSeq() ) );
+
+        GetKeysCommand = ReactiveCommand.CreateFromObservable( ( Seq<Dimension> dimensions ) => Observable.Start( () =>
+            _client.GetKeys( CurrentSource , CurrentFlow , dimensions ) ) );
+
+        BuildHierarchyCommand = ReactiveCommand.CreateFromObservable( ( (Seq<DimensionViewModel>, Seq<LanguageExt.HashSet<string>>) t ) => Observable.Start( () =>
+        {
+            var (dimensions, keysOccurrences) = t;
+
+            if ( dimensions.IsEmpty || keysOccurrences.IsEmpty )
+                return Seq<HierarchicalCodeLabelViewModel>.Empty;
+
+            return HierarchyBuilder.Build( dimensions , keysOccurrences );
         } ) );
 
         var canForward = this.WhenAnyValue( x => x.SelectedDimension )

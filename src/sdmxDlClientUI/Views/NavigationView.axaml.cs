@@ -33,6 +33,11 @@ namespace sdmxDlClientUI.Views
             PopulateSources( navigationView , viewModel , disposables );
             PopulateFlows( navigationView , viewModel , disposables );
             PopulateDimensions( navigationView , viewModel , disposables );
+
+            navigationView.OneWayBind( viewModel ,
+                vm => vm.Hierarchy ,
+                v => v.TreeViewHierarchy.Items )
+                .DisposeWith( disposables );
         }
 
         private static void PopulateDimensions( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )

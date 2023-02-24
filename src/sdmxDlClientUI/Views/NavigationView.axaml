@@ -184,7 +184,21 @@
               <ListBox Name="ListBoxDimensions">
                 <ListBox.DataTemplates>
                   <DataTemplate DataType="{x:Type viewModels:DimensionViewModel}">
-                    <rxui:ViewModelViewHost ViewModel="{Binding}" />
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+
+                      <TextBlock Name="TextBlockDesiredPosition"
+                                 Text="{Binding Path=DesiredPosition}"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Center" />
+                      <TextBlock Name="TextBlockLabel"
+                                 Text="{Binding Path=Label}"
+                                 VerticalAlignment="Center"
+                                 Grid.Column="1" />
+                    </Grid>
                   </DataTemplate>
                 </ListBox.DataTemplates>
               </ListBox>

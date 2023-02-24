@@ -19,7 +19,6 @@ public static class ViewModelLocator
         var container = Locator.CurrentMutable;
 
         container.Register( () => new ClientFaker() , typeof( IClient ) );
-        container.Register( () => new DimensionView() , typeof( IViewFor<DimensionViewModel> ) );
 
         SplatRegistrations.Register<MainViewModel>();
         SplatRegistrations.Register<NavigationViewModel>();

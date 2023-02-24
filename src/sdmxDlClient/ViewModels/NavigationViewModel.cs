@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Reactive.Disposables;
+﻿using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
-using System.Threading.Tasks;
 using DynamicData;
-using DynamicData.Binding;
 using LanguageExt;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -37,11 +30,11 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     public Seq<Source> Sources { [ObservableAsProperty] get; }
     public Seq<Flow> Flows { [ObservableAsProperty] get; }
 
-    internal SourceCache<DimensionViewModel , string> DimensionsCache { get; }
-            = new( s => s.Concept );
+    /* Work around SourceCache having weird results in UI */
+    [Reactive] private Seq<DimensionViewModel> RawDimensions { get; set; }
+    public Seq<DimensionViewModel> Dimensions { [ObservableAsProperty] get; }
 
-    private ReadOnlyObservableCollection<DimensionViewModel>? _dimensions;
-    public ReadOnlyObservableCollection<DimensionViewModel>? Dimensions => _dimensions;
+    private readonly IObservable<int>? _positionChangedObservable;
 
     public ViewModelActivator Activator { get; }
 
@@ -51,20 +44,17 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
         Activator = new ViewModelActivator();
 
+        RawDimensions = Seq<DimensionViewModel>.Empty;
+        _positionChangedObservable = this.WhenAnyValue( x => x.RawDimensions )
+           .Select( dims => dims.Select( d => d.WhenAnyValue( x => x.DesiredPosition ) ).Merge() )
+           .Switch();
+
         InitializeCommands();
         OnActivated();
     }
 
     private void OnActivated()
     {
-        DimensionsCache.Connect()
-                .AutoRefresh( x => x.DesiredPosition )
-                .Sort( SortExpressionComparer<DimensionViewModel>.Ascending( x => x.DesiredPosition ) )
-                .ObserveOn( RxApp.MainThreadScheduler )
-                .Bind( out _dimensions )
-                .DisposeMany()
-                .Subscribe();
-
         this.WhenActivated( disposables =>
         {
             GetSourcesCommand!.ToPropertyEx( this , x => x.Sources , scheduler: RxApp.MainThreadScheduler )
@@ -74,11 +64,8 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                 .DisposeWith( disposables );
 
             GetDimensionsCommand!.Select( dims => dims.Select( ( d , i ) => new DimensionViewModel( d ) { DesiredPosition = i + 1 } ).ToSeq() )
-                .Subscribe( dims => DimensionsCache.Edit( e =>
-                {
-                    e.Clear();
-                    e.AddOrUpdate( dims );
-                } ) )
+                .Subscribe( dims => RawDimensions = dims )
+
                 .DisposeWith( disposables );
 
             Observable.Return( RxUnit.Default )
@@ -93,6 +80,25 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                 .Throttle( TimeSpan.FromMilliseconds( 500 ) )
                 .DistinctUntilChanged()
                 .InvokeCommand( GetDimensionsCommand! )
+                .DisposeWith( disposables );
+
+            this.WhenAnyValue( x => x.RawDimensions )
+                .CombineLatest( _positionChangedObservable! )
+                .Select( t => t.First.OrderBy( x => x.DesiredPosition ).ToSeq() )
+                .ToPropertyEx( this , x => x.Dimensions , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
+            /* Reselect dimension when changing desired positions */
+            this.WhenAnyValue( x => x.SelectedDimension ).WhereNotNull().DistinctUntilChanged()
+                .CombineLatest( this.WhenAnyValue( x => x.Dimensions ) )
+                .Throttle( TimeSpan.FromMilliseconds( 100 ) )
+                .ObserveOn( RxApp.MainThreadScheduler )
+                .Subscribe( t =>
+                {
+                    var (selected, dimensions) = t;
+                    if ( dimensions.Contains( selected ) )
+                        SelectedDimension = selected;
+                } )
                 .DisposeWith( disposables );
         } );
     }
@@ -110,9 +116,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
         } ) );
 
         var canForward = this.WhenAnyValue( x => x.SelectedDimension )
-                .CombineLatest( this.DimensionsCache.Connect()
-                    .AutoRefresh( x => x.DesiredPosition )
-                    .DisposeMany() )
+                .CombineLatest( _positionChangedObservable! )
                 .Select( x => x.First )
                 .ObserveOn( RxApp.MainThreadScheduler )
                 .Select( x => x?.DesiredPosition > 1 );
@@ -124,12 +128,10 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
         } , canForward );
 
         var canBackward = this.WhenAnyValue( x => x.SelectedDimension )
-                .CombineLatest( this.DimensionsCache.Connect()
-                    .AutoRefresh( x => x.DesiredPosition )
-                    .DisposeMany() )
+                .CombineLatest( _positionChangedObservable! )
                 .Select( x => x.First )
                 .ObserveOn( RxApp.MainThreadScheduler )
-                .Select( x => x != null && x.DesiredPosition < Dimensions?.Count );
+                .Select( x => x != null && x.DesiredPosition < Dimensions.Count );
 
         BackwardPositionCommand = ReactiveCommand.Create( ( DimensionViewModel dim ) =>
         {

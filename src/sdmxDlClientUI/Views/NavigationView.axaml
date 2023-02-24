@@ -174,10 +174,16 @@
           <TabItem Header="Browser">
             <TreeView Name="TreeViewHierarchy"
                       Margin="5">
+              <TreeView.Styles>
+                <Style Selector="TreeViewItem">
+                  <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                </Style>
+              </TreeView.Styles>
               <TreeView.ItemTemplate>
                 <TreeDataTemplate DataType="{x:Type viewModels:HierarchicalCodeLabelViewModel}"
                                   ItemsSource="{Binding Path=Children}">
-                  <TextBlock Text="{Binding Path=Label}" />
+                  <!--<TextBlock Text="{Binding Path=Label}" />-->
+                  <rxui:ViewModelViewHost ViewModel="{Binding}" />
                 </TreeDataTemplate>
               </TreeView.ItemTemplate>
             </TreeView>

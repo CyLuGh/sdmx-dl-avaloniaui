@@ -14,6 +14,7 @@ namespace sdmxDlClient.ViewModels
         private readonly Dimension _dimension;
 
         public string Label => _dimension.Label;
+        public string Concept => _dimension.Concept;
 
         [Reactive] public int DesiredPosition { get; set; }
 

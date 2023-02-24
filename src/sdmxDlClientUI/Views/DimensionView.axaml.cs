@@ -30,6 +30,11 @@ namespace sdmxDlClientUI.Views
                 vm => vm.DesiredPosition ,
                 v => v.TextBlockDesiredPosition.Text )
                 .DisposeWith( disposables );
+
+            dimensionView.OneWayBind( viewModel ,
+                vm => vm.Label ,
+                v => v.TextBlockLabel.Text )
+                .DisposeWith( disposables );
         }
     }
 }

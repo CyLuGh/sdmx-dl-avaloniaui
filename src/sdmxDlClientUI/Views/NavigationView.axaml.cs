@@ -32,6 +32,32 @@ namespace sdmxDlClientUI.Views
         {
             PopulateSources( navigationView , viewModel , disposables );
             PopulateFlows( navigationView , viewModel , disposables );
+            PopulateDimensions( navigationView , viewModel , disposables );
+        }
+
+        private static void PopulateDimensions( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )
+        {
+            navigationView.OneWayBind( viewModel ,
+                vm => vm.Dimensions ,
+                v => v.ListBoxDimensions.Items )
+                .DisposeWith( disposables );
+
+            navigationView.Bind( viewModel ,
+                vm => vm.SelectedDimension ,
+                v => v.ListBoxDimensions.SelectedItem )
+                .DisposeWith( disposables );
+
+            navigationView.BindCommand( viewModel ,
+                vm => vm.ForwardPositionCommand ,
+                v => v.ButtonForward ,
+                viewModel.WhenAnyValue( x => x.SelectedDimension ) )
+                .DisposeWith( disposables );
+
+            navigationView.BindCommand( viewModel ,
+                vm => vm.BackwardPositionCommand ,
+                v => v.ButtonBackward ,
+                viewModel.WhenAnyValue( x => x.SelectedDimension ) )
+                .DisposeWith( disposables );
         }
 
         private static void PopulateFlows( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )

@@ -2,29 +2,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ui="using:FluentAvalonia.UI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="sdmxDlClientUI.Views.DimensionView">
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="20" />
       <ColumnDefinition />
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
 
     <TextBlock Name="TextBlockDesiredPosition"
                Text="1"
                VerticalAlignment="Center"
                HorizontalAlignment="Center" />
-    <TextBlock Text="Description"
+    <TextBlock Name="TextBlockLabel"
+               Text="Description"
                VerticalAlignment="Center"
                Grid.Column="1" />
-    <Button VerticalAlignment="Center" Grid.Column="2">
-      <ui:SymbolIcon Symbol="UploadFilled" FontSize="18" />
-    </Button>
-    <Button VerticalAlignment="Center" Grid.Column="3">
-      <ui:SymbolIcon Symbol="DownloadFilled" FontSize="18" />
-    </Button>
   </Grid>
 </UserControl>

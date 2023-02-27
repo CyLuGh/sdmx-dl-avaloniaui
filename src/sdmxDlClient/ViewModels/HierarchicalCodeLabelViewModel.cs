@@ -55,6 +55,6 @@ public class HierarchicalCodeLabelViewModel : ReactiveObject, IActivatableViewMo
 
     private void LoadChildren()
     {
-        Children.AddRange( HierarchyBuilder.Build( Code , Position , Dimensions , KeysOccurrences ) );
+        Children.AddRange( HierarchyBuilder.Build( Code , Position + 1 , Dimensions , KeysOccurrences ) );
     }
 }

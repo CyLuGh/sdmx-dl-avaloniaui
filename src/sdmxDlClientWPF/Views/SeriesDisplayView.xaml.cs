@@ -1,6 +1,4 @@
-﻿using ReactiveUI;
-using sdmxDlClient.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace sdmxDlClientWPF
+namespace sdmxDlClientWPF.Views
 {
-    public partial class MainWindow : Window, IViewFor<MainViewModel>
+    /// <summary>
+    /// Interaction logic for SeriesDisplayView.xaml
+    /// </summary>
+    public partial class SeriesDisplayView
     {
-        public MainWindow()
+        public SeriesDisplayView()
         {
             InitializeComponent();
-
-            ViewModel = ViewModelLocator.Main;
         }
-
-        public MainViewModel? ViewModel { get; set; }
-        object? IViewFor.ViewModel { get => ViewModel; set => ViewModel = (MainViewModel?) value; }
     }
 }

@@ -1,0 +1,279 @@
+﻿<rxui:ReactiveUserControl x:Class="sdmxDlClientWPF.Views.NavigationView"
+                          x:TypeArguments="viewmodels:NavigationViewModel"
+                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                          xmlns:rxui="http://reactiveui.net"
+                          xmlns:local="clr-namespace:sdmxDlClientWPF.Views"
+                          xmlns:viewmodels="clr-namespace:sdmxDlClient.ViewModels;assembly=sdmxDlClient"
+                          xmlns:models="clr-namespace:sdmxDlClient.Models;assembly=sdmxDlClient"
+                          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                          mc:Ignorable="d"
+                          d:DesignHeight="450"
+                          d:DesignWidth="800">
+    <DockPanel>
+        <Border Background="{DynamicResource MaterialDesignBackground}"
+                materialDesign:ElevationAssist.Elevation="Dp1"
+                CornerRadius="5"
+                DockPanel.Dock="Top"
+                Padding="2"
+                Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Source"
+                           Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                           Margin="2 2 0 0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Grid.Row="0" />
+
+                <!--<AutoCompleteBox Name="AutoCompleteBoxSource"
+                                 Watermark="Search for a source"
+                                 FilterMode="None"
+                                 Margin="5"
+                                 Grid.Row="1"
+                                 Grid.Column="1">
+                    <AutoCompleteBox.DataTemplates>
+                        <DataTemplate DataType="{x:Type models:Source}">
+                            <DockPanel>
+                                <TextBlock Text="{Binding Path=Name}" />
+                                <TextBlock Text="{Binding Path=Description}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </AutoCompleteBox.DataTemplates>
+                </AutoCompleteBox>-->
+
+                <ComboBox Name="ComboBoxSource"
+                          HorizontalAlignment="Stretch"
+                          Margin="5"
+                          Grid.Row="1"
+                          Grid.Column="1">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:Source}">
+                            <DockPanel>
+                                <TextBlock Text="{Binding Path=Name}" />
+                                <TextBlock Text="{Binding Path=Description}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ToggleButton Name="ToggleButtonActiveSearchSource"
+                              Content="{materialDesign:PackIcon Kind=Search,Size=21}"
+                              Style="{DynamicResource MaterialDesignFlatPrimaryToggleButton}"
+                              ToolTip="Search..."
+                              VerticalAlignment="Stretch"
+                              Margin="0 5 5 5"
+                              Grid.Row="1"
+                              Grid.Column="2">
+                    <!--<ui:FAPathIcon Height="15"
+                                   Width="15"
+                                   Data="M10 2.5a7.5 7.5 0 0 1 5.964 12.048l4.743 4.745a1 1 0 0 1-1.32 1.497l-.094-.083-4.745-4.743A7.5 7.5 0 1 1 10 2.5Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z" />-->
+                </ToggleButton>
+            </Grid>
+        </Border>
+
+        <Border Background="{DynamicResource MaterialDesignBackground}"
+                CornerRadius="5"
+                DockPanel.Dock="Top"
+                Padding="2"
+                Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Flow"
+                           Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                           Margin="2 2 0 0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Grid.Row="0" />
+
+                <!--<AutoCompleteBox Name="AutoCompleteBoxFlow"
+                                 Watermark="Search for a flow"
+                                 FilterMode="None"
+                                 Margin="5"
+                                 Grid.Row="1"
+                                 Grid.Column="1">
+                    <AutoCompleteBox.DataTemplates>
+                        <DataTemplate DataType="{x:Type models:Flow}">
+                            <DockPanel>
+                                <TextBlock Text="{Binding Path=Ref}" />
+                                <TextBlock Text="{Binding Path=Label}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </AutoCompleteBox.DataTemplates>
+                </AutoCompleteBox>-->
+
+                <ComboBox Name="ComboBoxFlow"
+                          HorizontalAlignment="Stretch"
+                          Margin="5"
+                          Grid.Row="1"
+                          Grid.Column="1">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:Flow}">
+                            <DockPanel>
+                                <TextBlock Text="{Binding Path=Ref}" />
+                                <TextBlock Text="{Binding Path=Label}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ToggleButton Name="ToggleButtonActiveSearchFlow"
+                              Content="{materialDesign:PackIcon Kind=Search,Size=21}"
+                              Style="{DynamicResource MaterialDesignFlatPrimaryToggleButton}"
+                              ToolTip="Search..."
+                              VerticalAlignment="Stretch"
+                              Margin="0 5 5 5"
+                              Grid.Row="1"
+                              Grid.Column="2">
+                    <!--<ui:FAPathIcon Height="15"
+                                   Width="15"
+                                   Data="M10 2.5a7.5 7.5 0 0 1 5.964 12.048l4.743 4.745a1 1 0 0 1-1.32 1.497l-.094-.083-4.745-4.743A7.5 7.5 0 1 1 10 2.5Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z" />-->
+                </ToggleButton>
+            </Grid>
+        </Border>
+
+        <Border Background="{DynamicResource MaterialDesignBackground}"
+                CornerRadius="5"
+                DockPanel.Dock="Bottom"
+                Padding="2"
+                Margin="5">
+            <TextBox Name="TextBoxLookUp"
+                     Margin="5">
+                <!--<i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="KeyDown"
+                                             SourceObject="{Binding #TextBoxLookUp}">
+                        <ia:InvokeCommandAction Command="{Binding KeyPressedCommand,RelativeSource={RelativeSource AncestorType={x:Type views:NavigationView}}}"
+                                                PassEventArgsToCommand="True" />
+                    </ia:EventTriggerBehavior>
+                    <iac:SelectAllOnGotFocusBehavior />
+                </i:Interaction.Behaviors>-->
+            </TextBox>
+        </Border>
+
+        <Border Background="{DynamicResource MaterialDesignBackground}"
+                CornerRadius="5"
+                DockPanel.Dock="Top"
+                Padding="2"
+                Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Series"
+                           Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                           Margin="2 2 0 0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Grid.Row="0" />
+
+                <TabControl Margin="5"
+                            Grid.Row="1"
+                            Grid.Column="1">
+                    <TabItem Header="Browser">
+                        <TreeView Name="TreeViewHierarchy"
+                                  VirtualizingStackPanel.IsVirtualizing="True"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  Margin="5">
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}"
+                                       BasedOn="{StaticResource MaterialDesignTreeViewItem}">
+                                    <Setter Property="IsExpanded"
+                                            Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type viewmodels:HierarchicalCodeLabelViewModel}"
+                                                          ItemsSource="{Binding Path=Children}">
+                                    <rxui:ViewModelViewHost ViewModel="{Binding}"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            HorizontalAlignment="Stretch" />
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                            <!--<TreeView.Styles>
+                                <Style Selector="TreeViewItem">
+                                    <Setter Property="IsExpanded"
+                                            Value="{Binding IsExpanded}" />
+                                </Style>
+                            </TreeView.Styles>
+                            <TreeView.ItemTemplate>
+                                <TreeDataTemplate DataType="{x:Type viewModels:HierarchicalCodeLabelViewModel}"
+                                                  ItemsSource="{Binding Path=Children}">
+                                    <rxui:ViewModelViewHost ViewModel="{Binding}" />
+                                </TreeDataTemplate>
+                            </TreeView.ItemTemplate>-->
+                        </TreeView>
+                    </TabItem>
+                    <TabItem Header="Dimensions">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <ListBox Name="ListBoxDimensions">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type viewmodels:DimensionViewModel}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Name="TextBlockDesiredPosition"
+                                                       Text="{Binding Path=DesiredPosition}"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Center" />
+                                            <TextBlock Name="TextBlockLabel"
+                                                       Text="{Binding Path=Label}"
+                                                       VerticalAlignment="Center"
+                                                       Grid.Column="1" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <UniformGrid Rows="1"
+                                         Grid.Row="1">
+                                <Button Name="ButtonForward"
+                                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                                        Content="{materialDesign:PackIcon Kind=ArrowUpBoldBox,Size=30}"
+                                        HorizontalAlignment="Stretch" />
+
+                                <Button Name="ButtonBackward"
+                                        Style="{DynamicResource MaterialDesignIconForegroundButton}"
+                                        Content="{materialDesign:PackIcon Kind=ArrowDownBoldBox,Size=30}"
+                                        HorizontalAlignment="Stretch" />
+                            </UniformGrid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Border>
+    </DockPanel>
+</rxui:ReactiveUserControl>

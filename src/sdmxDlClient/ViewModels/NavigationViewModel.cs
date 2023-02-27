@@ -29,6 +29,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
     [Reactive] public Source? CurrentSource { get; set; }
     [Reactive] public Flow? CurrentFlow { get; set; }
+    [Reactive] public string KeyLookup { get; set; } = string.Empty;
 
     public Seq<Source> Sources { [ObservableAsProperty] get; }
     public Seq<Flow> Flows { [ObservableAsProperty] get; }

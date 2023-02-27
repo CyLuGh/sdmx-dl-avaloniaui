@@ -24,10 +24,12 @@ public static class ViewModelLocator
 
         SplatRegistrations.Register<MainViewModel>();
         SplatRegistrations.Register<NavigationViewModel>();
+        SplatRegistrations.Register<SeriesDisplayViewModel>();
 
         SplatRegistrations.SetupIOC();
     }
 
     public static MainViewModel Main => Locator.Current.GetService<MainViewModel>()!;
     public static NavigationViewModel Navigation => Locator.Current.GetService<NavigationViewModel>()!;
+    public static SeriesDisplayViewModel SeriesDisplay => Locator.Current.GetService<SeriesDisplayViewModel>()!;
 }

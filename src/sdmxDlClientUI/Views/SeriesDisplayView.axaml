@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:rxui="using:Avalonia.ReactiveUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="sdmxDlClientUI.Views.SeriesDisplayView">
+  <Border Background="{DynamicResource ControlFillColorDefault}"
+            CornerRadius="5"
+            Padding="2"
+            Margin="5">
+    <TabControl Name="TabControlSeries">
+      <TabControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Path=Header}" />
+        </DataTemplate>
+      </TabControl.ItemTemplate>
+      <TabControl.ContentTemplate>
+        <DataTemplate>
+          <rxui:ViewModelViewHost ViewModel="{Binding}"
+                                  VerticalContentAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch" />
+        </DataTemplate>
+      </TabControl.ContentTemplate>
+    </TabControl>
+  </Border>
+</UserControl>

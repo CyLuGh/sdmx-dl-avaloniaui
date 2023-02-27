@@ -44,11 +44,12 @@
 
         <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
 
-        <Border Background="{DynamicResource ControlFillColorDefault}"
-                CornerRadius="5"
-                Padding="2"
-                Margin="5"
-                Grid.Column="2" />
+        <views:SeriesDisplayView ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
+                                 HorizontalContentAlignment="Stretch"
+                                 VerticalContentAlignment="Stretch"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Grid.Column="2" />
       </Grid>
     </DockPanel>
   </Panel>

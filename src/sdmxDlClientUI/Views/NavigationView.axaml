@@ -145,7 +145,7 @@
            DockPanel.Dock="Bottom"
            Padding="2"
            Margin="5">
-      <TextBox Watermark="Look up for series" Margin="5" />
+      <TextBox Name="TextBoxLookUp" Watermark="Look up for series" Margin="5" />
     </Border>
 
     <Border Background="{DynamicResource ControlFillColorDefault}"

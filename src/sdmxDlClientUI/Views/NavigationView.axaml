@@ -9,6 +9,10 @@
              xmlns:viewModels="using:sdmxDlClient.ViewModels"
              xmlns:views="using:sdmxDlClientUI.Views"
              xmlns:ic="using:FluentIcons.Avalonia"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:ie="clr-namespace:Avalonia.Xaml.Interactions.Events;assembly=Avalonia.Xaml.Interactions.Events"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="sdmxDlClientUI.Views.NavigationView">
   <DockPanel>
@@ -145,7 +149,14 @@
            DockPanel.Dock="Bottom"
            Padding="2"
            Margin="5">
-      <TextBox Name="TextBoxLookUp" Watermark="Look up for series" Margin="5" />
+      <TextBox Name="TextBoxLookUp" Watermark="Look up for series" Margin="5">
+        <i:Interaction.Behaviors>
+          <ia:EventTriggerBehavior EventName="KeyDown" SourceObject="{Binding #TextBoxLookUp}">
+            <ia:InvokeCommandAction Command="{Binding KeyPressedCommand,RelativeSource={RelativeSource AncestorType={x:Type views:NavigationView}}}" PassEventArgsToCommand="True" />
+          </ia:EventTriggerBehavior>
+          <iac:SelectAllOnGotFocusBehavior />
+        </i:Interaction.Behaviors>
+      </TextBox>
     </Border>
 
     <Border Background="{DynamicResource ControlFillColorDefault}"
@@ -182,7 +193,6 @@
               <TreeView.ItemTemplate>
                 <TreeDataTemplate DataType="{x:Type viewModels:HierarchicalCodeLabelViewModel}"
                                   ItemsSource="{Binding Path=Children}">
-                  <!--<TextBlock Text="{Binding Path=Label}" />-->
                   <rxui:ViewModelViewHost ViewModel="{Binding}" />
                 </TreeDataTemplate>
               </TreeView.ItemTemplate>

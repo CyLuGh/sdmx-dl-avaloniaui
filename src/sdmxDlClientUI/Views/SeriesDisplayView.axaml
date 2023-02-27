@@ -2,28 +2,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodels="using:sdmxDlClient.ViewModels"
              xmlns:rxui="using:Avalonia.ReactiveUI"
+             xmlns:scottPlot="using:ScottPlot.Avalonia"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="sdmxDlClientUI.Views.SeriesDisplayView">
   <Border Background="{DynamicResource ControlFillColorDefault}"
             CornerRadius="5"
             Padding="2"
             Margin="5">
-    <TabControl Name="TabControlSeries">
-      <TabControl.ItemTemplate>
-        <DataTemplate>
-          <TextBlock Text="{Binding Path=Header}" />
-        </DataTemplate>
-      </TabControl.ItemTemplate>
-      <TabControl.ContentTemplate>
-        <DataTemplate>
-          <rxui:ViewModelViewHost ViewModel="{Binding}"
-                                  VerticalContentAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalContentAlignment="Stretch"
-                                  HorizontalAlignment="Stretch" />
-        </DataTemplate>
-      </TabControl.ContentTemplate>
-    </TabControl>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <!--<scottPlot:AvaPlot Grid.Row="1" />-->
+      <ComboBox Name="ComboBoxTimeSeries"
+                HorizontalAlignment="Stretch"
+                Grid.Row="0">
+
+        <!--<ComboBox.DataTemplates>
+          <DataTemplate DataType="{x:Type viewmodels:TimeSerieDisplayViewModel}">
+            <TextBlock Text="{Binding Path=Header}" />
+          </DataTemplate>
+        </ComboBox.DataTemplates>-->
+      </ComboBox>
+      <TextBlock Name="TextTest" Grid.Row="1" />
+      <TextBlock Name="TextTest2" Grid.Row="2" />
+      <!--<lvc:CartesianChart Name="Chart" Grid.Row="1" />-->
+    </Grid>
   </Border>
 </UserControl>

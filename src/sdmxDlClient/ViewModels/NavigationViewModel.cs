@@ -11,12 +11,14 @@ namespace sdmxDlClient.ViewModels;
 public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 {
     private readonly IClient _client;
+    private readonly SeriesDisplayViewModel _seriesDisplayViewModel;
 
     public ReactiveCommand<RxUnit , Seq<Source>>? GetSourcesCommand { get; private set; }
     public ReactiveCommand<Source? , Seq<Flow>>? GetFlowsCommand { get; private set; }
     public ReactiveCommand<(Source?, Flow?) , Seq<Dimension>>? GetDimensionsCommand { get; private set; }
     public ReactiveCommand<Seq<Dimension> , Seq<DimensionViewModel>>? TransformDimensionsCommand { get; private set; }
     public ReactiveCommand<Seq<Dimension> , Seq<SeriesKey>>? GetKeysCommand { get; private set; }
+    public ReactiveCommand<RxUnit , Option<(Source, Flow, SeriesKey)>>? ParseLookUpCommand { get; private set; }
 
     public ReactiveCommand<(Seq<DimensionViewModel>, Seq<LanguageExt.HashSet<string>>) , Seq<HierarchicalCodeLabelViewModel>>? BuildHierarchyCommand { get; private set; }
     public ReactiveCommand<DimensionViewModel , RxUnit>? ForwardPositionCommand { get; private set; }
@@ -44,11 +46,11 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
     public ViewModelActivator Activator { get; }
 
-    public NavigationViewModel( IClient client )
+    public NavigationViewModel( IClient client , SeriesDisplayViewModel seriesDisplayViewModel )
     {
         _client = client;
-
-        Activator = new ViewModelActivator();
+        _seriesDisplayViewModel = seriesDisplayViewModel;
+        Activator = new();
 
         RawDimensions = Seq<DimensionViewModel>.Empty;
         _positionChangedObservable = this.WhenAnyValue( x => x.RawDimensions )
@@ -140,6 +142,17 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                 .DistinctUntilChanged()
                 .InvokeCommand( BuildHierarchyCommand )
                 .DisposeWith( disposables );
+
+            ParseLookUpCommand!
+                .Select( t => t.Match( x => Observable.Return( x ) , () => Observable.Empty<(Source, Flow, SeriesKey)>() ) )
+                .Switch()
+                .ObserveOn( RxApp.MainThreadScheduler )
+                .Do( _ =>
+                {
+                    KeyLookup = string.Empty;
+                } )
+                .InvokeCommand( _seriesDisplayViewModel , x => x.FetchDataCommand )
+                .DisposeWith( disposables );
         } );
     }
 
@@ -173,6 +186,14 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
         GetKeysCommand = ReactiveCommand.CreateFromObservable( ( Seq<Dimension> dimensions ) => Observable.Start( () =>
             _client.GetKeys( CurrentSource , CurrentFlow , dimensions ) ) );
+
+        ParseLookUpCommand = ReactiveCommand.CreateFromObservable( () => Observable.Start( () =>
+        {
+            if ( string.IsNullOrWhiteSpace( KeyLookup ) )
+                return Option<(Source, Flow, SeriesKey)>.None;
+
+            return (new Source() { Description = "" , Name = "" }, new Flow() { Label = "" , Ref = "" }, new SeriesKey( KeyLookup ));
+        } ) );
 
         BuildHierarchyCommand = ReactiveCommand.CreateFromObservable( ( (Seq<DimensionViewModel>, Seq<LanguageExt.HashSet<string>>) t ) => Observable.Start( () =>
         {

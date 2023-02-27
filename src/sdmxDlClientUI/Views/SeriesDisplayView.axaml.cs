@@ -14,8 +14,15 @@ namespace sdmxDlClientUI.Views
         {
             InitializeComponent();
 
+            //this.WhenAnyValue( x => x.ViewModel )
+            //        .BindTo( this , x => x.DataContext );
+
             this.WhenActivated( disposables =>
             {
+                //this.WhenAnyValue( x => x.ViewModel )
+                //    .BindTo( this , x => x.DataContext )
+                //    .DisposeWith( disposables );
+
                 this.WhenAnyValue( x => x.ViewModel )
                     .WhereNotNull()
                     .Do( vm => PopulateFromViewModel( this , vm , disposables ) )
@@ -28,7 +35,17 @@ namespace sdmxDlClientUI.Views
         {
             view.OneWayBind( viewModel ,
                 vm => vm.TimeSeries ,
-                v => v.TabControlSeries.Items )
+                v => v.ComboBoxTimeSeries.Items )
+                .DisposeWith( disposables );
+
+            view.OneWayBind( viewModel ,
+                vm => vm.TestCount ,
+                v => v.TextTest.Text )
+                .DisposeWith( disposables );
+
+            view.OneWayBind( viewModel ,
+                vm => vm.TestCount2 ,
+                v => v.TextTest2.Text )
                 .DisposeWith( disposables );
         }
     }

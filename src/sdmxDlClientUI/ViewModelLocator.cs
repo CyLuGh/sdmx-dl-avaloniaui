@@ -21,6 +21,9 @@ public static class ViewModelLocator
         container.Register( () => new ClientFaker() , typeof( IClient ) );
 
         container.Register( () => new HierarchicalCodeLabelView() , typeof( IViewFor<HierarchicalCodeLabelViewModel> ) );
+        container.Register( () => new SeriesDisplayView() , typeof( IViewFor<SeriesDisplayViewModel> ) );
+
+        //container.Register( () => new TSD() , typeof( IViewFor<HierarchicalCodeLabelViewModel> ) );
 
         SplatRegistrations.Register<MainViewModel>();
         SplatRegistrations.Register<NavigationViewModel>();

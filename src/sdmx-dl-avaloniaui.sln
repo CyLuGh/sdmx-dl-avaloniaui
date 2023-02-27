@@ -5,9 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sdmxDlClient", "sdmxDlClient\sdmxDlClient.csproj", "{5E7CFD28-1BA6-495D-88B0-F815E2A1CC02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdmxDlClientUI", "sdmxDlClientUI\sdmxDlClientUI.csproj", "{BA63A83A-8FBF-4232-A807-62DB2CEEA68B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sdmxDlClientUI", "sdmxDlClientUI\sdmxDlClientUI.csproj", "{BA63A83A-8FBF-4232-A807-62DB2CEEA68B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdmxDlFaker", "sdmxDlFaker\sdmxDlFaker.csproj", "{D02BEFCA-92F7-4C62-ABB7-FB19E5B73F3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sdmxDlFaker", "sdmxDlFaker\sdmxDlFaker.csproj", "{D02BEFCA-92F7-4C62-ABB7-FB19E5B73F3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdmxDlClientWPF", "sdmxDlClientWPF\sdmxDlClientWPF.csproj", "{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D02BEFCA-92F7-4C62-ABB7-FB19E5B73F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D02BEFCA-92F7-4C62-ABB7-FB19E5B73F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D02BEFCA-92F7-4C62-ABB7-FB19E5B73F3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

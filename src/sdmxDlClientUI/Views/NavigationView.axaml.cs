@@ -3,6 +3,7 @@ using Avalonia.ReactiveUI;
 using ReactiveUI;
 using sdmxDlClient.ViewModels;
 using System;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -10,9 +11,13 @@ namespace sdmxDlClientUI.Views
 {
     public partial class NavigationView : ReactiveUserControl<NavigationViewModel>
     {
+        internal ReactiveCommand<Avalonia.Input.KeyEventArgs , bool> KeyPressedCommand { get; }
+
         public NavigationView()
         {
             InitializeComponent();
+
+            KeyPressedCommand = ReactiveCommand.Create( ( Avalonia.Input.KeyEventArgs args ) => args.Key == Avalonia.Input.Key.Enter );
 
             this.WhenActivated( disposables =>
             {
@@ -37,6 +42,12 @@ namespace sdmxDlClientUI.Views
             navigationView.Bind( viewModel ,
                 vm => vm.KeyLookup ,
                 v => v.TextBoxLookUp.Text )
+                .DisposeWith( disposables );
+
+            navigationView.KeyPressedCommand
+                .Where( x => x )
+                .Select( _ => Unit.Default )
+                .InvokeCommand( viewModel , x => x.ParseLookUpCommand )
                 .DisposeWith( disposables );
         }
 

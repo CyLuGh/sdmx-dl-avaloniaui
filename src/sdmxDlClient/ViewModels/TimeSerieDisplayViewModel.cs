@@ -16,6 +16,8 @@ public class TimeSerieDisplayViewModel : ReactiveObject, IActivatableViewModel
     public Flow Flow { get; }
     public SeriesKey SeriesKey { get; }
 
+    public string Header => $"{SeriesKey.Series}";
+
     public TimeSerieDisplayViewModel( Source source , Flow flow , SeriesKey seriesKey )
     {
         Activator = new();

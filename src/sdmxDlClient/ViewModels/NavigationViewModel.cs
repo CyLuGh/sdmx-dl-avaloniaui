@@ -1,6 +1,5 @@
 ﻿using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using DynamicData;
 using LanguageExt;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;

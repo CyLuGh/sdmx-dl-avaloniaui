@@ -4,11 +4,6 @@ using sdmxDlClient.ViewModels;
 using sdmxDlClientUI.Views;
 using sdmxDlFaker;
 using Splat;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sdmxDlClientUI;
 
@@ -18,16 +13,14 @@ public static class ViewModelLocator
     {
         var container = Locator.CurrentMutable;
 
-        container.Register( () => new ClientFaker() , typeof( IClient ) );
+        container.RegisterLazySingleton( () => new ClientFaker() , typeof( IClient ) );
 
         container.Register( () => new HierarchicalCodeLabelView() , typeof( IViewFor<HierarchicalCodeLabelViewModel> ) );
         container.Register( () => new SeriesDisplayView() , typeof( IViewFor<SeriesDisplayViewModel> ) );
 
-        //container.Register( () => new TSD() , typeof( IViewFor<HierarchicalCodeLabelViewModel> ) );
-
-        SplatRegistrations.Register<MainViewModel>();
-        SplatRegistrations.Register<NavigationViewModel>();
-        SplatRegistrations.Register<SeriesDisplayViewModel>();
+        SplatRegistrations.RegisterLazySingleton<MainViewModel>();
+        SplatRegistrations.RegisterLazySingleton<NavigationViewModel>();
+        SplatRegistrations.RegisterLazySingleton<SeriesDisplayViewModel>();
 
         SplatRegistrations.SetupIOC();
     }

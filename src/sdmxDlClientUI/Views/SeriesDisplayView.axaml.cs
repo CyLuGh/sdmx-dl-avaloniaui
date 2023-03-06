@@ -37,16 +37,6 @@ namespace sdmxDlClientUI.Views
                 vm => vm.TimeSeries ,
                 v => v.ComboBoxTimeSeries.Items )
                 .DisposeWith( disposables );
-
-            view.OneWayBind( viewModel ,
-                vm => vm.TestCount ,
-                v => v.TextTest.Text )
-                .DisposeWith( disposables );
-
-            view.OneWayBind( viewModel ,
-                vm => vm.TestCount2 ,
-                v => v.TextTest2.Text )
-                .DisposeWith( disposables );
         }
     }
 }

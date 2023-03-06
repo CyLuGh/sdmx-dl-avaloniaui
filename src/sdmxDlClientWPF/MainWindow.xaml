@@ -18,19 +18,19 @@
                               MinWidth="400" />
         </Grid.ColumnDefinitions>
 
-        <views:NavigationView ViewModel="{x:Static local:ViewModelLocator.Navigation}"
-                              HorizontalContentAlignment="Stretch"
-                              HorizontalAlignment="Stretch"
-                              VerticalContentAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Grid.Column="0" />
-
         <views:SeriesDisplayView ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
                                  HorizontalContentAlignment="Stretch"
                                  HorizontalAlignment="Stretch"
                                  VerticalContentAlignment="Stretch"
                                  VerticalAlignment="Stretch"
                                  Grid.Column="2" />
+
+        <views:NavigationView ViewModel="{x:Static local:ViewModelLocator.Navigation}"
+                              HorizontalContentAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
+                              VerticalContentAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Grid.Column="0" />
 
         <GridSplitter Grid.Column="1"
                       ResizeDirection="Columns"

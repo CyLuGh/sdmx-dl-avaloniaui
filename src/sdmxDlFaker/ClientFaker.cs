@@ -1,4 +1,5 @@
-﻿using LanguageExt;
+﻿using DynamicData;
+using LanguageExt;
 using MoreLinq;
 using sdmxDlClient;
 using sdmxDlClient.Models;
@@ -8,6 +9,14 @@ namespace sdmxDlFaker;
 
 public class ClientFaker : IClient
 {
+    public async Task StartServer( CancellationToken cancellationToken )
+    {
+        while ( !cancellationToken.IsCancellationRequested )
+            await Task.Delay( 1000 , cancellationToken );
+
+        cancellationToken.ThrowIfCancellationRequested();
+    }
+
     public Seq<Source> GetSources()
         => Enumerable.Range( 1 , 4 )
             .Select( i => new Source { Name = $"Src {i}" , Description = $"Test {i}" } )
@@ -60,4 +69,22 @@ public class ClientFaker : IClient
 
         return combinations.Select( t => new SeriesKey( t ) );
     }
+
+    public Seq<DataSeries[]> GetData( Source source , Flow flow , SeriesKey key )
+        => GetData( $"{source.Name} {flow.Label} {key.Series}" );
+
+    public Seq<DataSeries[]> GetData( string fullPath )
+    {
+        if ( string.IsNullOrWhiteSpace( fullPath ) )
+            return Seq<DataSeries[]>.Empty;
+
+        return Enumerable.Range( 0 , Random.Shared.Next( 5 ) )
+            .Select( i => GenerateSeries( $"Test {i}" ) )
+            .ToSeq();
+    }
+
+    private DataSeries[] GenerateSeries( string name )
+        => Enumerable.Range( 0 , 60 )
+            .Select( i => new DataSeries( name , "" , new DateTime( 2015 , 1 , 1 ).AddMonths( i ) , Random.Shared.NextDouble() ) )
+        .ToArray();
 }

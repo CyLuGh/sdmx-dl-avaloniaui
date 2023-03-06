@@ -1,3 +1,5 @@
+global using RxUnit = System.Reactive.Unit;
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;

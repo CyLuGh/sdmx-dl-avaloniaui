@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sdmxDlClientUI", "sdmxDlCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sdmxDlFaker", "sdmxDlFaker\sdmxDlFaker.csproj", "{D02BEFCA-92F7-4C62-ABB7-FB19E5B73F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdmxDlClientWPF", "sdmxDlClientWPF\sdmxDlClientWPF.csproj", "{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sdmxDlClientWPF", "sdmxDlClientWPF\sdmxDlClientWPF.csproj", "{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdmxDlConsumer", "sdmxDlConsumer\sdmxDlConsumer.csproj", "{732A1956-D563-4D0C-87E7-E3894A511DC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{170C8548-7FF9-4E2E-AC3F-27C9FD68B262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{732A1956-D563-4D0C-87E7-E3894A511DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{732A1956-D563-4D0C-87E7-E3894A511DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{732A1956-D563-4D0C-87E7-E3894A511DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{732A1956-D563-4D0C-87E7-E3894A511DC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

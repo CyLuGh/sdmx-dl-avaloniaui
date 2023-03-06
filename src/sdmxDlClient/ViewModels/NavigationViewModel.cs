@@ -103,10 +103,6 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                 .ToPropertyEx( this , x => x.Hierarchy , scheduler: RxApp.MainThreadScheduler )
                 .DisposeWith( disposables );
 
-            Observable.Return( RxUnit.Default )
-                .InvokeCommand( this , x => x.GetSourcesCommand )
-                .DisposeWith( disposables );
-
             this.WhenAnyValue( x => x.CurrentSource )
                 .InvokeCommand( GetFlowsCommand! )
                 .DisposeWith( disposables );

@@ -5,6 +5,8 @@ namespace sdmxDlClient;
 
 public interface IClient
 {
+    Task StartServer( CancellationToken cancellationToken );
+
     /// <summary>
     /// Get all available sources.
     /// </summary>
@@ -25,4 +27,8 @@ public interface IClient
     Seq<SeriesKey> GetKeys( Source? source , Flow? flow , Seq<Dimension> dimensions );
 
     Seq<SeriesKey> GetKeys( Source? source , Flow? flow , string key );
+
+    Seq<DataSeries[]> GetData( Source source , Flow flow , SeriesKey key );
+
+    Seq<DataSeries[]> GetData( string fullPath );
 }

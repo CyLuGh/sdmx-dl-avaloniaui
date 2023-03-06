@@ -35,7 +35,7 @@ namespace sdmxDlClientUI.Views
         {
             view.OneWayBind( viewModel ,
                 vm => vm.TimeSeries ,
-                v => v.ComboBoxTimeSeries.Items )
+                v => v.TabControlTimeSeries.Items )
                 .DisposeWith( disposables );
         }
     }

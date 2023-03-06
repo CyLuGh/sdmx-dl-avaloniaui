@@ -28,6 +28,27 @@
                  IsHitTestVisible="False"
                  Margin="0 7 0 5">SDMX-DL UI</TextBlock>
 
+      <UniformGrid Rows="1"
+                   HorizontalAlignment="Right"
+                   DockPanel.Dock="Bottom"
+                   Margin="5 0 5 5">
+        <Border Name="BorderStopped"
+                Background="IndianRed"
+                IsVisible="False"
+                CornerRadius="5"
+                Padding="5">
+          <TextBlock Text="Server is stopped" />
+        </Border>
+
+        <Border Name="BorderRunning"
+                Background="{DynamicResource ThemeAccentBrush}"
+                IsVisible="False"
+                CornerRadius="5"
+                Padding="5">
+          <TextBlock Text="Server is running" />
+        </Border>
+      </UniformGrid>
+
       <Grid Margin="10">
         <Grid.ColumnDefinitions>
           <ColumnDefinition MinWidth="350" />
@@ -45,14 +66,7 @@
 
         <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
 
-        <!--<views:SeriesDisplayView ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
-                                 HorizontalContentAlignment="Stretch"
-                                 VerticalContentAlignment="Stretch"
-                                 HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Stretch"
-                                 Grid.Column="2" />-->
-
-        <rxui:ViewModelViewHost ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
+        <views:SeriesDisplayView ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
                                  HorizontalContentAlignment="Stretch"
                                  VerticalContentAlignment="Stretch"
                                  HorizontalAlignment="Stretch"

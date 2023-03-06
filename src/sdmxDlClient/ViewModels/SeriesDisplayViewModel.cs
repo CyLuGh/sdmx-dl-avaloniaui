@@ -14,14 +14,14 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
     private readonly IClient _client;
     public ViewModelActivator Activator { get; }
 
-    private readonly SourceCache<TimeSerieDisplayViewModel , (Source, Flow, SeriesKey)> _timeSeriesCache
+    private readonly SourceCache<TimeSeriesDisplayViewModel , (Source, Flow, SeriesKey)> _timeSeriesCache
         = new( x => (x.Source, x.Flow, x.SeriesKey) );
 
-    private ReadOnlyObservableCollection<TimeSerieDisplayViewModel>? _timeSeries;
-    public ReadOnlyObservableCollection<TimeSerieDisplayViewModel>? TimeSeries => _timeSeries;
+    private ReadOnlyObservableCollection<TimeSeriesDisplayViewModel>? _timeSeries;
+    public ReadOnlyObservableCollection<TimeSeriesDisplayViewModel>? TimeSeries => _timeSeries;
 
     public ReactiveCommand<string , (Source, Flow, SeriesKey)>? ParseKeyCommand { get; private set; }
-    public ReactiveCommand<(Source, Flow, SeriesKey) , TimeSerieDisplayViewModel>? FetchDataCommand { get; private set; }
+    public ReactiveCommand<(Source, Flow, SeriesKey) , TimeSeriesDisplayViewModel>? FetchDataCommand { get; private set; }
 
     public SeriesDisplayViewModel( IClient client )
     {
@@ -60,7 +60,7 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
         FetchDataCommand = ReactiveCommand.CreateFromObservable( ( (Source, Flow, SeriesKey) t ) => Observable.Start( () =>
         {
             var (source, flow, seriesKey) = t;
-            return new TimeSerieDisplayViewModel( source , flow , seriesKey );
+            return new TimeSeriesDisplayViewModel( _client , source , flow , seriesKey );
         } ) );
     }
 }

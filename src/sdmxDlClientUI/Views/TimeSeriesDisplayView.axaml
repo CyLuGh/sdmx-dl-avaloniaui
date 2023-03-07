@@ -12,11 +12,18 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <lvc:CartesianChart Grid.Row="0" />
+    <lvc:CartesianChart Name="CartesianChart" Grid.Row="0" />
 
     <DataGrid Name="DataGrid"
               Grid.Row="2">
-      <!--<DataGrid.Columns>
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Period"
+                           Binding="{Binding Path=Period}"
+                           CanUserResize="True" />
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <!--<DataGrid.Columns>
         <DataGridTextColumn Header="Series"
                             Binding="{Binding Path=Series}"
                             CanUserResize="True" />
@@ -27,7 +34,6 @@
                             Binding="{Binding Path=FormattedValue}"
                             CanUserResize="True" />
       </DataGrid.Columns>-->
-    </DataGrid>
 
     <GridSplitter ResizeDirection="Rows"
                   ResizeBehavior="PreviousAndNext"

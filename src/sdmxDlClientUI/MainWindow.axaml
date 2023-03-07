@@ -29,9 +29,11 @@
                  Margin="0 7 0 5">SDMX-DL UI</TextBlock>
 
       <UniformGrid Rows="1"
+                   IsHitTestVisible="False"
+                   Focusable="False"
                    HorizontalAlignment="Right"
                    DockPanel.Dock="Bottom"
-                   Margin="5 0 5 5">
+                   Margin="15 -5 15 5">
         <Border Name="BorderStopped"
                 Background="IndianRed"
                 IsVisible="False"
@@ -72,13 +74,6 @@
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Stretch"
                                  Grid.Column="2" />
-
-        <!--<rxui:ViewModelViewHost ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
-                                 HorizontalContentAlignment="Stretch"
-                                 VerticalContentAlignment="Stretch"
-                                 HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Stretch"
-                                 Grid.Column="2" />-->
       </Grid>
     </DockPanel>
   </Panel>

@@ -5,6 +5,7 @@ using sdmxDlClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,84 +17,69 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
     public Source Source { get; }
     public Flow Flow { get; }
     public SeriesKey SeriesKey { get; }
+    public Seq<DataSeries[]> DataSeries { get; }
+    public HashMap<string , string> GeneratedFields { get; }
 
     public string Header => $"{SeriesKey.Series}";
 
     [Reactive] public string PeriodFormatter { get; set; } = "yyyy-MM";
     [Reactive] public string ValueFormatter { get; set; } = "N2";
-    [Reactive] public Seq<(string SeriesName, string Field)> GeneratedFields { get; set; } = Seq<(string, string)>.Empty;
-    public Seq<DataSeries[]> DataSeries { [ObservableAsProperty] get; }
+
     public Seq<IDisplayData?> DisplaySeries { [ObservableAsProperty] get; }
 
-    private ReactiveCommand<(Source, Flow, SeriesKey) , Seq<DataSeries[]>>? RetrieveSeriesDataCommand { get; set; }
-    public Interaction<Seq<(string, string)> , RxUnit> BuildGridInteraction { get; } = new( RxApp.MainThreadScheduler );
+    private ReactiveCommand<(string, string) , Seq<IDisplayData?>>? BuildDisplaySeriesCommand { get; set; }
 
-    public TimeSeriesDisplayViewModel( IClient client , Source source , Flow flow , SeriesKey seriesKey )
+    public TimeSeriesDisplayViewModel( Source source , Flow flow , SeriesKey seriesKey , Seq<DataSeries[]> dataSeries )
     {
         Source = source;
         Flow = flow;
         SeriesKey = seriesKey;
+        DataSeries = dataSeries;
 
-        BuildGridInteraction.RegisterHandler( ctx => ctx.SetOutput( RxUnit.Default ) );
-        InitializeCommands( client );
+        GeneratedFields = dataSeries
+                .Flatten()
+                .Select( ds => ds.Series )
+                .Distinct()
+                .OrderBy( s => s )
+                .Select( ( s , i ) => (Name: s, Field: $"Field_{i}") )
+                .ToHashMap();
 
-        RetrieveSeriesDataCommand!
-            .ToPropertyEx( this , x => x.DataSeries , initialValue: Seq<DataSeries[]>.Empty , scheduler: RxApp.MainThreadScheduler );
+        InitializeCommands();
 
-        this.WhenAnyValue( x => x.GeneratedFields )
-            .Subscribe( async gfs =>
-            {
-                await BuildGridInteraction.Handle( gfs );
-            } );
-
-        this.WhenAnyValue( x => x.DataSeries ,
-            x => x.PeriodFormatter ,
-            x => x.ValueFormatter )
-            .Select( t =>
-            {
-                var (series, periodFormatter, valueFormatter) = t;
-
-                Func<string , string> escaper = s => s.Replace( ' ' , '_' );
-                GeneratedFields = series.Flatten()
-                        .Select( ds => ds.Series )
-                        .Distinct()
-                        .Select( s => (s, escaper( s )) )
-                        .ToSeq();
-
-                var generatedType = ReflectionTypeGenerator.GenerateTypedObject(
-                    GeneratedFields.Select( t => (t.Field, typeof( string )) ) ,
-                    constructorParameters: new[] { ("Period", typeof( string )) } ,
-                    interfaces: new[] { typeof( IDisplayData ) } );
-
-                var data = series.Flatten()
-                    .GroupBy( x => x.ObsPeriod )
-                    .Select( g =>
-                    {
-                        var displayData = (IDisplayData) Activator.CreateInstance( generatedType , g.Key.ToString( periodFormatter ) );
-
-                        foreach ( var s in g )
-                        {
-                            generatedType.InvokeMember( escaper( s.Series ) , System.Reflection.BindingFlags.SetProperty , null , displayData , new object[] { ( s.ObsValue ?? double.NaN ).ToString( valueFormatter ) } );
-                        }
-
-                        return displayData;
-                    } )
-                    .ToSeq();
-
-                return data;
-            } )
+        BuildDisplaySeriesCommand!
             .ToPropertyEx( this , x => x.DisplaySeries , initialValue: Seq<IDisplayData?>.Empty , scheduler: RxApp.MainThreadScheduler );
 
-        Observable.Return( (source, flow, seriesKey) )
-            .InvokeCommand( RetrieveSeriesDataCommand );
+        this.WhenAnyValue( x => x.PeriodFormatter , x => x.ValueFormatter )
+            .InvokeCommand( BuildDisplaySeriesCommand );
     }
 
-    private void InitializeCommands( IClient client )
+    private void InitializeCommands()
     {
-        RetrieveSeriesDataCommand = ReactiveCommand.CreateFromObservable( ( (Source, Flow, SeriesKey) t ) => Observable.Start( () =>
+        BuildDisplaySeriesCommand = ReactiveCommand.CreateFromObservable( ( (string, string) t ) => Observable.Start( () =>
         {
-            var (source, flow, seriesKey) = t;
-            return client.GetData( source , flow , seriesKey );
+            var (periodFormatter, valueFormatter) = t;
+
+            var generatedType = ReflectionTypeGenerator.GenerateTypedObject(
+                GeneratedFields.Select( t => (t.Value, typeof( string )) ) ,
+                constructorParameters: new[] { ("Period", typeof( string )) } ,
+                interfaces: new[] { typeof( IDisplayData ) } );
+
+            var data = DataSeries.Flatten()
+                .GroupBy( x => x.ObsPeriod )
+                .Select( g =>
+                {
+                    var displayData = (IDisplayData) System.Activator.CreateInstance( generatedType , g.Key.ToString( periodFormatter ) );
+
+                    foreach ( var s in g )
+                    {
+                        generatedType.InvokeMember( GeneratedFields[s.Series] , System.Reflection.BindingFlags.SetProperty , null , displayData , new object[] { ( s.ObsValue ?? double.NaN ).ToString( valueFormatter ) } );
+                    }
+
+                    return displayData;
+                } )
+                .ToSeq();
+
+            return data;
         } ) );
     }
 }

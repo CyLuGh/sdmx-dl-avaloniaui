@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 using DynamicData;
 using LanguageExt;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using sdmxDlClient.Models;
 
 namespace sdmxDlClient.ViewModels;
@@ -60,7 +59,8 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
         FetchDataCommand = ReactiveCommand.CreateFromObservable( ( (Source, Flow, SeriesKey) t ) => Observable.Start( () =>
         {
             var (source, flow, seriesKey) = t;
-            return new TimeSeriesDisplayViewModel( _client , source , flow , seriesKey );
+            var data = _client.GetData( source , flow , seriesKey );
+            return new TimeSeriesDisplayViewModel( source , flow , seriesKey , data );
         } ) );
     }
 }

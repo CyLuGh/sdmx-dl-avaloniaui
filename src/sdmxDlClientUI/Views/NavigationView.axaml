@@ -20,6 +20,7 @@
     <Border Background="{DynamicResource ControlFillColorDefault}"
             CornerRadius="5"
             DockPanel.Dock="Top"
+            BoxShadow="0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000"
             Padding="2"
             Margin="5">
       <Grid>
@@ -84,6 +85,7 @@
     <Border Background="{DynamicResource ControlFillColorDefault}"
             CornerRadius="5"
             DockPanel.Dock="Top"
+            BoxShadow="0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000"
             Padding="2"
             Margin="5">
       <Grid>
@@ -148,6 +150,7 @@
     <Border Background="{DynamicResource ControlFillColorDefault}"
            CornerRadius="5"
            DockPanel.Dock="Bottom"
+            BoxShadow="0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000"
            Padding="2"
            Margin="5">
       <TextBox Name="TextBoxLookUp" Watermark="Look up for series" Margin="5">
@@ -163,6 +166,7 @@
     <Border Background="{DynamicResource ControlFillColorDefault}"
             CornerRadius="5"
             DockPanel.Dock="Top"
+            BoxShadow="0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000, 0 0 10 0 #15000000"
             Padding="2"
             Margin="5">
       <Grid>

@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
+using LanguageExt.ClassInstances.Const;
 using ReactiveUI;
 using sdmxDlClient.ViewModels;
 using System;
@@ -18,6 +19,7 @@ namespace sdmxDlClientUI.Views
             InitializeComponent();
 
             KeyPressedCommand = ReactiveCommand.Create( ( Avalonia.Input.KeyEventArgs args ) => args.Key == Avalonia.Input.Key.Enter );
+            TreeViewHierarchy.DoubleTapped += TreeViewHierarchy_DoubleTapped;
 
             this.WhenActivated( disposables =>
             {
@@ -31,6 +33,11 @@ namespace sdmxDlClientUI.Views
                     .Subscribe()
                     .DisposeWith( disposables );
             } );
+        }
+
+        private void TreeViewHierarchy_DoubleTapped( object? sender , Avalonia.Input.TappedEventArgs e )
+        {
+            Console.WriteLine();
         }
 
         private static void PopulateFromViewModel( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )
@@ -58,6 +65,11 @@ namespace sdmxDlClientUI.Views
                 v => v.TreeViewHierarchy.Items )
                 .DisposeWith( disposables );
 
+            navigationView.Bind( viewModel ,
+                vm => vm.SelectedHierarchicalElement ,
+                v => v.TreeViewHierarchy.SelectedItem )
+                .DisposeWith( disposables );
+
             navigationView.OneWayBind( viewModel ,
                 vm => vm.Dimensions ,
                 v => v.ListBoxDimensions.Items )
@@ -78,6 +90,12 @@ namespace sdmxDlClientUI.Views
                 vm => vm.BackwardPositionCommand ,
                 v => v.ButtonBackward ,
                 viewModel.WhenAnyValue( x => x.SelectedDimension ) )
+                .DisposeWith( disposables );
+
+            navigationView.BindCommand( viewModel ,
+                vm => vm.ViewHierarchyElementCommand ,
+                v => v.MenuItemViewHierarchyElement ,
+                viewModel.WhenAnyValue( x => x.SelectedHierarchicalElement ) )
                 .DisposeWith( disposables );
         }
 

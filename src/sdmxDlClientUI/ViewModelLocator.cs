@@ -25,10 +25,14 @@ public static class ViewModelLocator
         SplatRegistrations.RegisterLazySingleton<NavigationViewModel>();
         SplatRegistrations.RegisterLazySingleton<SeriesDisplayViewModel>();
 
+        SplatRegistrations.RegisterLazySingleton<NodesTreeViewDropHandler>();
+
         SplatRegistrations.SetupIOC();
     }
 
     public static MainViewModel Main => Locator.Current.GetService<MainViewModel>()!;
     public static NavigationViewModel Navigation => Locator.Current.GetService<NavigationViewModel>()!;
     public static SeriesDisplayViewModel SeriesDisplay => Locator.Current.GetService<SeriesDisplayViewModel>()!;
+
+    public static NodesTreeViewDropHandler DropHandler => Locator.Current.GetService<NodesTreeViewDropHandler>()!;
 }

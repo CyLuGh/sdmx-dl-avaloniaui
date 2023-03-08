@@ -1,5 +1,6 @@
 ﻿using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Security.Cryptography.X509Certificates;
 using LanguageExt;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -18,6 +19,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     public ReactiveCommand<Seq<Dimension> , Seq<DimensionViewModel>>? TransformDimensionsCommand { get; private set; }
     public ReactiveCommand<Seq<Dimension> , Seq<SeriesKey>>? GetKeysCommand { get; private set; }
     public ReactiveCommand<RxUnit , Option<(Source, Flow, SeriesKey)>>? ParseLookUpCommand { get; private set; }
+    public ReactiveCommand<HierarchicalCodeLabelViewModel , (Source, Flow, SeriesKey)>? ViewHierarchyElementCommand { get; private set; }
 
     public ReactiveCommand<(Seq<DimensionViewModel>, Seq<LanguageExt.HashSet<string>>) , Seq<HierarchicalCodeLabelViewModel>>? BuildHierarchyCommand { get; private set; }
     public ReactiveCommand<DimensionViewModel , RxUnit>? ForwardPositionCommand { get; private set; }
@@ -27,6 +29,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     [Reactive] public bool IsActiveSearchFlow { get; set; }
 
     [Reactive] public DimensionViewModel? SelectedDimension { get; set; }
+    [Reactive] public HierarchicalCodeLabelViewModel? SelectedHierarchicalElement { get; set; }
 
     [Reactive] public Source? CurrentSource { get; set; }
     [Reactive] public Flow? CurrentFlow { get; set; }
@@ -142,10 +145,8 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                 .Select( t => t.Match( x => Observable.Return( x ) , () => Observable.Empty<(Source, Flow, SeriesKey)>() ) )
                 .Switch()
                 .ObserveOn( RxApp.MainThreadScheduler )
-                .Do( _ =>
-                {
-                    KeyLookup = string.Empty;
-                } )
+                .Do( _ => KeyLookup = string.Empty )
+                .Merge( ViewHierarchyElementCommand! )
                 .InvokeCommand( _seriesDisplayViewModel , x => x.FetchDataCommand )
                 .DisposeWith( disposables );
         } );
@@ -199,6 +200,13 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
             return HierarchyBuilder.Build( dimensions , keysOccurrences );
         } ) );
+
+        var canViewHierarchyElement =
+            this.WhenAnyValue( x => x.CurrentSource , x => x.CurrentFlow , x => x.SelectedHierarchicalElement )
+            .Select( t => t.Item1 != null && t.Item2 != null && t.Item3 != null )
+            .ObserveOn( RxApp.MainThreadScheduler );
+        ViewHierarchyElementCommand = ReactiveCommand.Create( ( HierarchicalCodeLabelViewModel item )
+            => (CurrentSource!, CurrentFlow!, new SeriesKey( item.Code )) , canViewHierarchyElement );
 
         var canForward = this.WhenAnyValue( x => x.SelectedDimension )
                 .CombineLatest( _positionChangedObservable! )

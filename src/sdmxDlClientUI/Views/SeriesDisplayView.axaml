@@ -2,15 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:sdmxDlClientUI"
              xmlns:viewmodels="using:sdmxDlClient.ViewModels"
              xmlns:rxui="using:Avalonia.ReactiveUI"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:ic="using:FluentIcons.Avalonia"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions.DragAndDrop"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="sdmxDlClientUI.Views.SeriesDisplayView">
+
   <Border Background="{DynamicResource ControlFillColorDefault}"
             CornerRadius="5"
             Padding="2"
             Margin="5">
+    <i:Interaction.Behaviors>
+      <idd:ContextDropBehavior Handler="{x:Static local:ViewModelLocator.DropHandler}" />
+    </i:Interaction.Behaviors>
+
     <TabControl Name="TabControlTimeSeries">
       <TabControl.ItemTemplate>
         <DataTemplate DataType="{x:Type viewmodels:TimeSeriesDisplayViewModel}">

@@ -45,12 +45,12 @@ namespace sdmxDlClient
 
                 for ( int i = 0 ; i < parameters.Length ; i++ )
                 {
-                    var parameter = parameters[i];
-                    constructorBuilder.DefineParameter( i + 1 , ParameterAttributes.None , parameter.name );
+                    var (name, parameterType) = parameters[i];
+                    constructorBuilder.DefineParameter( i + 1 , ParameterAttributes.None , name );
 
                     // Create underlying field; all properties have a field of the same type
                     FieldBuilder field =
-                        typeBuilder.DefineField( $"_{parameter.name}" , parameter.parameterType , FieldAttributes.Private | FieldAttributes.InitOnly );
+                        typeBuilder.DefineField( $"_{name}" , parameterType , FieldAttributes.Private | FieldAttributes.InitOnly );
                     constructorFields.Add( field );
                 }
             }
@@ -64,7 +64,7 @@ namespace sdmxDlClient
                 var fieldBuilder = typeBuilder.DefineField( $"_{name}" , propertyType , FieldAttributes.Private );
 
                 var propBuilder = typeBuilder.DefineProperty( name , PropertyAttributes.HasDefault , propertyType , null );
-                var getSetAttr = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
+                const MethodAttributes getSetAttr = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
 
                 // Define the "get" accessor method
                 var custGetPropMthdBldr = typeBuilder.DefineMethod( $"get_{name}" , getSetAttr , propertyType , Type.EmptyTypes );
@@ -90,7 +90,7 @@ namespace sdmxDlClient
             // Add interfaces : https://www.codeproject.com/Articles/22832/Automatic-Interface-Implementer-An-Example-of-Runt
             interfaces?.ForEach( x => typeBuilder.AddInterfaceImplementation( x ) );
 
-            var baseConstructorInfo = typeof( object ).GetConstructor( new Type[0] );
+            var baseConstructorInfo = typeof( object ).GetConstructor( Array.Empty<Type>() );
 
             var ilGenerator = constructorBuilder.GetILGenerator();
             ilGenerator.Emit( OpCodes.Ldarg_0 );                      // Load "this"
@@ -124,7 +124,7 @@ namespace sdmxDlClient
 
                     // Create underlying field; all properties have a field of the same type
                     FieldBuilder field =
-                        constructorFields.FirstOrDefault( o => o.Name.Equals( $"_{piName}" ) )
+                        constructorFields.Find( o => o.Name.Equals( $"_{piName}" ) )
                         ??
                         typeBuilder.DefineField( "_" + piName , propertyType , FieldAttributes.Private );
 
@@ -134,7 +134,7 @@ namespace sdmxDlClient
                     {
                         // If there is a getter in the interface, create a getter in the new type
                         var getMethod = pi.GetGetMethod();
-                        if ( null != getMethod )
+                        if ( getMethod != null )
                         {
                             // This will prevent us from creating a default method for the property's getter
                             methods.Remove( getMethod );
@@ -165,7 +165,7 @@ namespace sdmxDlClient
                     {
                         // If there is a setter in the interface, create a setter in the new type
                         var setMethod = pi.GetSetMethod();
-                        if ( null != setMethod )
+                        if ( setMethod != null )
                         {
                             // This will prevent us from creating a default method for the property's setter
                             methods.Remove( setMethod );

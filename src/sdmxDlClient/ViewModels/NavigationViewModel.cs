@@ -107,13 +107,13 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                 .DisposeWith( disposables );
 
             this.WhenAnyValue( x => x.CurrentSource )
-                .InvokeCommand( GetFlowsCommand! )
+                .InvokeCommand( GetFlowsCommand )
                 .DisposeWith( disposables );
 
             this.WhenAnyValue( x => x.CurrentSource , x => x.CurrentFlow )
                 .Throttle( TimeSpan.FromMilliseconds( 500 ) )
                 .DistinctUntilChanged()
-                .InvokeCommand( GetDimensionsCommand! )
+                .InvokeCommand( GetDimensionsCommand )
                 .DisposeWith( disposables );
 
             this.WhenAnyValue( x => x.RawDimensions )

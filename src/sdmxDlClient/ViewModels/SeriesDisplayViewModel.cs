@@ -16,6 +16,7 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
     public ViewModelActivator Activator { get; }
 
     [Reactive] public TimeSeriesDisplayViewModel? SelectedTimeSeriesDisplay { get; set; }
+    public bool HasSeries { [ObservableAsProperty] get; }
 
     private readonly SourceCache<TimeSeriesDisplayViewModel , (Source, Flow, SeriesKey)> _timeSeriesCache
         = new( x => (x.Source, x.Flow, x.SeriesKey) );
@@ -47,9 +48,14 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
                 .Subscribe()
                 .DisposeWith( disposables );
 
+            _timeSeriesCache.CountChanged
+                .Select( cnt => cnt > 0 )
+                .ToPropertyEx( this , x => x.HasSeries , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
             FetchDataCommand!
                 .Do( ts => _timeSeriesCache.AddOrUpdate( ts ) )
-                .Delay(TimeSpan.FromMilliseconds(20))
+                .Delay( TimeSpan.FromMilliseconds( 20 ) )
                 .ObserveOn( RxApp.MainThreadScheduler )
                 .Do( ts => SelectedTimeSeriesDisplay = ts )
                 .Subscribe()

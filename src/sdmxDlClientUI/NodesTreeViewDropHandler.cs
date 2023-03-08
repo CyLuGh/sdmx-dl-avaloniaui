@@ -1,15 +1,9 @@
-﻿using Avalonia.Controls;
-using Avalonia.Input;
+﻿using Avalonia.Input;
 using Avalonia.Xaml.Interactions.DragAndDrop;
 using ReactiveUI;
 using sdmxDlClient.Models;
 using sdmxDlClient.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sdmxDlClientUI;
 

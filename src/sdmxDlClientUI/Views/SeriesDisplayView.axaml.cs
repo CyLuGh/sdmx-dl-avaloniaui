@@ -35,6 +35,12 @@ namespace sdmxDlClientUI.Views
                 vm => vm.SelectedTimeSeriesDisplay ,
                 v => v.TabControlTimeSeries.SelectedItem )
                 .DisposeWith( disposables );
+
+            view.OneWayBind( viewModel ,
+                vm => vm.HasSeries ,
+                v => v.TextBlockInvite.IsVisible ,
+                b => !b )
+                .DisposeWith( disposables );
         }
     }
 }

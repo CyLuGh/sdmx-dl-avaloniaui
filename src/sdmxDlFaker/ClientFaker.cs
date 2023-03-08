@@ -83,7 +83,7 @@ public class ClientFaker : IClient
             .ToSeq();
     }
 
-    private DataSeries[] GenerateSeries( string name )
+    private static DataSeries[] GenerateSeries( string name )
         => Enumerable.Range( 0 , 60 )
             .Select( i => new DataSeries( name , "" , new DateTime( 2015 , 1 , 1 ).AddMonths( i ) , Random.Shared.NextDouble() ) )
         .ToArray();

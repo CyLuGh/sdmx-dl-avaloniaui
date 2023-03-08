@@ -2,13 +2,7 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using sdmxDlClient.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sdmxDlClient.ViewModels;
 
@@ -28,6 +22,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
     public Seq<IDisplayData?> DisplaySeries { [ObservableAsProperty] get; }
 
     private ReactiveCommand<(string, string) , Seq<IDisplayData?>>? BuildDisplaySeriesCommand { get; set; }
+    public ReactiveCommand<TimeSeriesDisplayViewModel,RxUnit>? DisposeCommand { get; init; }
 
     public TimeSeriesDisplayViewModel( Source source , Flow flow , SeriesKey seriesKey , Seq<DataSeries[]> dataSeries )
     {
@@ -37,12 +32,12 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
         DataSeries = dataSeries;
 
         GeneratedFields = dataSeries
-                .Flatten()
-                .Select( ds => ds.Series )
-                .Distinct()
-                .OrderBy( s => s )
-                .Select( ( s , i ) => (Name: s, Field: $"Field_{i}") )
-                .ToHashMap();
+            .Flatten()
+            .Select( ds => ds.Series )
+            .Distinct()
+            .OrderBy( s => s )
+            .Select( ( s , i ) => (Name: s, Field: $"Field_{i}") )
+            .ToHashMap();
 
         InitializeCommands();
 
@@ -68,7 +63,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
                 .GroupBy( x => x.ObsPeriod )
                 .Select( g =>
                 {
-                    var displayData = (IDisplayData) System.Activator.CreateInstance( generatedType , g.Key.ToString( periodFormatter ) );
+                    var displayData = (IDisplayData?) System.Activator.CreateInstance( generatedType , g.Key.ToString( periodFormatter ) );
 
                     foreach ( var s in g )
                     {

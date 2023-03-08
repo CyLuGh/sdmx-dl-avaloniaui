@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewmodels="using:sdmxDlClient.ViewModels"
              xmlns:rxui="using:Avalonia.ReactiveUI"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="sdmxDlClientUI.Views.SeriesDisplayView">
   <Border Background="{DynamicResource ControlFillColorDefault}"
@@ -14,8 +15,16 @@
       <TabControl.ItemTemplate>
         <DataTemplate DataType="{x:Type viewmodels:TimeSeriesDisplayViewModel}">
           <DockPanel>
-            <Button DockPanel.Dock="Right" />
-            <TextBlock Text="{Binding Path=Header}" DockPanel.Dock="Left" />
+            <Button VerticalAlignment="Center"
+                    Command="{Binding Path=DisposeCommand}"
+                    CommandParameter="{Binding}"
+                    Theme="{DynamicResource TransparentButton}"
+                    DockPanel.Dock="Right">
+              <ui:FAPathIcon Height="10" Width="10" Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+            </Button>
+            <TextBlock Text="{Binding Path=Header}"
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left" />
           </DockPanel>
         </DataTemplate>
       </TabControl.ItemTemplate>

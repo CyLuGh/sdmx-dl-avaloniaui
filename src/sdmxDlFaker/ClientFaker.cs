@@ -78,7 +78,7 @@ public class ClientFaker : IClient
         if ( string.IsNullOrWhiteSpace( fullPath ) )
             return Seq<DataSeries[]>.Empty;
 
-        return Enumerable.Range( 0 , Random.Shared.Next( 5 ) )
+        return Enumerable.Range( 0 , Random.Shared.Next( 1 , 5 ) )
             .Select( i => GenerateSeries( $"Test {i}" ) )
             .ToSeq();
     }

@@ -2,8 +2,10 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using DynamicData;
+using DynamicData.Binding;
 using LanguageExt;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using sdmxDlClient.Models;
 
 namespace sdmxDlClient.ViewModels;
@@ -12,6 +14,8 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
 {
     private readonly IClient _client;
     public ViewModelActivator Activator { get; }
+
+    [Reactive] public TimeSeriesDisplayViewModel? SelectedTimeSeriesDisplay { get; set; }
 
     private readonly SourceCache<TimeSeriesDisplayViewModel , (Source, Flow, SeriesKey)> _timeSeriesCache
         = new( x => (x.Source, x.Flow, x.SeriesKey) );
@@ -36,6 +40,7 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
         this.WhenActivated( disposables =>
         {
             _timeSeriesCache.Connect()
+                .Sort( SortExpressionComparer<TimeSeriesDisplayViewModel>.Ascending( ts => ts.Header ) )
                 .ObserveOn( RxApp.MainThreadScheduler )
                 .Bind( out _timeSeries )
                 .DisposeMany()
@@ -44,6 +49,9 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
 
             FetchDataCommand!
                 .Do( ts => _timeSeriesCache.AddOrUpdate( ts ) )
+                .Delay(TimeSpan.FromMilliseconds(20))
+                .ObserveOn( RxApp.MainThreadScheduler )
+                .Do( ts => SelectedTimeSeriesDisplay = ts )
                 .Subscribe()
                 .DisposeWith( disposables );
         } );
@@ -59,8 +67,18 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
         FetchDataCommand = ReactiveCommand.CreateFromObservable( ( (Source, Flow, SeriesKey) t ) => Observable.Start( () =>
         {
             var (source, flow, seriesKey) = t;
-            var data = _client.GetData( source , flow , seriesKey );
-            return new TimeSeriesDisplayViewModel( source , flow , seriesKey , data );
+
+            return _timeSeriesCache.Items
+                .Find( ts => ts.Source.Equals( source ) && ts.Flow.Equals( flow ) && ts.SeriesKey.Equals( seriesKey ) )
+                .Match( ts => ts ,
+                    () =>
+                    {
+                        var data = _client.GetData( source , flow , seriesKey );
+                        return new TimeSeriesDisplayViewModel( source , flow , seriesKey , data )
+                        {
+                            DisposeCommand = ReactiveCommand.Create( ( TimeSeriesDisplayViewModel ts ) => _timeSeriesCache.Remove( ts ) )
+                        };
+                    } );
         } ) );
     }
 }

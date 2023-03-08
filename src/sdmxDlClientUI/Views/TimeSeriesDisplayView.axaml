@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:lc="using:LiveChartsCore"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="sdmxDlClientUI.Views.TimeSerieDisplayView">
   <Grid>
@@ -12,28 +13,15 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <lvc:CartesianChart Name="CartesianChart" Grid.Row="0" />
+    <lvc:CartesianChart Name="CartesianChart"
+                        TooltipPosition="Top"
+                        TooltipFindingStrategy="CompareOnlyX"
+                        Grid.Row="0" />
 
     <DataGrid Name="DataGrid"
-              Grid.Row="2">
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="Period"
-                           Binding="{Binding Path=Period}"
-                           CanUserResize="True" />
-      </DataGrid.Columns>
-    </DataGrid>
-
-    <!--<DataGrid.Columns>
-        <DataGridTextColumn Header="Series"
-                            Binding="{Binding Path=Series}"
-                            CanUserResize="True" />
-        <DataGridTextColumn Header="Period"
-                            Binding="{Binding Path=FormattedPeriod}"
-                            CanUserResize="True" />
-        <DataGridTextColumn Header="Value"
-                            Binding="{Binding Path=FormattedValue}"
-                            CanUserResize="True" />
-      </DataGrid.Columns>-->
+              CanUserReorderColumns="True"
+              CanUserResizeColumns="True"
+              Grid.Row="2" />
 
     <GridSplitter ResizeDirection="Rows"
                   ResizeBehavior="PreviousAndNext"

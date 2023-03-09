@@ -27,6 +27,12 @@ namespace sdmxDlClientUI
                     .DisposeWith( disposables );
             } );
 
+            ButtonClosePanel.Command = ReactiveCommand.Create( () =>
+            {
+                if ( ViewModel != null )
+                    ViewModel.IsLogsPaneOpen = false;
+            } );
+
             ViewModel = ViewModelLocator.Main;
         }
 
@@ -41,6 +47,16 @@ namespace sdmxDlClientUI
                 vm => vm.IsServerRunning ,
                 v => v.BorderStopped.IsVisible ,
                 b => !b )
+                .DisposeWith( disposables );
+
+            view.Bind( viewModel ,
+                vm => vm.IsLogsPaneOpen ,
+                v => v.SplitViewLogs.IsPaneOpen )
+                .DisposeWith( disposables );
+
+            view.Bind( viewModel ,
+                vm => vm.IsLogsPaneOpen ,
+                v => v.ToggleButtonLogsPane.IsChecked )
                 .DisposeWith( disposables );
         }
     }

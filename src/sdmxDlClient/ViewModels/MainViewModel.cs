@@ -15,6 +15,7 @@ public sealed class MainViewModel : ReactiveObject, IActivatableViewModel, IDisp
 
     public ViewModelActivator Activator { get; }
 
+    [Reactive] public bool IsLogsPaneOpen { get; set; }
     public bool IsServerRunning { [ObservableAsProperty] get; }
 
     private RxCommandUnit? StartServerCommand { get; set; }

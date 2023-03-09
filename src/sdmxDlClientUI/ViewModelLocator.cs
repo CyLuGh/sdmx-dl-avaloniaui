@@ -15,7 +15,7 @@ public static class ViewModelLocator
         var container = Locator.CurrentMutable;
 
         container.RegisterLazySingleton( () => new ClientFaker() , typeof( IClient ) );
-        //container.RegisterLazySingleton( () => new Consumer() , typeof( IClient ) );
+        //container.RegisterLazySingleton( () => new LogMessagesViewModel() , typeof( ILoggerManager ) );
 
         container.Register( () => new HierarchicalCodeLabelView() , typeof( IViewFor<HierarchicalCodeLabelViewModel> ) );
         container.Register( () => new SeriesDisplayView() , typeof( IViewFor<SeriesDisplayViewModel> ) );
@@ -26,6 +26,7 @@ public static class ViewModelLocator
         SplatRegistrations.RegisterLazySingleton<SeriesDisplayViewModel>();
 
         SplatRegistrations.RegisterLazySingleton<NodesTreeViewDropHandler>();
+        SplatRegistrations.RegisterConstant<ILoggerManager>( new LogMessagesViewModel() );
 
         SplatRegistrations.SetupIOC();
     }
@@ -35,4 +36,5 @@ public static class ViewModelLocator
     public static SeriesDisplayViewModel SeriesDisplay => Locator.Current.GetService<SeriesDisplayViewModel>()!;
 
     public static NodesTreeViewDropHandler DropHandler => Locator.Current.GetService<NodesTreeViewDropHandler>()!;
+    public static LogMessagesViewModel Logs => (LogMessagesViewModel) Locator.Current.GetService<ILoggerManager>()!;
 }

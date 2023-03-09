@@ -13,6 +13,8 @@ namespace sdmxDlClient.ViewModels;
 public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
 {
     private readonly IClient _client;
+    private readonly ILoggerManager _loggerManager;
+
     public ViewModelActivator Activator { get; }
 
     [Reactive] public TimeSeriesDisplayViewModel? SelectedTimeSeriesDisplay { get; set; }
@@ -27,9 +29,10 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
     public ReactiveCommand<string , (Source, Flow, SeriesKey)>? ParseKeyCommand { get; private set; }
     public ReactiveCommand<(Source, Flow, SeriesKey) , TimeSeriesDisplayViewModel>? FetchDataCommand { get; private set; }
 
-    public SeriesDisplayViewModel( IClient client )
+    public SeriesDisplayViewModel( IClient client , ILoggerManager loggerManager )
     {
         _client = client;
+        _loggerManager = loggerManager;
         Activator = new();
 
         InitializeCommands();
@@ -60,6 +63,8 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
                 .Do( ts => SelectedTimeSeriesDisplay = ts )
                 .Subscribe()
                 .DisposeWith( disposables );
+
+            FetchDataCommand!.ThrownExceptions.Subscribe( exc => _loggerManager.Error( exc ) );
         } );
     }
 

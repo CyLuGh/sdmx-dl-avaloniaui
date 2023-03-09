@@ -75,6 +75,9 @@ public class ClientFaker : IClient
 
     public Seq<DataSeries[]> GetData( string fullPath )
     {
+        if ( fullPath.Contains( "error" , StringComparison.OrdinalIgnoreCase ) )
+            throw new ArgumentException( "Throw an error on purpose." );
+
         if ( string.IsNullOrWhiteSpace( fullPath ) )
             return Seq<DataSeries[]>.Empty;
 

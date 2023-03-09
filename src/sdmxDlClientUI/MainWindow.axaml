@@ -5,6 +5,7 @@
         xmlns:local="using:sdmxDlClientUI"
         xmlns:views="using:sdmxDlClientUI.Views"
         xmlns:rxui="using:Avalonia.ReactiveUI"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="sdmxDlClientUI.MainWindow"
         Title="sdmxDlClientUI"
@@ -22,59 +23,98 @@
       </ExperimentalAcrylicBorder.Material>
     </ExperimentalAcrylicBorder>
 
-    <DockPanel>
-      <TextBlock DockPanel.Dock="Top"
-                 HorizontalAlignment="Center"
-                 IsHitTestVisible="False"
-                 Margin="0 7 0 5">SDMX-DL UI</TextBlock>
+    <SplitView Name="SplitViewLogs"
+               PanePlacement="Right"
+               DisplayMode="Overlay">
+      <SplitView.Pane>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
 
-      <UniformGrid Rows="1"
-                   IsHitTestVisible="False"
-                   Focusable="False"
-                   HorizontalAlignment="Right"
-                   DockPanel.Dock="Bottom"
-                   Margin="15 -5 15 5">
-        <Border Name="BorderStopped"
-                Background="IndianRed"
-                IsVisible="False"
-                CornerRadius="5"
-                Padding="5">
-          <TextBlock Text="Server is stopped" />
-        </Border>
+          <TextBlock Text="LOGS"
+                     Theme="{StaticResource TitleTextBlockStyle}"
+                     Margin="10" />
 
-        <Border Name="BorderRunning"
-                Background="{DynamicResource ThemeAccentBrush}"
-                IsVisible="False"
-                CornerRadius="5"
-                Padding="5">
-          <TextBlock Text="Server is running" />
-        </Border>
-      </UniformGrid>
-
-      <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition MinWidth="350" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="3*"
-                            MinWidth="400" />
-        </Grid.ColumnDefinitions>
-
-        <views:NavigationView ViewModel="{x:Static local:ViewModelLocator.Navigation}"
-                              HorizontalContentAlignment="Stretch"
-                              VerticalContentAlignment="Stretch"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Grid.Column="0" />
-
-        <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
-
-        <views:SeriesDisplayView ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
-                                 HorizontalContentAlignment="Stretch"
-                                 VerticalContentAlignment="Stretch"
+          <views:LogMessagesView ViewModel="{x:Static local:ViewModelLocator.Logs}"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Stretch"
-                                 Grid.Column="2" />
-      </Grid>
-    </DockPanel>
+                                 Grid.Row="1" />
+
+          <Button Name="ButtonClosePanel"
+                  Theme="{StaticResource TransparentButton}"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  Margin="15 5"
+                  Grid.Row="2">
+            <ui:FAPathIcon Height="15" Width="15" Data="M9.193 9.248a.75.75 0 0 1 1.059-.055l2.5 2.25a.75.75 0 0 1 0 1.114l-2.5 2.25a.75.75 0 1 1-1.004-1.114l1.048-.943H6.75a.75.75 0 0 1 0-1.5h3.546l-1.048-.943a.75.75 0 0 1-.055-1.059ZM22 17.25A2.75 2.75 0 0 1 19.25 20H4.75A2.75 2.75 0 0 1 2 17.25V6.75A2.75 2.75 0 0 1 4.75 4h14.5A2.75 2.75 0 0 1 22 6.75v10.5Zm-6.998 1.25v-13H4.75c-.69 0-1.25.56-1.25 1.25v10.5c0 .69.56 1.25 1.25 1.25h10.252Z" />
+          </Button>
+        </Grid>
+      </SplitView.Pane>
+      <DockPanel>
+        <TextBlock DockPanel.Dock="Top"
+                   HorizontalAlignment="Center"
+                   IsHitTestVisible="False"
+                   Margin="0 7 0 5">SDMX-DL UI</TextBlock>
+
+        <StackPanel Margin="15 -5 15 5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Bottom">
+          <UniformGrid Rows="1"
+                     IsHitTestVisible="False"
+                     Focusable="False">
+            <Border Name="BorderStopped"
+                    Background="IndianRed"
+                    IsVisible="False"
+                    CornerRadius="5"
+                    Padding="5">
+              <TextBlock Text="Server is stopped" />
+            </Border>
+
+            <Border Name="BorderRunning"
+                    Background="{DynamicResource ThemeAccentBrush}"
+                    IsVisible="False"
+                    CornerRadius="5"
+                    Padding="5">
+              <TextBlock Text="Server is running" />
+            </Border>
+          </UniformGrid>
+
+          <ToggleButton Name="ToggleButtonLogsPane"
+                        Theme="{StaticResource TransparentToggleButton}"
+                        VerticalAlignment="Center">
+            <ui:FAPathIcon Height="15" Width="15" Data="M2 6.75A2.75 2.75 0 0 1 4.75 4h14.5A2.75 2.75 0 0 1 22 6.75v10.5A2.75 2.75 0 0 1 19.25 20H4.75A2.75 2.75 0 0 1 2 17.25V6.75ZM6.75 8a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-4.5Zm0 3a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5ZM6 14.75c0 .414.336.75.75.75h6.5a.75.75 0 0 0 0-1.5h-6.5a.75.75 0 0 0-.75.75Z" />
+          </ToggleButton>
+        </StackPanel>
+
+        <Grid Margin="10">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="350" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*"
+                              MinWidth="400" />
+          </Grid.ColumnDefinitions>
+
+          <views:NavigationView ViewModel="{x:Static local:ViewModelLocator.Navigation}"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Grid.Column="0" />
+
+          <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
+
+          <views:SeriesDisplayView ViewModel="{x:Static local:ViewModelLocator.SeriesDisplay}"
+                                   HorizontalContentAlignment="Stretch"
+                                   VerticalContentAlignment="Stretch"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Grid.Column="2" />
+        </Grid>
+      </DockPanel>
+    </SplitView>
   </Panel>
 </Window>

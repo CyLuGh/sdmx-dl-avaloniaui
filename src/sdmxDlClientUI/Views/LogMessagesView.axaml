@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:views="using:sdmxDlClientUI.Views"
+             x:Class="sdmxDlClientUI.Views.LogMessagesView">
+  <Panel>
+    <ListBox Name="ListBoxMessage" Margin="5">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ui:InfoBadge Classes="Critical Icon"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Height="24"
+                          Width="24" />
+
+            <TextBlock Text="{Binding Path=Title}"
+                       Theme="{StaticResource BodyStrongTextBlockStyle}"
+                       Grid.Row="0"
+                       Grid.Column="2" />
+            <TextBlock Text="{Binding Path=TimeStamp,StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"
+                       Theme="{StaticResource BodyTextBlockStyle}"
+                       HorizontalAlignment="Right"
+                       Grid.Row="0"
+                       Grid.Column="2" />
+            <TextBlock Text="{Binding Path=Message}"
+                       Theme="{StaticResource BodyTextBlockStyle}"
+                       TextWrapping="Wrap"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="2" />
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </Panel>
+</UserControl>

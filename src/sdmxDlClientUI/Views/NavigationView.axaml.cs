@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
-using LanguageExt.ClassInstances.Const;
 using ReactiveUI;
 using sdmxDlClient.ViewModels;
 using System;
@@ -18,7 +17,12 @@ namespace sdmxDlClientUI.Views
         {
             InitializeComponent();
 
-            KeyPressedCommand = ReactiveCommand.Create( ( Avalonia.Input.KeyEventArgs args ) => args.Key == Avalonia.Input.Key.Enter );
+            KeyPressedCommand = ReactiveCommand.Create( ( Avalonia.Input.KeyEventArgs args ) =>
+            {
+                if ( args.Key == Avalonia.Input.Key.Escape )
+                    TextBoxLookUp.Text = string.Empty;
+                return args.Key == Avalonia.Input.Key.Enter;
+            } );
             TreeViewHierarchy.DoubleTapped += TreeViewHierarchy_DoubleTapped;
 
             this.WhenActivated( disposables =>

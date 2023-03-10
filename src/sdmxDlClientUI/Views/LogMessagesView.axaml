@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:views="using:sdmxDlClientUI.Views"
+             xmlns:models="using:sdmxDlClient.Models"
              x:Class="sdmxDlClientUI.Views.LogMessagesView">
   <Panel>
     <ListBox Name="ListBoxMessage" Margin="5">
@@ -24,6 +25,21 @@
             <ui:InfoBadge Classes="Critical Icon"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Center"
+                          IsVisible="{Binding Path=Kind,Converter={x:Static views:InfoBadgeVisibilityConverter.Instance}, ConverterParameter={x:Static models:MessageKind.Error}}"
+                          Height="24"
+                          Width="24" />
+
+            <ui:InfoBadge Classes="Caution Icon"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          IsVisible="{Binding Path=Kind,Converter={x:Static views:InfoBadgeVisibilityConverter.Instance}, ConverterParameter={x:Static models:MessageKind.Warn}}"
+                          Height="24"
+                          Width="24" />
+
+            <ui:InfoBadge Classes="Informational Icon"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          IsVisible="{Binding Path=Kind,Converter={x:Static views:InfoBadgeVisibilityConverter.Instance}, ConverterParameter={x:Static models:MessageKind.Info}}"
                           Height="24"
                           Width="24" />
 

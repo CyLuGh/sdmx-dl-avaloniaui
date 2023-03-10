@@ -1,5 +1,6 @@
 ﻿using Avalonia.Data;
 using Avalonia.Data.Converters;
+using sdmxDlClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,12 +10,17 @@ using System.Threading.Tasks;
 
 namespace sdmxDlClientUI.Views
 {
-    public class InfoBadgeClassesConverter : IValueConverter
+    public class InfoBadgeVisibilityConverter : IValueConverter
     {
-        public static readonly InfoBadgeClassesConverter Instance = new();
+        public static readonly InfoBadgeVisibilityConverter Instance = new();
 
         public object? Convert( object? value , Type targetType , object? parameter , CultureInfo culture )
         {
+            if ( value is MessageKind messageKind && parameter is MessageKind targetKind )
+            {
+                return messageKind == targetKind;
+            }
+
             return new BindingNotification( new InvalidCastException() , BindingErrorType.Error );
         }
 

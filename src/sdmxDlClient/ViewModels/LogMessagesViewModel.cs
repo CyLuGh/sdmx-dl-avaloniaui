@@ -2,6 +2,7 @@
 using DynamicData.Binding;
 using ReactiveUI;
 using sdmxDlClient.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
@@ -27,21 +28,21 @@ public class LogMessagesViewModel : ReactiveObject, ILoggerManager
 
     public void Info( string message )
     {
-        throw new NotImplementedException();
+        _messagesCache.AddOrUpdate( new LogMessage( MessageKind.Info , message ) );
     }
 
     public void Warn( string message )
     {
-        throw new NotImplementedException();
+        _messagesCache.AddOrUpdate( new LogMessage( MessageKind.Warn , message ) );
     }
 
     public void Error( string message )
     {
-        throw new NotImplementedException();
+        _messagesCache.AddOrUpdate( new LogMessage( MessageKind.Error , message ) );
     }
 
     public void Error( Exception exception )
     {
-        _messagesCache.AddOrUpdate( new LogMessage( exception.Message ) );
+        _messagesCache.AddOrUpdate( new LogMessage( MessageKind.Error , exception.Message ) );
     }
 }

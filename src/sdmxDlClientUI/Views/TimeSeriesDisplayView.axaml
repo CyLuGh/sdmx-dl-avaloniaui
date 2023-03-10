@@ -21,7 +21,42 @@
     <DataGrid Name="DataGrid"
               CanUserReorderColumns="True"
               CanUserResizeColumns="True"
-              Grid.Row="2" />
+              Grid.Row="2">
+      <DataGrid.ContextFlyout>
+        <Flyout>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition />
+              <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Decimals:"
+                       Margin="5 2 10 2"
+                       VerticalAlignment="Center" />
+            <NumericUpDown Name="NumericUpDownDecimals"
+                           Grid.Column="1"
+                           Minimum="0"
+                           Maximum="10"
+                           FormatString="{}{0:0}"
+                           Margin="5" />
+
+            <TextBlock Text="Date formats:"
+                       Margin="5 2 10 2"
+                       VerticalAlignment="Center"
+                       Grid.Row="1" />
+            <ComboBox Name="ComboBoxDateFormat"
+                      HorizontalAlignment="Stretch"
+                      Margin="5"
+                      Grid.Row="1"
+                      Grid.Column="1" />
+          </Grid>
+        </Flyout>
+      </DataGrid.ContextFlyout>
+    </DataGrid>
 
     <GridSplitter ResizeDirection="Rows"
                   ResizeBehavior="PreviousAndNext"

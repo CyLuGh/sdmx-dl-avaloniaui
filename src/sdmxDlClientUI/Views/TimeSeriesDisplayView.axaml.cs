@@ -22,10 +22,22 @@ namespace sdmxDlClientUI.Views
         {
             InitializeComponent();
 
+            ComboBoxDateFormat.Items = new[] { "yyyy" , "yyyy-MM" , "yyyy-MM-dd" };
+
             this.WhenAnyValue( x => x.ViewModel )
                 .WhereNotNull()
                 .Do( viewModel =>
                 {
+                    this.Bind( viewModel ,
+                        vm => vm.DecimalCount ,
+                        v => v.NumericUpDownDecimals.Value ,
+                        i => (decimal?) i ,
+                        d => d != null ? (int) d : 0 );
+
+                    this.Bind( viewModel ,
+                        vm => vm.PeriodFormatter ,
+                        v => v.ComboBoxDateFormat.SelectedItem );
+
                     this.OneWayBind( viewModel , vm => vm.DisplaySeries , v => v.DataGrid.Items );
                     BuildGridColumns( viewModel );
 

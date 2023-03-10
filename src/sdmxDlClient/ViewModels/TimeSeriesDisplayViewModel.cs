@@ -17,12 +17,13 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
     public string Header => $"{SeriesKey.Series}";
 
     [Reactive] public string PeriodFormatter { get; set; } = "yyyy-MM";
-    [Reactive] public string ValueFormatter { get; set; } = "N2";
+    public string ValueFormatter { [ObservableAsProperty] get; }
+    [Reactive] public int DecimalCount { get; set; } = 2;
 
     public Seq<IDisplayData?> DisplaySeries { [ObservableAsProperty] get; }
 
     private ReactiveCommand<(string, string) , Seq<IDisplayData?>>? BuildDisplaySeriesCommand { get; set; }
-    public ReactiveCommand<TimeSeriesDisplayViewModel,RxUnit>? DisposeCommand { get; init; }
+    public ReactiveCommand<TimeSeriesDisplayViewModel , RxUnit>? DisposeCommand { get; init; }
 
     public TimeSeriesDisplayViewModel( Source source , Flow flow , SeriesKey seriesKey , Seq<DataSeries[]> dataSeries )
     {
@@ -43,6 +44,12 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
 
         BuildDisplaySeriesCommand!
             .ToPropertyEx( this , x => x.DisplaySeries , initialValue: Seq<IDisplayData?>.Empty , scheduler: RxApp.MainThreadScheduler );
+
+        this.WhenAnyValue( x => x.DecimalCount )
+            .Throttle( TimeSpan.FromMilliseconds( 50 ) )
+            .DistinctUntilChanged()
+            .Select( c => $"N{c}" )
+            .ToPropertyEx( this , x => x.ValueFormatter , initialValue: "N2" , scheduler: RxApp.MainThreadScheduler );
 
         this.WhenAnyValue( x => x.PeriodFormatter , x => x.ValueFormatter )
             .InvokeCommand( BuildDisplaySeriesCommand );

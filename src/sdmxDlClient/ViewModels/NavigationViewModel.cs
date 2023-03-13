@@ -154,9 +154,9 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
     private void InitializeCommands()
     {
-        GetSourcesCommand = ReactiveCommand.CreateFromObservable( () => Observable.Start( () => _client.GetSources() ) );
+        GetSourcesCommand = ReactiveCommand.CreateFromTask( () => _client.GetSources() );
 
-        GetFlowsCommand = ReactiveCommand.CreateFromObservable( ( Source? src ) => Observable.Start( () => _client.GetFlows( src ) ) );
+        GetFlowsCommand = ReactiveCommand.CreateFromTask( ( Source? src ) => _client.GetFlows( src ) );
 
         GetDimensionsCommand = ReactiveCommand.CreateFromObservable( ( (Source?, Flow?) t ) => Observable.Start( () =>
         {
@@ -188,7 +188,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
             if ( string.IsNullOrWhiteSpace( KeyLookup ) )
                 return Option<(Source, Flow, SeriesKey)>.None;
 
-            return (new Source() { Description = "" , Name = "" }, new Flow() { Label = "" , Ref = "" }, new SeriesKey( KeyLookup ));
+            return (new Source() { Id = "" }, new Flow() { Name = "" , Ref = "" , StructureRef = "" }, new SeriesKey( KeyLookup ));
         } ) );
 
         BuildHierarchyCommand = ReactiveCommand.CreateFromObservable( ( (Seq<DimensionViewModel>, Seq<LanguageExt.HashSet<string>>) t ) => Observable.Start( () =>
@@ -236,14 +236,17 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     public async Task<IEnumerable<object>> PopulateSourcesAsync( string? searchText , CancellationToken _ )
     {
         return Sources.Where( s => string.IsNullOrWhiteSpace( searchText )
-            || s.Name.Contains( searchText , StringComparison.OrdinalIgnoreCase )
-            || s.Description.Contains( searchText , StringComparison.OrdinalIgnoreCase ) );
+            || s.Id.Contains( searchText , StringComparison.OrdinalIgnoreCase )
+            || s.Aliases.Any( x => x.Contains( searchText , StringComparison.OrdinalIgnoreCase ) )
+            || s.Names.Values.Any( x => x.Contains( searchText , StringComparison.OrdinalIgnoreCase ) ) );
     }
 
     public async Task<IEnumerable<object>> PopulateFlowsAsync( string? searchText , CancellationToken _ )
     {
         return Flows.Where( s => string.IsNullOrWhiteSpace( searchText )
             || s.Ref.Contains( searchText , StringComparison.OrdinalIgnoreCase )
-            || s.Label.Contains( searchText , StringComparison.OrdinalIgnoreCase ) );
+            || s.StructureRef.Contains( searchText , StringComparison.OrdinalIgnoreCase )
+            || s.Name.Contains( searchText , StringComparison.OrdinalIgnoreCase )
+            || s.Description.Contains( searchText , StringComparison.OrdinalIgnoreCase ) );
     }
 }

@@ -10,12 +10,12 @@ public interface IClient
     /// <summary>
     /// Get all available sources.
     /// </summary>
-    Seq<Source> GetSources();
+    Task<Seq<Source>> GetSources();
 
     /// <summary>
     /// Get all flows available for a given source.
     /// </summary>
-    Seq<Flow> GetFlows( Source? source );
+    Task<Seq<Flow>> GetFlows( Source? source );
 
     /// <summary>
     /// Get dimensions for a given flow in a source.

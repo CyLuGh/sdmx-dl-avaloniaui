@@ -72,7 +72,7 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
     {
         ParseKeyCommand = ReactiveCommand.CreateFromObservable( ( string key ) => Observable.Start( () =>
         {
-            return (new Source() { Description = "" , Name = "" }, new Flow() { Label = "" , Ref = "" }, new SeriesKey( "" ));
+            return (new Source() { Id = "" }, new Flow() { Name = "" , Ref = "" , StructureRef = "" }, new SeriesKey( "" ));
         } ) );
 
         FetchDataCommand = ReactiveCommand.CreateFromObservable( ( (Source, Flow, SeriesKey) t ) => Observable.Start( () =>

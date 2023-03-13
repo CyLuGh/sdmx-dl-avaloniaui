@@ -17,22 +17,22 @@ public class ClientFaker : IClient
         cancellationToken.ThrowIfCancellationRequested();
     }
 
-    public Seq<Source> GetSources()
-        => Enumerable.Range( 1 , 4 )
-            .Select( i => new Source { Name = $"Src {i}" , Description = $"Test {i}" } )
-            .ToSeq();
+    public Task<Seq<Source>> GetSources()
+        => Task.FromResult( Enumerable.Range( 1 , 4 )
+            .Select( i => new Source { Id = $"Src {i}" , Names = new[] { ("en", $"Test {i}") }.ToDictionary() } )
+            .ToSeq() );
 
-    public Seq<Flow> GetFlows( Source? source )
-        => source != null
+    public Task<Seq<Flow>> GetFlows( Source? source )
+        => Task.FromResult( source != null
             ? Enumerable.Range( 1 , 10 )
-                .Select( i => new Flow { Ref = $"{i}" , Label = $"{i} from {source.Name}" } )
+                .Select( i => new Flow { Ref = $"{i}" , StructureRef = $"{i}" , Name = $"{i} from {source.Id}" } )
                 .ToSeq()
-            : Seq<Flow>.Empty;
+            : Seq<Flow>.Empty );
 
     public Seq<Dimension> GetDimensions( Source? source , Flow? flow )
         => source != null && flow != null
             ? Enumerable.Range( 1 , 5 )
-                .Select( i => new Dimension { Concept = $"Dim {i}" , Label = $"Dim {i} Source {source.Name} Flow {flow.Label}" , Position = i } )
+                .Select( i => new Dimension { Concept = $"Dim {i}" , Label = $"Dim {i} Source {source.Id} Flow {flow.Name}" , Position = i } )
                 .ToSeq()
             : Seq<Dimension>.Empty;
 
@@ -71,7 +71,7 @@ public class ClientFaker : IClient
     }
 
     public Seq<DataSeries[]> GetData( Source source , Flow flow , SeriesKey key )
-        => GetData( $"{source.Name} {flow.Label} {key.Series}" );
+        => GetData( $"{source.Id} {flow.Name} {key.Series}" );
 
     public Seq<DataSeries[]> GetData( string fullPath )
     {

@@ -23,7 +23,6 @@ namespace sdmxDlClientUI.Views
                     TextBoxLookUp.Text = string.Empty;
                 return args.Key == Avalonia.Input.Key.Enter;
             } );
-            TreeViewHierarchy.DoubleTapped += TreeViewHierarchy_DoubleTapped;
 
             this.WhenActivated( disposables =>
             {
@@ -37,11 +36,6 @@ namespace sdmxDlClientUI.Views
                     .Subscribe()
                     .DisposeWith( disposables );
             } );
-        }
-
-        private void TreeViewHierarchy_DoubleTapped( object? sender , Avalonia.Input.TappedEventArgs e )
-        {
-            Console.WriteLine();
         }
 
         private static void PopulateFromViewModel( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )

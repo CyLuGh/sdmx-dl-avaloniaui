@@ -49,10 +49,23 @@
                          Grid.Column="1">
           <AutoCompleteBox.DataTemplates>
             <DataTemplate DataType="{x:Type models:Source}">
-              <DockPanel>
-                <TextBlock Text="{Binding Path=Name}" />
-                <TextBlock Text="{Binding Path=Description}" />
-              </DockPanel>
+              <Panel HorizontalAlignment="Stretch"
+                     Grid.IsSharedSizeScope="True">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="IdColumn" />
+                    <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+
+                  <TextBlock Text="{Binding Path=Id}"
+                             FontWeight="Bold"
+                             Margin="2"
+                             Grid.Column="0" />
+                  <TextBlock Text="{Binding Path=Name}"
+                             Margin="2"
+                             Grid.Column="1" />
+                </Grid>
+              </Panel>
             </DataTemplate>
           </AutoCompleteBox.DataTemplates>
         </AutoCompleteBox>
@@ -64,10 +77,23 @@
                   Grid.Column="1">
           <ComboBox.DataTemplates>
             <DataTemplate DataType="{x:Type models:Source}">
-              <DockPanel>
-                <TextBlock Text="{Binding Path=Name}" />
-                <TextBlock Text="{Binding Path=Description}" />
-              </DockPanel>
+              <Panel HorizontalAlignment="Stretch"
+                     Grid.IsSharedSizeScope="True">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="IdColumn" />
+                    <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+
+                  <TextBlock Text="{Binding Path=Id}"
+                             FontWeight="Bold"
+                             Margin="2"
+                             Grid.Column="0" />
+                  <TextBlock Text="{Binding Path=Name}"
+                             Margin="2"
+                             Grid.Column="1" />
+                </Grid>
+              </Panel>
             </DataTemplate>
           </ComboBox.DataTemplates>
         </ComboBox>
@@ -114,10 +140,23 @@
                          Grid.Column="1">
           <AutoCompleteBox.DataTemplates>
             <DataTemplate DataType="{x:Type models:Flow}">
-              <DockPanel>
-                <TextBlock Text="{Binding Path=Ref}" />
-                <TextBlock Text="{Binding Path=Label}" />
-              </DockPanel>
+              <Panel HorizontalAlignment="Stretch"
+                     Grid.IsSharedSizeScope="True">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="IdColumn" />
+                    <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+
+                  <TextBlock Text="{Binding Path=Ref}"
+                             FontWeight="Bold"
+                             Margin="2"
+                             Grid.Column="0" />
+                  <TextBlock Text="{Binding Path=Name}"
+                             Margin="2"
+                             Grid.Column="1" />
+                </Grid>
+              </Panel>
             </DataTemplate>
           </AutoCompleteBox.DataTemplates>
         </AutoCompleteBox>
@@ -129,10 +168,23 @@
                   Grid.Column="1">
           <ComboBox.DataTemplates>
             <DataTemplate DataType="{x:Type models:Flow}">
-              <DockPanel>
-                <TextBlock Text="{Binding Path=Ref}" />
-                <TextBlock Text="{Binding Path=Label}" />
-              </DockPanel>
+              <Panel HorizontalAlignment="Stretch"
+                     Grid.IsSharedSizeScope="True">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="IdColumn" />
+                    <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+
+                  <TextBlock Text="{Binding Path=Ref}"
+                             FontWeight="Bold"
+                             Margin="2"
+                             Grid.Column="0" />
+                  <TextBlock Text="{Binding Path=Name}"
+                             Margin="2"
+                             Grid.Column="1" />
+                </Grid>
+              </Panel>
             </DataTemplate>
           </ComboBox.DataTemplates>
         </ComboBox>

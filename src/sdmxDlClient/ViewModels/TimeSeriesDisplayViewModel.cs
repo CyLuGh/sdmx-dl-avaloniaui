@@ -17,7 +17,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
     public string Header => $"{SeriesKey.Series}";
 
     [Reactive] public string PeriodFormatter { get; set; } = "yyyy-MM";
-    public string ValueFormatter { [ObservableAsProperty] get; }
+    public string? ValueFormatter { [ObservableAsProperty] get; }
     [Reactive] public int DecimalCount { get; set; } = 2;
 
     public Seq<IDisplayData?> DisplaySeries { [ObservableAsProperty] get; }
@@ -51,7 +51,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
             .Select( c => $"N{c}" )
             .ToPropertyEx( this , x => x.ValueFormatter , initialValue: "N2" , scheduler: RxApp.MainThreadScheduler );
 
-        this.WhenAnyValue( x => x.PeriodFormatter , x => x.ValueFormatter )
+        this.WhenAnyValue( x => x.PeriodFormatter , x => x.ValueFormatter! )
             .InvokeCommand( BuildDisplaySeriesCommand );
     }
 

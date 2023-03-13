@@ -113,6 +113,11 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch"
                                    Grid.Column="2" />
+
+          <ui:InfoBar Name="InfoBar"
+                      Background="{DynamicResource ControlFillColorDefault}"
+                      VerticalAlignment="Bottom"
+                      Grid.ColumnSpan="3" />
         </Grid>
       </DockPanel>
     </SplitView>

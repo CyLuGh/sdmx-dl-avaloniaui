@@ -53,7 +53,7 @@ namespace sdmxDlClientUI.Views
 
                     viewModel.WhenAnyValue( x => x.ValueFormatter )
                         .ObserveOn( RxApp.TaskpoolScheduler )
-                        .Select( fmt => BuildYAxes( fmt ) )
+                        .Select( fmt => BuildYAxes( fmt! ) )
                         .ObserveOn( RxApp.MainThreadScheduler )
                         .Subscribe( axes => CartesianChart.YAxes = axes );
                 } )

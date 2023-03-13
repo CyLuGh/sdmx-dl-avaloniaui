@@ -30,8 +30,8 @@
     <PackageReference Include="FluentIcons.Avalonia" Version="1.1.195-preview" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-beta.700-11.0.0-preview5" />
     <PackageReference Include="Material.Avalonia" Version="3.0.0-avalonia11-preview3.147-nightly" />
-    <PackageReference Include="ReactiveUI" Version="18.4.25" />
-    <PackageReference Include="ReactiveUI.Fody" Version="18.4.25" />
+    <PackageReference Include="ReactiveUI" Version="18.4.26" />
+    <PackageReference Include="ReactiveUI.Fody" Version="18.4.26" />
     <PackageReference Include="ScottPlot.Avalonia" Version="5.0.2-beta" />
     <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.93">
       <PrivateAssets>all</PrivateAssets>

@@ -4,6 +4,7 @@ using ReactiveUI;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using ReactiveUI.Fody.Helpers;
+using sdmxDlClient.Models;
 
 namespace sdmxDlClient.ViewModels;
 
@@ -12,6 +13,7 @@ public sealed class MainViewModel : ReactiveObject, IActivatableViewModel, IDisp
     private readonly IClient _client;
     private readonly NavigationViewModel _navigationViewModel;
     private readonly CancellationTokenSource _cancellationTokenSource;
+    private readonly LogMessagesViewModel? _logMessagesViewModel;
 
     public ViewModelActivator Activator { get; }
 
@@ -20,11 +22,16 @@ public sealed class MainViewModel : ReactiveObject, IActivatableViewModel, IDisp
 
     private RxCommandUnit? StartServerCommand { get; set; }
 
-    public MainViewModel( IClient client , NavigationViewModel navigationViewModel )
+    [Reactive] public bool IsShowingMessage { get; set; }
+    public LogMessage LogMessage { [ObservableAsProperty] get; }
+
+    public MainViewModel( IClient client , NavigationViewModel navigationViewModel , ILoggerManager loggerManager )
     {
         _client = client;
         _navigationViewModel = navigationViewModel;
         _cancellationTokenSource = new CancellationTokenSource();
+        _logMessagesViewModel = loggerManager as LogMessagesViewModel;
+
         Activator = new();
 
         InitializeCommands();
@@ -63,6 +70,19 @@ public sealed class MainViewModel : ReactiveObject, IActivatableViewModel, IDisp
             StartServerCommand!.IsExecuting
                 .Throttle( serverDelay )
                 .ToPropertyEx( this , x => x.IsServerRunning , initialValue: false , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
+            _logMessagesViewModel?.MessagesCache
+                .Connect()
+                .Select( messages => messages.Last().Current )
+                .ToPropertyEx( this , x => x.LogMessage , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
+            this.WhenAnyValue( x => x.LogMessage )
+                .Where( lm => !string.IsNullOrEmpty( lm.Message ) )
+                .ObserveOn( RxApp.MainThreadScheduler )
+                .Do( _ => IsShowingMessage = true )
+                .Subscribe()
                 .DisposeWith( disposables );
         } );
     }

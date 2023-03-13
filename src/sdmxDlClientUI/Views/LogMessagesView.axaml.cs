@@ -1,10 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
-using FluentAvalonia.UI.Controls;
 using ReactiveUI;
 using sdmxDlClient.ViewModels;
 using System;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace sdmxDlClientUI.Views
@@ -16,10 +14,6 @@ namespace sdmxDlClientUI.Views
             InitializeComponent();
 
             this.WhenAnyValue( x => x.ViewModel )
-                .Do( _ =>
-                {
-                    Console.WriteLine();
-                } )
                 .WhereNotNull()
                 .Do( vm => PopulateFromViewModel( this , vm ) )
                 .Subscribe();
@@ -30,8 +24,6 @@ namespace sdmxDlClientUI.Views
             view.OneWayBind( viewModel ,
                 vm => vm.Messages ,
                 v => v.ListBoxMessage.Items );
-
-            var b = new InfoBadge();
         }
     }
 }

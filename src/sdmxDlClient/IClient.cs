@@ -17,6 +17,8 @@ public interface IClient
     /// </summary>
     Task<Seq<Flow>> GetFlows( Source? source );
 
+    Option<DataStructure> GetStructure( Source? source , Flow? flow );
+
     /// <summary>
     /// Get dimensions for a given flow in a source.
     /// </summary>

@@ -29,10 +29,13 @@ public class ClientFaker : IClient
                 .ToSeq()
             : Seq<Flow>.Empty );
 
+    public Option<DataStructure> GetStructure( Source? source , Flow? flow )
+        => Option<DataStructure>.None;
+
     public Seq<Dimension> GetDimensions( Source? source , Flow? flow )
         => source != null && flow != null
             ? Enumerable.Range( 1 , 5 )
-                .Select( i => new Dimension { Concept = $"Dim {i}" , Label = $"Dim {i} Source {source.Id} Flow {flow.Name}" , Position = i } )
+                .Select( i => new Dimension { Id = $"Dim {i}" , Name = $"Dim {i} Source {source.Id} Flow {flow.Name}" , Position = i , CodeList = new CodeList { Ref = "" } } )
                 .ToSeq()
             : Seq<Dimension>.Empty;
 
@@ -46,7 +49,7 @@ public class ClientFaker : IClient
         if ( source == null || flow == null || dimensions.IsEmpty )
             return Seq<SeriesKey>.Empty;
 
-        var count = dimensions.Count( x => x.Position.HasValue );
+        var count = dimensions.Length;
         var key = string.Join( "." , Enumerable.Range( 0 , count )
             .Select( _ => string.Empty ) );
 

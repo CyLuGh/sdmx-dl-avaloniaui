@@ -2,9 +2,8 @@
 
 public record Dimension
 {
-    public string Concept { get; init; } = string.Empty;
-    public string Label { get; init; } = string.Empty;
-    public string Type { get; init; } = string.Empty;
-    public bool Coded { get; init; }
-    public int? Position { get; init; }
+    public required string Id { get; init; } = string.Empty;
+    public required string Name { get; init; } = string.Empty;
+    public required CodeList CodeList { get; init; }
+    public required int Position { get; init; }
 }

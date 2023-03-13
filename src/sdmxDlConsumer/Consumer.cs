@@ -7,6 +7,7 @@ using Mapster;
 using Sdmxdl.Grpc;
 using sdmxDlClient;
 using sdmxDlClient.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace sdmxDlConsumer;
 
@@ -62,6 +63,25 @@ public class Consumer : IClient
             .Map( dest => dest.StructureRef , src => src.StructureRef )
             .Map( dest => dest.Name , src => src.Name )
             .Map( dest => dest.Description , src => src.HasDescription ? src.Description : string.Empty );
+
+        TypeAdapterConfig<Sdmxdl.Format.Protobuf.Codelist , CodeList>
+            .NewConfig()
+            .Map( dest => dest.Ref , src => src.Ref )
+            .Map( dest => dest.Codes , src => src.Codes );
+
+        TypeAdapterConfig<Sdmxdl.Format.Protobuf.Dimension , Dimension>
+            .NewConfig()
+            .Map( dest => dest.Id , src => src.Id )
+            .Map( dest => dest.Name , src => src.Name )
+            .Map( dest => dest.Position , src => src.Position )
+            .Map( dest => dest.CodeList , src => src.Codelist );
+
+        TypeAdapterConfig<Sdmxdl.Format.Protobuf.Attribute , sdmxDlClient.Models.Attribute>
+            .NewConfig()
+            .Map( dest => dest.Id , src => src.Id )
+            .Map( dest => dest.Name , src => src.Name )
+            .Map( dest => dest.Relationship , src => src.Relationship )
+            .Map( dest => dest.CodeList , src => src.Codelist );
     }
 
     public async Task StartServer( CancellationToken cancellationToken )
@@ -86,6 +106,15 @@ public class Consumer : IClient
     public Seq<Dimension> GetDimensions( Source? source , Flow? flow )
     {
         return Seq<Dimension>.Empty;
+    }
+
+    public Option<DataStructure> GetStructure( Source? source , Flow? flow )
+    {
+        if ( source == null || flow == null ) return Option<DataStructure>.None;
+
+        var structure = Client.GetStructure( new FlowRequest { Source = source.Id , Flow = flow.Ref } );
+        var test = structure.Adapt<DataStructure>();
+        return structure.Adapt<DataStructure>();
     }
 
     public async Task<Seq<Flow>> GetFlows( Source? source )

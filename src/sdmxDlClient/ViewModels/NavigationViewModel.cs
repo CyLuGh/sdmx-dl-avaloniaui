@@ -16,6 +16,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     public ReactiveCommand<RxUnit , Seq<Source>>? GetSourcesCommand { get; private set; }
     public ReactiveCommand<Source? , Seq<Flow>>? GetFlowsCommand { get; private set; }
     public ReactiveCommand<(Source?, Flow?) , Seq<Dimension>>? GetDimensionsCommand { get; private set; }
+    public ReactiveCommand<(Source?, Flow?) , Option<DataStructure>>? GetDataStructureCommand { get; private set; }
     public ReactiveCommand<Seq<Dimension> , Seq<DimensionViewModel>>? TransformDimensionsCommand { get; private set; }
     public ReactiveCommand<Seq<Dimension> , Seq<SeriesKey>>? GetKeysCommand { get; private set; }
     public ReactiveCommand<RxUnit , Option<(Source, Flow, SeriesKey)>>? ParseLookUpCommand { get; private set; }
@@ -113,7 +114,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
             this.WhenAnyValue( x => x.CurrentSource , x => x.CurrentFlow )
                 .Throttle( TimeSpan.FromMilliseconds( 500 ) )
                 .DistinctUntilChanged()
-                .InvokeCommand( GetDimensionsCommand )
+                .InvokeCommand( GetDataStructureCommand )
                 .DisposeWith( disposables );
 
             this.WhenAnyValue( x => x.RawDimensions )
@@ -157,6 +158,12 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
         GetSourcesCommand = ReactiveCommand.CreateFromTask( () => _client.GetSources() );
 
         GetFlowsCommand = ReactiveCommand.CreateFromTask( ( Source? src ) => _client.GetFlows( src ) );
+
+        GetDataStructureCommand = ReactiveCommand.CreateFromObservable( ( (Source?, Flow?) t ) => Observable.Start( () =>
+        {
+            var (source, flow) = t;
+            return _client.GetStructure( source , flow );
+        } ) );
 
         GetDimensionsCommand = ReactiveCommand.CreateFromObservable( ( (Source?, Flow?) t ) => Observable.Start( () =>
         {

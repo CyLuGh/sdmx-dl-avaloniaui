@@ -14,9 +14,9 @@ namespace sdmxDlClient.ViewModels
     {
         public Dimension Dimension { get; }
 
-        public string Label => Dimension.Label;
-        public string Concept => Dimension.Concept;
-        public int Position => Dimension.Position ?? 0;
+        public string Label => Dimension.Name;
+        public string Concept => Dimension.Id;
+        public int Position => Dimension.Position;
 
         [Reactive] public int DesiredPosition { get; set; }
 

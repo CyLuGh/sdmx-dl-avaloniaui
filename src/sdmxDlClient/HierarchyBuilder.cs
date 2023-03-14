@@ -24,12 +24,14 @@ public static class HierarchyBuilder
         var dim = dimensions[desiredPosition - 1];
         return dim
             .Codes
-            //.Where( o => keysOccurrences.Length == 0 || keysOccurrences[dim.Position - 1].Length == 0 || keysOccurrences[dim.Position - 1].Contains( o.Code ) )
-            //.OrderBy( o => o.Code )
+            .Where( o => keysOccurrences.Length == 0
+                || keysOccurrences[dim.Position - 1].Length == 0
+                || keysOccurrences[dim.Position - 1].Contains( o.Key ) )
             .Select( o =>
             {
                 var splits = key.Split( '.' );
-                splits[dim.Position - 1] = o.Key;
+                if ( dim.Position - 1 < splits.Length )
+                    splits[dim.Position - 1] = o.Key;
                 return new HierarchicalCodeLabelViewModel( dimensions , keysOccurrences , lazyLoad: desiredPosition != dimensions.Count )
                 {
                     Label = o.Value ,
@@ -37,6 +39,7 @@ public static class HierarchyBuilder
                     Position = desiredPosition
                 };
             } )
+            .OrderBy( o => o.Label )
             .ToSeq();
     }
 }

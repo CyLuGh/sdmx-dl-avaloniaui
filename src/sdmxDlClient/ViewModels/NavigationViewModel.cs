@@ -192,7 +192,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
         {
             var (dimensions, keysOccurrences) = t;
 
-            if ( dimensions.IsEmpty || keysOccurrences.IsEmpty )
+            if ( dimensions.IsEmpty /*|| keysOccurrences.IsEmpty*/ )
                 return Seq<HierarchicalCodeLabelViewModel>.Empty;
 
             return HierarchyBuilder.Build( dimensions , keysOccurrences );

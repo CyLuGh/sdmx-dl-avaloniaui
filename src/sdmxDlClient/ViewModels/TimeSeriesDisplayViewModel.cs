@@ -66,7 +66,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
                 constructorParameters: new[] { ("Period", typeof( string )) } ,
                 interfaces: new[] { typeof( IDisplayData ) } );
 
-            var data = DataSeries.Select( d => d.Obs.Select( x => (d.Key, Obs: x) ) )
+            return DataSeries.Select( d => d.Obs.Select( x => (d.Key, Obs: x) ) )
                 .Flatten()
                 .GroupBy( t => t.Obs.Period )
                 .Select( g =>
@@ -80,9 +80,8 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
 
                     return displayData;
                 } )
+                .OrderBy( x => x!.Period )
                 .ToSeq();
-
-            return data;
         } ) );
     }
 }

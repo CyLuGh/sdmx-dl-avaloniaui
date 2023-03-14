@@ -85,15 +85,27 @@ public class Consumer : IClient
 
         TypeAdapterConfig<Sdmxdl.Format.Protobuf.Series , Series>
             .NewConfig()
-            .Map( dest => dest.Obs , src => src.Obs.ToSeq() )
-            .Map( dest => dest.Key , src => src.Key )
-            .Map( dest => dest.Meta , src => src.Meta );
+            .MapWith( src => new Series
+            {
+                Key = src.Key ,
+                Meta = src.Meta ,
+                Obs = src.Obs.Select( o => o.Adapt<SeriesObs>() ).ToSeq().Strict()
+            } );
 
         TypeAdapterConfig<Sdmxdl.Format.Protobuf.Obs , SeriesObs>
             .NewConfig()
             .Map( dest => dest.Value , src => src.Value )
-            .Map( dest => dest.Period , src => DateTimeOffset.Parse( src.Period ) )
+            .Map( dest => dest.Period , src => DateTimeOffset.Parse( src.Period.Split( '/' , StringSplitOptions.TrimEntries )[0] ) )
             .Map( dest => dest.Meta , src => src.Meta );
+
+        TypeAdapterConfig<Sdmxdl.Format.Protobuf.DataSet , DataSet>
+            .NewConfig()
+            .MapWith( src => new DataSet
+            {
+                Ref = src.Ref ,
+                Query = src.Query.Adapt<DataQuery>() ,
+                Series = src.Data.Select( d => d.Adapt<Series>() ).ToSeq().Strict()
+            } );
     }
 
     public async Task StartServer( CancellationToken cancellationToken )
@@ -168,13 +180,13 @@ public class Consumer : IClient
         if ( source == null || flow == null || key == null )
             return Seq<Series>.Empty;
 
-        return GetData( source.Id , flow.Ref , key.Series );
+        return GetData( source.Id , flow.StructureRef , key.Series );
     }
 
     public Seq<Series> GetData( string sourceId , string flowRef , string key )
     {
-        var dataSet = Client.GetData( new KeyRequest { Source = sourceId , Flow = flowRef , Key = key } )
-            .Adapt<DataSet>();
+        var raw = Client.GetData( new KeyRequest { Source = sourceId , Flow = flowRef , Key = key } );
+        var dataSet = raw.Adapt<DataSet>();
 
         return dataSet.Series;
     }

@@ -19,18 +19,19 @@ public interface IClient
 
     Option<DataStructure> GetStructure( Source? source , Flow? flow );
 
-    /// <summary>
-    /// Get dimensions for a given flow in a source.
-    /// </summary>
-    Seq<Dimension> GetDimensions( Source? source , Flow? flow );
-
-    Seq<CodeLabel> GetCodes( Source source , Flow flow , Dimension dimension );
-
     Seq<SeriesKey> GetKeys( Source? source , Flow? flow , Seq<Dimension> dimensions );
 
     Seq<SeriesKey> GetKeys( Source? source , Flow? flow , string key );
 
-    Seq<DataSeries[]> GetData( Source source , Flow flow , SeriesKey key );
+    Task<Seq<Series>> GetDataStream( string fullPath );
 
-    Seq<DataSeries[]> GetData( string fullPath );
+    Task<Seq<Series>> GetDataStream( string sourceId , string flowRef , string key );
+
+    Task<Seq<Series>> GetDataStream( Source? source , Flow? flow , SeriesKey? key );
+
+    Seq<Series> GetData( string fullPath );
+
+    Seq<Series> GetData( string sourceId , string flowRef , string key );
+
+    Seq<Series> GetData( Source? source , Flow? flow , SeriesKey? key );
 }

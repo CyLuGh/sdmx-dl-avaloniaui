@@ -1,4 +1,5 @@
 ﻿using LanguageExt;
+using MoreLinq;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using sdmxDlClient.Models;
@@ -11,7 +12,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
     public Source Source { get; }
     public Flow Flow { get; }
     public SeriesKey SeriesKey { get; }
-    public Seq<DataSeries[]> DataSeries { get; }
+    public Seq<Series> DataSeries { get; }
     public HashMap<string , string> GeneratedFields { get; }
 
     public string Header => $"{SeriesKey.Series}";
@@ -25,7 +26,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
     private ReactiveCommand<(string, string) , Seq<IDisplayData?>>? BuildDisplaySeriesCommand { get; set; }
     public ReactiveCommand<TimeSeriesDisplayViewModel , RxUnit>? DisposeCommand { get; init; }
 
-    public TimeSeriesDisplayViewModel( Source source , Flow flow , SeriesKey seriesKey , Seq<DataSeries[]> dataSeries )
+    public TimeSeriesDisplayViewModel( Source source , Flow flow , SeriesKey seriesKey , Seq<Series> dataSeries )
     {
         Source = source;
         Flow = flow;
@@ -33,8 +34,7 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
         DataSeries = dataSeries;
 
         GeneratedFields = dataSeries
-            .Flatten()
-            .Select( ds => ds.Series )
+            .Select( ds => ds.Key )
             .Distinct()
             .OrderBy( s => s )
             .Select( ( s , i ) => (Name: s, Field: $"Field_{i}") )
@@ -66,15 +66,16 @@ public class TimeSeriesDisplayViewModel : ReactiveObject
                 constructorParameters: new[] { ("Period", typeof( string )) } ,
                 interfaces: new[] { typeof( IDisplayData ) } );
 
-            var data = DataSeries.Flatten()
-                .GroupBy( x => x.ObsPeriod )
+            var data = DataSeries.Select( d => d.Obs.Select( x => (d.Key, Obs: x) ) )
+                .Flatten()
+                .GroupBy( t => t.Obs.Period )
                 .Select( g =>
                 {
                     var displayData = (IDisplayData?) System.Activator.CreateInstance( generatedType , g.Key.ToString( periodFormatter ) );
 
-                    foreach ( var s in g )
+                    foreach ( var (key, obs) in g )
                     {
-                        generatedType.InvokeMember( GeneratedFields[s.Series] , System.Reflection.BindingFlags.SetProperty , null , displayData , new object[] { ( s.ObsValue ?? double.NaN ).ToString( valueFormatter ) } );
+                        generatedType.InvokeMember( GeneratedFields[key] , System.Reflection.BindingFlags.SetProperty , null , displayData , new object[] { obs.Value.ToString( valueFormatter ) } );
                     }
 
                     return displayData;

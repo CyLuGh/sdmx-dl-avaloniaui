@@ -16,6 +16,7 @@
     <lvc:CartesianChart Name="CartesianChart"
                         TooltipPosition="Top"
                         TooltipFindingStrategy="CompareOnlyX"
+                        LegendPosition="Bottom"
                         Grid.Row="0" />
 
     <DataGrid Name="DataGrid"

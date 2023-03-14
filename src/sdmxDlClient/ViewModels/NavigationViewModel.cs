@@ -15,7 +15,6 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
     public ReactiveCommand<RxUnit , Seq<Source>>? GetSourcesCommand { get; private set; }
     public ReactiveCommand<Source? , Seq<Flow>>? GetFlowsCommand { get; private set; }
-    public ReactiveCommand<(Source?, Flow?) , Seq<Dimension>>? GetDimensionsCommand { get; private set; }
     public ReactiveCommand<(Source?, Flow?) , Option<DataStructure>>? GetDataStructureCommand { get; private set; }
     public ReactiveCommand<Seq<Dimension> , Seq<DimensionViewModel>>? TransformDimensionsCommand { get; private set; }
     public ReactiveCommand<Seq<Dimension> , Seq<SeriesKey>>? GetKeysCommand { get; private set; }
@@ -74,10 +73,14 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
             GetFlowsCommand!.ToPropertyEx( this , x => x.Flows , scheduler: RxApp.MainThreadScheduler )
                 .DisposeWith( disposables );
 
-            GetDimensionsCommand!.InvokeCommand( TransformDimensionsCommand )
+            GetDataStructureCommand!
+                .Select( s => s.Match( ds => ds.Dimensions.ToSeq() , () => Seq<Dimension>.Empty ) )
+                .InvokeCommand( TransformDimensionsCommand )
                 .DisposeWith( disposables );
 
-            GetDimensionsCommand!.InvokeCommand( GetKeysCommand )
+            GetDataStructureCommand!
+                .Select( s => s.Match( ds => ds.Dimensions.ToSeq() , () => Seq<Dimension>.Empty ) )
+                .InvokeCommand( GetKeysCommand )
                 .DisposeWith( disposables );
 
             TransformDimensionsCommand!
@@ -165,25 +168,12 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
             return _client.GetStructure( source , flow );
         } ) );
 
-        GetDimensionsCommand = ReactiveCommand.CreateFromObservable( ( (Source?, Flow?) t ) => Observable.Start( () =>
-        {
-            var (source, flow) = t;
-            return _client.GetDimensions( source , flow );
-        } ) );
-
         TransformDimensionsCommand = ReactiveCommand.CreateFromObservable( ( Seq<Dimension> dimensions ) => Observable.Start( () =>
             dimensions
-                .Select( ( d , i ) => (d, i) )
-                .AsParallel()
-                .Select( t =>
+                .Select( d => new DimensionViewModel( d )
                 {
-                    var (d, idx) = t;
-                    var codes = _client.GetCodes( CurrentSource! , CurrentFlow! , d );
-                    return new DimensionViewModel( d )
-                    {
-                        DesiredPosition = idx + 1 ,
-                        Values = codes
-                    };
+                    DesiredPosition = d.Position ,
+                    Codes = d.CodeList.Codes
                 } )
                 .ToSeq() ) );
 

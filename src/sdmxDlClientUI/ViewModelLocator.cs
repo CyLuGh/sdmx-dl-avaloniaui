@@ -14,8 +14,8 @@ public static class ViewModelLocator
     {
         var container = Locator.CurrentMutable;
 
-        //container.RegisterLazySingleton( () => new ClientFaker() , typeof( IClient ) );
-        container.RegisterLazySingleton( () => new Consumer() , typeof( IClient ) );
+        container.RegisterLazySingleton( () => new ClientFaker() , typeof( IClient ) );
+        //container.RegisterLazySingleton( () => new Consumer() , typeof( IClient ) );
 
         container.Register( () => new HierarchicalCodeLabelView() , typeof( IViewFor<HierarchicalCodeLabelViewModel> ) );
         container.Register( () => new SeriesDisplayView() , typeof( IViewFor<SeriesDisplayViewModel> ) );

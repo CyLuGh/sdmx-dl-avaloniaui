@@ -82,6 +82,18 @@ public class Consumer : IClient
             .Map( dest => dest.Name , src => src.Name )
             .Map( dest => dest.Relationship , src => src.Relationship )
             .Map( dest => dest.CodeList , src => src.Codelist );
+
+        TypeAdapterConfig<Sdmxdl.Format.Protobuf.Series , Series>
+            .NewConfig()
+            .Map( dest => dest.Obs , src => src.Obs.ToSeq() )
+            .Map( dest => dest.Key , src => src.Key )
+            .Map( dest => dest.Meta , src => src.Meta );
+
+        TypeAdapterConfig<Sdmxdl.Format.Protobuf.Obs , SeriesObs>
+            .NewConfig()
+            .Map( dest => dest.Value , src => src.Value )
+            .Map( dest => dest.Period , src => DateTimeOffset.Parse( src.Period ) )
+            .Map( dest => dest.Meta , src => src.Meta );
     }
 
     public async Task StartServer( CancellationToken cancellationToken )
@@ -98,22 +110,11 @@ public class Consumer : IClient
             throw new SdmxDlServerException( $"SDMXDL server has encountered an exception:{System.Environment.NewLine}{cmd.StandardError}" );
     }
 
-    public Seq<CodeLabel> GetCodes( Source source , Flow flow , Dimension dimension )
-    {
-        return Seq<CodeLabel>.Empty;
-    }
-
-    public Seq<Dimension> GetDimensions( Source? source , Flow? flow )
-    {
-        return Seq<Dimension>.Empty;
-    }
-
     public Option<DataStructure> GetStructure( Source? source , Flow? flow )
     {
         if ( source == null || flow == null ) return Option<DataStructure>.None;
 
         var structure = Client.GetStructure( new FlowRequest { Source = source.Id , Flow = flow.Ref } );
-        var test = structure.Adapt<DataStructure>();
         return structure.Adapt<DataStructure>();
     }
 
@@ -128,7 +129,6 @@ public class Consumer : IClient
         {
             flows.Enqueue( response.ResponseStream.Current.Adapt<Flow>() );
         }
-
         return flows.ToSeq();
     }
 
@@ -151,15 +151,60 @@ public class Consumer : IClient
         {
             sources.Enqueue( response.ResponseStream.Current.Adapt<Source>() );
         }
-
         return sources.ToSeq();
     }
 
-    public Seq<DataSeries[]> GetData( Source source , Flow flow , SeriesKey key )
-        => GetData( $"{source.Id} {flow.Name} {key.Series}" );
-
-    public Seq<DataSeries[]> GetData( string fullPath )
+    public Seq<Series> GetData( string fullPath )
     {
-        return Seq<DataSeries[]>.Empty;
+        var elements = fullPath.Split( ' ' );
+        if ( elements.Length < 3 )
+            return Seq<Series>.Empty;
+
+        return GetData( elements[0] , elements[1] , elements[2] );
+    }
+
+    public Seq<Series> GetData( Source? source , Flow? flow , SeriesKey? key )
+    {
+        if ( source == null || flow == null || key == null )
+            return Seq<Series>.Empty;
+
+        return GetData( source.Id , flow.Ref , key.Series );
+    }
+
+    public Seq<Series> GetData( string sourceId , string flowRef , string key )
+    {
+        var dataSet = Client.GetData( new KeyRequest { Source = sourceId , Flow = flowRef , Key = key } )
+            .Adapt<DataSet>();
+
+        return dataSet.Series;
+    }
+
+    public Task<Seq<Series>> GetDataStream( string fullPath )
+    {
+        var elements = fullPath.Split( ' ' );
+        if ( elements.Length < 3 )
+            return Task.FromResult( Seq<Series>.Empty );
+
+        return GetDataStream( elements[0] , elements[1] , elements[2] );
+    }
+
+    public Task<Seq<Series>> GetDataStream( Source? source , Flow? flow , SeriesKey? key )
+    {
+        if ( source == null || flow == null || key == null )
+            return Task.FromResult( Seq<Series>.Empty );
+
+        return GetDataStream( source.Id , flow.Ref , key.Series );
+    }
+
+    public async Task<Seq<Series>> GetDataStream( string sourceId , string flowRef , string key )
+    {
+        var cancelSource = new CancellationTokenSource();
+        var series = new Queue<Series>();
+        var response = Client.GetDataStream( new KeyRequest { Source = sourceId , Flow = flowRef , Key = key } );
+        while ( await response.ResponseStream.MoveNext( cancelSource.Token ) )
+        {
+            series.Enqueue( response.ResponseStream.Current.Adapt<Series>() );
+        }
+        return series.ToSeq();
     }
 }

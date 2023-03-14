@@ -76,20 +76,19 @@ namespace sdmxDlClientUI.Views
             }
         }
 
-        private static Seq<LineSeries<ObservablePoint>> BuildSeries( Seq<DataSeries[]> series )
+        private static Seq<LineSeries<ObservablePoint>> BuildSeries( Seq<Series> series )
         {
-            return series.Flatten()
-                .GroupBy( s => s.Series )
-                .Select( g =>
+            return series
+                .Select( s =>
                 {
                     var ls = new LineSeries<ObservablePoint>
                     {
                         LineSmoothness = .2 ,
                         Fill = null ,
-                        Name = g.Key ,
-                        Values = g
-                            .OrderBy( x => x.ObsPeriod )
-                            .Select( x => new ObservablePoint( x.ObsPeriod.Ticks , x.ObsValue ) ) ,
+                        Name = s.Key ,
+                        Values = s.Obs
+                            .OrderBy( x => x.Period )
+                            .Select( x => new ObservablePoint( x.Period.Ticks , x.Value ) ) ,
                         TooltipLabelFormatter = ( chartPoint ) => $"{chartPoint.Context.Series}"
                     };
 

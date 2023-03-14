@@ -23,20 +23,20 @@ public static class HierarchyBuilder
 
         var dim = dimensions[desiredPosition - 1];
         return dim
-            .Values
-            .Where( o => keysOccurrences.Length == 0 || keysOccurrences[dim.Position - 1].Length == 0 || keysOccurrences[dim.Position - 1].Contains( o.Code ) )
-            .OrderBy( o => o.Code )
-                .Select( o =>
+            .Codes
+            //.Where( o => keysOccurrences.Length == 0 || keysOccurrences[dim.Position - 1].Length == 0 || keysOccurrences[dim.Position - 1].Contains( o.Code ) )
+            //.OrderBy( o => o.Code )
+            .Select( o =>
+            {
+                var splits = key.Split( '.' );
+                splits[dim.Position - 1] = o.Key;
+                return new HierarchicalCodeLabelViewModel( dimensions , keysOccurrences , lazyLoad: desiredPosition != dimensions.Count )
                 {
-                    var splits = key.Split( '.' );
-                    splits[dim.Position - 1] = o.Code;
-                    return new HierarchicalCodeLabelViewModel( dimensions , keysOccurrences , lazyLoad: desiredPosition != dimensions.Count )
-                    {
-                        Label = o.Label ,
-                        Code = string.Join( "." , splits ) ,
-                        Position = desiredPosition
-                    };
-                } )
+                    Label = o.Value ,
+                    Code = string.Join( "." , splits ) ,
+                    Position = desiredPosition
+                };
+            } )
             .ToSeq();
     }
 }

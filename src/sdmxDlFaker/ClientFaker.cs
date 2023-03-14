@@ -1,9 +1,7 @@
-﻿using DynamicData;
-using LanguageExt;
+﻿using LanguageExt;
 using MoreLinq;
 using sdmxDlClient;
 using sdmxDlClient.Models;
-using System.Linq;
 
 namespace sdmxDlFaker;
 
@@ -30,19 +28,35 @@ public class ClientFaker : IClient
             : Seq<Flow>.Empty );
 
     public Option<DataStructure> GetStructure( Source? source , Flow? flow )
-        => Option<DataStructure>.None;
+    {
+        if ( source == null || flow == null ) return Option<DataStructure>.None;
 
-    public Seq<Dimension> GetDimensions( Source? source , Flow? flow )
+        return new DataStructure
+        {
+            Name = flow.Name ,
+            Ref = flow.Ref ,
+            PrimaryMeasureId = "test" ,
+            Dimensions = GetDimensions( source , flow ).ToArray()
+        };
+    }
+
+    private Seq<Dimension> GetDimensions( Source? source , Flow? flow )
         => source != null && flow != null
             ? Enumerable.Range( 1 , 5 )
-                .Select( i => new Dimension { Id = $"Dim {i}" , Name = $"Dim {i} Source {source.Id} Flow {flow.Name}" , Position = i , CodeList = new CodeList { Ref = "" } } )
+                .Select( i => new Dimension
+                {
+                    Id = $"Dim {i}" ,
+                    Name = $"Dim {i} Source {source.Id} Flow {flow.Name}" ,
+                    Position = i ,
+                    CodeList = new CodeList { Ref = $"{i}" , Codes = GetCodes( source , flow , $"Dim {i}" ) }
+                } )
                 .ToSeq()
             : Seq<Dimension>.Empty;
 
-    public Seq<CodeLabel> GetCodes( Source source , Flow flow , Dimension dimension )
-        => Enumerable.Range( 0 , 5 )
-            .Select( i => new CodeLabel( $"{(char) ( 'A' + i )}" , $"{i} {source} {flow} {dimension}" ) )
-            .ToSeq();
+    private IDictionary<string , string> GetCodes( Source source , Flow flow , string dimension )
+         => Enumerable.Range( 0 , 5 )
+            .Select( i => ($"{(char) ( 'A' + i )}", $"{i} {source} {flow} {dimension}") )
+            .ToDictionary();
 
     public Seq<SeriesKey> GetKeys( Source? source , Flow? flow , Seq<Dimension> dimensions )
     {
@@ -73,24 +87,60 @@ public class ClientFaker : IClient
         return combinations.Select( t => new SeriesKey( t ) );
     }
 
-    public Seq<DataSeries[]> GetData( Source source , Flow flow , SeriesKey key )
-        => GetData( $"{source.Id} {flow.Name} {key.Series}" );
-
-    public Seq<DataSeries[]> GetData( string fullPath )
+    public Seq<Series> GetData( string fullPath )
     {
         if ( fullPath.Contains( "error" , StringComparison.OrdinalIgnoreCase ) )
             throw new ArgumentException( "Throw an error on purpose." );
 
-        if ( string.IsNullOrWhiteSpace( fullPath ) )
-            return Seq<DataSeries[]>.Empty;
+        var elements = fullPath.Split( ' ' );
+        if ( elements.Length < 3 )
+            return Seq<Series>.Empty;
 
-        return Enumerable.Range( 0 , Random.Shared.Next( 1 , 5 ) )
-            .Select( i => GenerateSeries( $"Test {i}" ) )
-            .ToSeq();
+        return GetData( elements[0] , elements[1] , elements[2] );
     }
 
-    private static DataSeries[] GenerateSeries( string name )
-        => Enumerable.Range( 0 , 60 )
-            .Select( i => new DataSeries( name , "" , new DateTime( 2015 , 1 , 1 ).AddMonths( i ) , Random.Shared.NextDouble() ) )
-        .ToArray();
+    public Seq<Series> GetData( string sourceId , string flowRef , string key )
+        => Enumerable.Range( 0 , Random.Shared.Next( 1 , 5 ) )
+            .Select( i => GenerateSeries( $"Test {i}" ) )
+            .ToSeq();
+
+    public Seq<Series> GetData( Source? source , Flow? flow , SeriesKey? key )
+    {
+        if ( source == null || flow == null || key == null )
+            return Seq<Series>.Empty;
+
+        return GetData( source.Id , flow.Ref , key.Series );
+    }
+
+    public Task<Seq<Series>> GetDataStream( string fullPath )
+    {
+        if ( fullPath.Contains( "error" , StringComparison.OrdinalIgnoreCase ) )
+            throw new ArgumentException( "Throw an error on purpose." );
+
+        var elements = fullPath.Split( ' ' );
+        if ( elements.Length < 3 )
+            return Task.FromResult( Seq<Series>.Empty );
+
+        return GetDataStream( elements[0] , elements[1] , elements[2] );
+    }
+
+    public Task<Seq<Series>> GetDataStream( string sourceId , string flowRef , string key )
+        => Task.FromResult( GetData( sourceId , flowRef , key ) );
+
+    public Task<Seq<Series>> GetDataStream( Source? source , Flow? flow , SeriesKey? key )
+    {
+        if ( source == null || flow == null || key == null )
+            return Task.FromResult( Seq<Series>.Empty );
+
+        return GetDataStream( source.Id , flow.Ref , key.Series );
+    }
+
+    private static Series GenerateSeries( string name )
+        => new Series
+        {
+            Key = name ,
+            Obs = Enumerable.Range( 0 , 60 )
+                .Select( i => new SeriesObs { Period = new DateTimeOffset( new DateTime( 2015 , 1 , 1 ) , TimeSpan.Zero ).AddMonths( i ) , Value = Random.Shared.NextDouble() } )
+                .ToSeq()
+        };
 }

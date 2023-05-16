@@ -13,7 +13,7 @@ namespace sdmxDlConsumer;
 
 public class Consumer : IClient
 {
-    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim( 1 );
+    private readonly SemaphoreSlim _semaphore = new( 1 );
     private SdmxWebManager.SdmxWebManagerClient? _client;
 
     private SdmxWebManager.SdmxWebManagerClient Client
@@ -114,7 +114,7 @@ public class Consumer : IClient
             .WithArguments( new[]
             {
                 "-jar",
-                @"lib\sdmx-dl-grpc-3.0.0-beta.10-bin.jar"
+                @$"{Path.GetDirectoryName( Environment.ProcessPath )}\lib\sdmx-dl-grpc-3.0.0-beta.10-bin.jar"
             } )
             .ExecuteBufferedAsync( cancellationToken );
 

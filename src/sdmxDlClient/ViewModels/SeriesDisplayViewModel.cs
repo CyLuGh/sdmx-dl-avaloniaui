@@ -37,6 +37,8 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
 
         InitializeCommands();
         OnActivated();
+
+        FetchDataCommand!.ThrownExceptions.Subscribe( exc => _loggerManager.Error( exc ) );
     }
 
     private void OnActivated()
@@ -63,8 +65,6 @@ public class SeriesDisplayViewModel : ReactiveObject, IActivatableViewModel
                 .Do( ts => SelectedTimeSeriesDisplay = ts )
                 .Subscribe()
                 .DisposeWith( disposables );
-
-            FetchDataCommand!.ThrownExceptions.Subscribe( exc => _loggerManager.Error( exc ) );
         } );
     }
 

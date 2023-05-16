@@ -37,18 +37,12 @@ public sealed class MainViewModel : ReactiveObject, IActivatableViewModel, IDisp
         InitializeCommands();
         OnActivated();
 
-        Activator.Deactivated.Subscribe( _ =>
-        {
-            _cancellationTokenSource.Cancel();
-        } );
+        Activator.Deactivated.Subscribe( _ => _cancellationTokenSource.Cancel() );
     }
 
     private void InitializeCommands()
     {
-        StartServerCommand = ReactiveCommand.CreateFromTask( async () =>
-        {
-            await _client.StartServer( _cancellationTokenSource.Token );
-        } );
+        StartServerCommand = ReactiveCommand.CreateFromTask( async () => await _client.StartServer( _cancellationTokenSource.Token ) );
 
         StartServerCommand.ThrownExceptions
             .Subscribe( ex => _logMessagesViewModel?.Error( ex ) );

@@ -13,16 +13,18 @@ public readonly struct LogMessage
     public string Message { get; }
     public string Title { get; }
     public DateTimeOffset TimeStamp { get; } = DateTimeOffset.Now;
-    internal Guid InternalId { get; } = Guid.NewGuid();
+    internal Guid InternalId { get; }
 
     public LogMessage( string message )
     {
+        InternalId = Guid.NewGuid();
         Message = message;
         Title = string.Empty;
     }
 
     public LogMessage( MessageKind kind , string message )
     {
+        InternalId = Guid.NewGuid();
         Kind = kind;
         Message = message;
         Title = string.Empty;

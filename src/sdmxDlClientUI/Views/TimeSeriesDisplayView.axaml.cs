@@ -22,7 +22,7 @@ namespace sdmxDlClientUI.Views
         {
             InitializeComponent();
 
-            ComboBoxDateFormat.Items = new[] { "yyyy" , "yyyy-MM" , "yyyy-MM-dd" };
+            ComboBoxDateFormat.ItemsSource = new[] { "yyyy" , "yyyy-MM" , "yyyy-MM-dd" };
 
             this.WhenAnyValue( x => x.ViewModel )
                 .WhereNotNull()
@@ -38,7 +38,7 @@ namespace sdmxDlClientUI.Views
                         vm => vm.PeriodFormatter ,
                         v => v.ComboBoxDateFormat.SelectedItem );
 
-                    this.OneWayBind( viewModel , vm => vm.DisplaySeries , v => v.DataGrid.Items );
+                    this.OneWayBind( viewModel , vm => vm.DisplaySeries , v => v.DataGrid.ItemsSource );
                     BuildGridColumns( viewModel );
 
                     Observable.Start( () => BuildSeries( viewModel.DataSeries ) )

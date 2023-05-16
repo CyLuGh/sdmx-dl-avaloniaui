@@ -12,7 +12,7 @@ public class LogMessagesViewModel : ReactiveObject, ILoggerManager
 {
     internal SourceCache<LogMessage , Guid> MessagesCache { get; } = new( x => x.InternalId );
 
-    private readonly ReadOnlyObservableCollection<LogMessage>? _messages;
+    private ReadOnlyObservableCollection<LogMessage>? _messages;
     public ReadOnlyObservableCollection<LogMessage>? Messages => _messages;
 
     public LogMessagesViewModel()
@@ -31,9 +31,19 @@ public class LogMessagesViewModel : ReactiveObject, ILoggerManager
         MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Info , message ) );
     }
 
+    public void Info( string title , string message )
+    {
+        MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Info , message , title ) );
+    }
+
     public void Warn( string message )
     {
         MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Warn , message ) );
+    }
+
+    public void Warn( string title , string message )
+    {
+        MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Warn , message , title ) );
     }
 
     public void Error( string message )
@@ -41,8 +51,18 @@ public class LogMessagesViewModel : ReactiveObject, ILoggerManager
         MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Error , message ) );
     }
 
+    public void Error( string title , string message )
+    {
+        MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Error , message , title ) );
+    }
+
     public void Error( Exception exception )
     {
         MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Error , exception.Message ) );
+    }
+
+    public void Error( string title , Exception exception )
+    {
+        MessagesCache.AddOrUpdate( new LogMessage( MessageKind.Error , exception.Message , title ) );
     }
 }

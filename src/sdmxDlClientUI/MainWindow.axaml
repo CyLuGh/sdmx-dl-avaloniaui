@@ -27,10 +27,10 @@
                PanePlacement="Right"
                DisplayMode="Overlay">
       <SplitView.Pane>
-        <Grid>
+        <Grid Width="500">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
 

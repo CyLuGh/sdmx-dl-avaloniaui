@@ -11,7 +11,10 @@ namespace sdmxDlClient.ViewModels;
 public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 {
     private readonly IClient _client;
+    private readonly ILoggerManager _loggerManager;
     private readonly SeriesDisplayViewModel _seriesDisplayViewModel;
+
+    private readonly IObservable<int>? _positionChangedObservable;
 
     public ReactiveCommand<RxUnit , Seq<Source>>? GetSourcesCommand { get; private set; }
     public ReactiveCommand<Source? , Seq<Flow>>? GetFlowsCommand { get; private set; }
@@ -44,14 +47,17 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
     public Seq<LanguageExt.HashSet<string>> KeysOccurrences { [ObservableAsProperty] get; }
     public Seq<HierarchicalCodeLabelViewModel> Hierarchy { [ObservableAsProperty] get; }
 
-    private readonly IObservable<int>? _positionChangedObservable;
+    public bool IsRetrievingSources { [ObservableAsProperty] get; }
+    public bool IsRetrievingFlows { [ObservableAsProperty] get; }
+    public bool IsRetrievingDataStructure { [ObservableAsProperty] get; }
 
     public ViewModelActivator Activator { get; }
 
-    public NavigationViewModel( IClient client , SeriesDisplayViewModel seriesDisplayViewModel )
+    public NavigationViewModel( IClient client , ILoggerManager loggerManager , SeriesDisplayViewModel seriesDisplayViewModel )
     {
         _client = client;
         _seriesDisplayViewModel = seriesDisplayViewModel;
+        _loggerManager = loggerManager;
         Activator = new();
 
         RawDimensions = Seq<DimensionViewModel>.Empty;
@@ -61,16 +67,50 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
 
         InitializeCommands();
         OnActivated();
+
+        Observable.Merge(
+                GetSourcesCommand!.ThrownExceptions.Select( ex => ("Couldn't retrieve sources", ex) ) ,
+                GetFlowsCommand!.ThrownExceptions.Select( ex => ("Couldn't retrieve flows", ex) ) ,
+                GetDataStructureCommand!.ThrownExceptions.Select( ex => ("Couldn't retrieve data structure", ex) )
+                ).Subscribe( t =>
+                {
+                    var (title, ex) = t;
+                    _loggerManager.Error( title , ex );
+                } );
     }
 
     private void OnActivated()
     {
         this.WhenActivated( disposables =>
         {
+            GetSourcesCommand!.IsExecuting
+                .ToPropertyEx( this , x => x.IsRetrievingSources , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
+            GetFlowsCommand!.IsExecuting
+                .ToPropertyEx( this , x => x.IsRetrievingFlows , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
+            GetDataStructureCommand!.IsExecuting
+                .CombineLatest( TransformDimensionsCommand!.IsExecuting ,
+                    BuildHierarchyCommand!.IsExecuting ,
+                    GetKeysCommand!.IsExecuting )
+                .Select( t => new[] { t.First , t.Second , t.Third , t.Fourth }.Any( x => x ) )
+                .Throttle( TimeSpan.FromMilliseconds( 10 ) )
+                .DistinctUntilChanged()
+                .Do( x =>
+                {
+                    System.Diagnostics.Debug.WriteLine( "IsRetrievingDataStructure: {0}" , x );
+                } )
+                .ToProperty( this , x => x.IsRetrievingDataStructure , scheduler: RxApp.MainThreadScheduler )
+                .DisposeWith( disposables );
+
             GetSourcesCommand!.ToPropertyEx( this , x => x.Sources , scheduler: RxApp.MainThreadScheduler )
                 .DisposeWith( disposables );
 
-            GetFlowsCommand!.ToPropertyEx( this , x => x.Flows , scheduler: RxApp.MainThreadScheduler )
+            GetFlowsCommand!
+                .Merge( this.WhenAnyValue( x => x.CurrentSource ).Select( _ => Seq<Flow>.Empty ) )
+                .ToPropertyEx( this , x => x.Flows , scheduler: RxApp.MainThreadScheduler )
                 .DisposeWith( disposables );
 
             GetDataStructureCommand!
@@ -115,7 +155,7 @@ public class NavigationViewModel : ReactiveObject, IActivatableViewModel
                 .DisposeWith( disposables );
 
             this.WhenAnyValue( x => x.CurrentSource , x => x.CurrentFlow )
-                .Throttle( TimeSpan.FromMilliseconds( 500 ) )
+                .Throttle( TimeSpan.FromMilliseconds( 100 ) )
                 .DistinctUntilChanged()
                 .InvokeCommand( GetDataStructureCommand )
                 .DisposeWith( disposables );

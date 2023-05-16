@@ -28,7 +28,7 @@ namespace sdmxDlClientUI.Views
         {
             view.OneWayBind( viewModel ,
                 vm => vm.TimeSeries ,
-                v => v.TabControlTimeSeries.Items )
+                v => v.TabControlTimeSeries.ItemsSource )
                 .DisposeWith( disposables );
 
             view.Bind( viewModel ,

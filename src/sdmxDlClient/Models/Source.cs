@@ -19,7 +19,7 @@ public record Source
     {
         get
         {
-            var language = CultureInfo.CurrentCulture.Name.Substring( 0 , 2 );
+            var language = CultureInfo.CurrentCulture.Name[..2];
 
             if ( Names.TryGetValue( language , out var languageName ) )
                 return languageName;

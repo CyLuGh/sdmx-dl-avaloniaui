@@ -23,7 +23,7 @@ namespace sdmxDlClientUI.Views
         {
             view.OneWayBind( viewModel ,
                 vm => vm.Messages ,
-                v => v.ListBoxMessage.Items );
+                v => v.ListBoxMessage.ItemsSource );
         }
     }
 }

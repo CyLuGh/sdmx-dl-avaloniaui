@@ -40,7 +40,7 @@ public class ClientFaker : IClient
         };
     }
 
-    private Seq<Dimension> GetDimensions( Source? source , Flow? flow )
+    private static Seq<Dimension> GetDimensions( Source? source , Flow? flow )
         => source != null && flow != null
             ? Enumerable.Range( 1 , 5 )
                 .Select( i => new Dimension
@@ -53,7 +53,7 @@ public class ClientFaker : IClient
                 .ToSeq()
             : Seq<Dimension>.Empty;
 
-    private IDictionary<string , string> GetCodes( Source source , Flow flow , string dimension )
+    private static IDictionary<string , string> GetCodes( Source source , Flow flow , string dimension )
          => Enumerable.Range( 0 , 5 )
             .Select( i => ($"{(char) ( 'A' + i )}", $"{i} {source} {flow} {dimension}") )
             .ToDictionary();
@@ -136,7 +136,7 @@ public class ClientFaker : IClient
     }
 
     private static Series GenerateSeries( string name )
-        => new Series
+        => new()
         {
             Key = name ,
             Obs = Enumerable.Range( 0 , 60 )

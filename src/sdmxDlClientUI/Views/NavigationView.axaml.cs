@@ -54,13 +54,33 @@ namespace sdmxDlClientUI.Views
                 .Select( _ => Unit.Default )
                 .InvokeCommand( viewModel , x => x.ParseLookUpCommand )
                 .DisposeWith( disposables );
+
+            PopulateBusyIndicators( navigationView , viewModel , disposables );
+        }
+
+        private static void PopulateBusyIndicators( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )
+        {
+            navigationView.Bind( viewModel ,
+                vm => vm.IsRetrievingSources ,
+                v => v.BorderLoadingSources.IsVisible )
+                .DisposeWith( disposables );
+
+            navigationView.Bind( viewModel ,
+                vm => vm.IsRetrievingFlows ,
+                v => v.BorderLoadingFlows.IsVisible )
+                .DisposeWith( disposables );
+
+            navigationView.Bind( viewModel ,
+                vm => vm.IsRetrievingDataStructure ,
+                v => v.BorderLoadingDataStructures.IsVisible )
+                .DisposeWith( disposables );
         }
 
         private static void PopulateDimensions( NavigationView navigationView , NavigationViewModel viewModel , CompositeDisposable disposables )
         {
             navigationView.OneWayBind( viewModel ,
                 vm => vm.Hierarchy ,
-                v => v.TreeViewHierarchy.Items )
+                v => v.TreeViewHierarchy.ItemsSource )
                 .DisposeWith( disposables );
 
             navigationView.Bind( viewModel ,
@@ -70,7 +90,7 @@ namespace sdmxDlClientUI.Views
 
             navigationView.OneWayBind( viewModel ,
                 vm => vm.Dimensions ,
-                v => v.ListBoxDimensions.Items )
+                v => v.ListBoxDimensions.ItemsSource )
                 .DisposeWith( disposables );
 
             navigationView.Bind( viewModel ,
@@ -111,7 +131,7 @@ namespace sdmxDlClientUI.Views
 
             navigationView.OneWayBind( viewModel ,
                     vm => vm.Flows ,
-                    v => v.ComboBoxFlow.Items )
+                    v => v.ComboBoxFlow.ItemsSource )
                     .DisposeWith( disposables );
 
             navigationView.Bind( viewModel ,
@@ -149,7 +169,7 @@ namespace sdmxDlClientUI.Views
 
             navigationView.OneWayBind( viewModel ,
                 vm => vm.Sources ,
-                v => v.ComboBoxSource.Items )
+                v => v.ComboBoxSource.ItemsSource )
                 .DisposeWith( disposables );
 
             navigationView.Bind( viewModel ,

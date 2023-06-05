@@ -46,7 +46,7 @@ namespace Sdmxdl.Grpc {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Google.Protobuf.WellKnownTypes.Empty> __Marshaller_google_protobuf_Empty = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Protobuf.WellKnownTypes.Empty.Parser));
+    static readonly grpc::Marshaller<global::Sdmxdl.Grpc.Empty> __Marshaller_sdmxdl_grpc_Empty = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Sdmxdl.Grpc.Empty.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource> __Marshaller_sdmxdl_format_protobuf_web_SdmxWebSource = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -67,11 +67,11 @@ namespace Sdmxdl.Grpc {
     static readonly grpc::Marshaller<global::Sdmxdl.Format.Protobuf.Series> __Marshaller_sdmxdl_format_protobuf_Series = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Sdmxdl.Format.Protobuf.Series.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource> __Method_GetSources = new grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource>(
+    static readonly grpc::Method<global::Sdmxdl.Grpc.Empty, global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource> __Method_GetSources = new grpc::Method<global::Sdmxdl.Grpc.Empty, global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource>(
         grpc::MethodType.ServerStreaming,
         __ServiceName,
         "GetSources",
-        __Marshaller_google_protobuf_Empty,
+        __Marshaller_sdmxdl_grpc_Empty,
         __Marshaller_sdmxdl_format_protobuf_web_SdmxWebSource);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -156,12 +156,12 @@ namespace Sdmxdl.Grpc {
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource> GetSources(global::Google.Protobuf.WellKnownTypes.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncServerStreamingCall<global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource> GetSources(global::Sdmxdl.Grpc.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetSources(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource> GetSources(global::Google.Protobuf.WellKnownTypes.Empty request, grpc::CallOptions options)
+      public virtual grpc::AsyncServerStreamingCall<global::Sdmxdl.Format.Protobuf.Web.SdmxWebSource> GetSources(global::Sdmxdl.Grpc.Empty request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_GetSources, null, options, request);
       }

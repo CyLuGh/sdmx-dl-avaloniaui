@@ -25,20 +25,18 @@ namespace Sdmxdl.Format.Protobuf.Web {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiRzZG14ZGwvZm9ybWF0L3Byb3RvYnVmL21vbml0b3IucHJvdG8SGnNkbXhk",
-            "bC5mb3JtYXQucHJvdG9idWYud2ViGh9nb29nbGUvcHJvdG9idWYvdGltZXN0",
-            "YW1wLnByb3RvIr4BCg1Nb25pdG9yUmVwb3J0Eg4KBnNvdXJjZRgBIAEoCRI5",
-            "CgZzdGF0dXMYAiABKA4yKS5zZG14ZGwuZm9ybWF0LnByb3RvYnVmLndlYi5N",
-            "b25pdG9yU3RhdHVzEhgKC3VwdGltZVJhdGlvGAMgASgBSACIAQESIAoTYXZl",
-            "cmFnZVJlc3BvbnNlVGltZRgEIAEoA0gBiAEBQg4KDF91cHRpbWVSYXRpb0IW",
-            "ChRfYXZlcmFnZVJlc3BvbnNlVGltZSLFAQoOTW9uaXRvclJlcG9ydHMSEQoJ",
-            "dXJpU2NoZW1lGAEgASgJEjoKB3JlcG9ydHMYAiADKAsyKS5zZG14ZGwuZm9y",
-            "bWF0LnByb3RvYnVmLndlYi5Nb25pdG9yUmVwb3J0EjAKDGNyZWF0aW9uVGlt",
-            "ZRgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASMgoOZXhwaXJh",
-            "dGlvblRpbWUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wKi4K",
-            "DU1vbml0b3JTdGF0dXMSCwoHVU5LTk9XThAAEgYKAlVQEAESCAoERE9XThAC",
-            "QgJQAWIGcHJvdG8z"));
+            "bC5mb3JtYXQucHJvdG9idWYud2ViIsQBCg1Nb25pdG9yUmVwb3J0Eg4KBnNv",
+            "dXJjZRgBIAEoCRI5CgZzdGF0dXMYAiABKA4yKS5zZG14ZGwuZm9ybWF0LnBy",
+            "b3RvYnVmLndlYi5Nb25pdG9yU3RhdHVzEhkKDHVwdGltZV9yYXRpbxgDIAEo",
+            "AUgAiAEBEiIKFWF2ZXJhZ2VfcmVzcG9uc2VfdGltZRgEIAEoA0gBiAEBQg8K",
+            "DV91cHRpbWVfcmF0aW9CGAoWX2F2ZXJhZ2VfcmVzcG9uc2VfdGltZSKQAQoO",
+            "TW9uaXRvclJlcG9ydHMSEgoKdXJpX3NjaGVtZRgBIAEoCRI6CgdyZXBvcnRz",
+            "GAIgAygLMikuc2RteGRsLmZvcm1hdC5wcm90b2J1Zi53ZWIuTW9uaXRvclJl",
+            "cG9ydBIVCg1jcmVhdGlvbl90aW1lGAMgASgJEhcKD2V4cGlyYXRpb25fdGlt",
+            "ZRgEIAEoCSouCg1Nb25pdG9yU3RhdHVzEgsKB1VOS05PV04QABIGCgJVUBAB",
+            "EggKBERPV04QAkICUAFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Sdmxdl.Format.Protobuf.Web.MonitorStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Sdmxdl.Format.Protobuf.Web.MonitorReport), global::Sdmxdl.Format.Protobuf.Web.MonitorReport.Parser, new[]{ "Source", "Status", "UptimeRatio", "AverageResponseTime" }, new[]{ "UptimeRatio", "AverageResponseTime" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sdmxdl.Format.Protobuf.Web.MonitorReports), global::Sdmxdl.Format.Protobuf.Web.MonitorReports.Parser, new[]{ "UriScheme", "Reports", "CreationTime", "ExpirationTime" }, null, null, null, null)
@@ -130,7 +128,7 @@ namespace Sdmxdl.Format.Protobuf.Web {
       }
     }
 
-    /// <summary>Field number for the "uptimeRatio" field.</summary>
+    /// <summary>Field number for the "uptime_ratio" field.</summary>
     public const int UptimeRatioFieldNumber = 3;
     private double uptimeRatio_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -142,20 +140,20 @@ namespace Sdmxdl.Format.Protobuf.Web {
         uptimeRatio_ = value;
       }
     }
-    /// <summary>Gets whether the "uptimeRatio" field is set</summary>
+    /// <summary>Gets whether the "uptime_ratio" field is set</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasUptimeRatio {
       get { return (_hasBits0 & 1) != 0; }
     }
-    /// <summary>Clears the value of the "uptimeRatio" field</summary>
+    /// <summary>Clears the value of the "uptime_ratio" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearUptimeRatio() {
       _hasBits0 &= ~1;
     }
 
-    /// <summary>Field number for the "averageResponseTime" field.</summary>
+    /// <summary>Field number for the "average_response_time" field.</summary>
     public const int AverageResponseTimeFieldNumber = 4;
     private long averageResponseTime_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -167,13 +165,13 @@ namespace Sdmxdl.Format.Protobuf.Web {
         averageResponseTime_ = value;
       }
     }
-    /// <summary>Gets whether the "averageResponseTime" field is set</summary>
+    /// <summary>Gets whether the "average_response_time" field is set</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasAverageResponseTime {
       get { return (_hasBits0 & 2) != 0; }
     }
-    /// <summary>Clears the value of the "averageResponseTime" field</summary>
+    /// <summary>Clears the value of the "average_response_time" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearAverageResponseTime() {
@@ -421,8 +419,8 @@ namespace Sdmxdl.Format.Protobuf.Web {
     public MonitorReports(MonitorReports other) : this() {
       uriScheme_ = other.uriScheme_;
       reports_ = other.reports_.Clone();
-      creationTime_ = other.creationTime_ != null ? other.creationTime_.Clone() : null;
-      expirationTime_ = other.expirationTime_ != null ? other.expirationTime_.Clone() : null;
+      creationTime_ = other.creationTime_;
+      expirationTime_ = other.expirationTime_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -432,7 +430,7 @@ namespace Sdmxdl.Format.Protobuf.Web {
       return new MonitorReports(this);
     }
 
-    /// <summary>Field number for the "uriScheme" field.</summary>
+    /// <summary>Field number for the "uri_scheme" field.</summary>
     public const int UriSchemeFieldNumber = 1;
     private string uriScheme_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -455,27 +453,27 @@ namespace Sdmxdl.Format.Protobuf.Web {
       get { return reports_; }
     }
 
-    /// <summary>Field number for the "creationTime" field.</summary>
+    /// <summary>Field number for the "creation_time" field.</summary>
     public const int CreationTimeFieldNumber = 3;
-    private global::Google.Protobuf.WellKnownTypes.Timestamp creationTime_;
+    private string creationTime_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Google.Protobuf.WellKnownTypes.Timestamp CreationTime {
+    public string CreationTime {
       get { return creationTime_; }
       set {
-        creationTime_ = value;
+        creationTime_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "expirationTime" field.</summary>
+    /// <summary>Field number for the "expiration_time" field.</summary>
     public const int ExpirationTimeFieldNumber = 4;
-    private global::Google.Protobuf.WellKnownTypes.Timestamp expirationTime_;
+    private string expirationTime_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Google.Protobuf.WellKnownTypes.Timestamp ExpirationTime {
+    public string ExpirationTime {
       get { return expirationTime_; }
       set {
-        expirationTime_ = value;
+        expirationTime_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -496,8 +494,8 @@ namespace Sdmxdl.Format.Protobuf.Web {
       }
       if (UriScheme != other.UriScheme) return false;
       if(!reports_.Equals(other.reports_)) return false;
-      if (!object.Equals(CreationTime, other.CreationTime)) return false;
-      if (!object.Equals(ExpirationTime, other.ExpirationTime)) return false;
+      if (CreationTime != other.CreationTime) return false;
+      if (ExpirationTime != other.ExpirationTime) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -507,8 +505,8 @@ namespace Sdmxdl.Format.Protobuf.Web {
       int hash = 1;
       if (UriScheme.Length != 0) hash ^= UriScheme.GetHashCode();
       hash ^= reports_.GetHashCode();
-      if (creationTime_ != null) hash ^= CreationTime.GetHashCode();
-      if (expirationTime_ != null) hash ^= ExpirationTime.GetHashCode();
+      if (CreationTime.Length != 0) hash ^= CreationTime.GetHashCode();
+      if (ExpirationTime.Length != 0) hash ^= ExpirationTime.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -532,13 +530,13 @@ namespace Sdmxdl.Format.Protobuf.Web {
         output.WriteString(UriScheme);
       }
       reports_.WriteTo(output, _repeated_reports_codec);
-      if (creationTime_ != null) {
+      if (CreationTime.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteMessage(CreationTime);
+        output.WriteString(CreationTime);
       }
-      if (expirationTime_ != null) {
+      if (ExpirationTime.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteMessage(ExpirationTime);
+        output.WriteString(ExpirationTime);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -555,13 +553,13 @@ namespace Sdmxdl.Format.Protobuf.Web {
         output.WriteString(UriScheme);
       }
       reports_.WriteTo(ref output, _repeated_reports_codec);
-      if (creationTime_ != null) {
+      if (CreationTime.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteMessage(CreationTime);
+        output.WriteString(CreationTime);
       }
-      if (expirationTime_ != null) {
+      if (ExpirationTime.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteMessage(ExpirationTime);
+        output.WriteString(ExpirationTime);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -577,11 +575,11 @@ namespace Sdmxdl.Format.Protobuf.Web {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(UriScheme);
       }
       size += reports_.CalculateSize(_repeated_reports_codec);
-      if (creationTime_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CreationTime);
+      if (CreationTime.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CreationTime);
       }
-      if (expirationTime_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpirationTime);
+      if (ExpirationTime.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ExpirationTime);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -599,17 +597,11 @@ namespace Sdmxdl.Format.Protobuf.Web {
         UriScheme = other.UriScheme;
       }
       reports_.Add(other.reports_);
-      if (other.creationTime_ != null) {
-        if (creationTime_ == null) {
-          CreationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-        }
-        CreationTime.MergeFrom(other.CreationTime);
+      if (other.CreationTime.Length != 0) {
+        CreationTime = other.CreationTime;
       }
-      if (other.expirationTime_ != null) {
-        if (expirationTime_ == null) {
-          ExpirationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-        }
-        ExpirationTime.MergeFrom(other.ExpirationTime);
+      if (other.ExpirationTime.Length != 0) {
+        ExpirationTime = other.ExpirationTime;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -635,17 +627,11 @@ namespace Sdmxdl.Format.Protobuf.Web {
             break;
           }
           case 26: {
-            if (creationTime_ == null) {
-              CreationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(CreationTime);
+            CreationTime = input.ReadString();
             break;
           }
           case 34: {
-            if (expirationTime_ == null) {
-              ExpirationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(ExpirationTime);
+            ExpirationTime = input.ReadString();
             break;
           }
         }
@@ -672,17 +658,11 @@ namespace Sdmxdl.Format.Protobuf.Web {
             break;
           }
           case 26: {
-            if (creationTime_ == null) {
-              CreationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(CreationTime);
+            CreationTime = input.ReadString();
             break;
           }
           case 34: {
-            if (expirationTime_ == null) {
-              ExpirationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(ExpirationTime);
+            ExpirationTime = input.ReadString();
             break;
           }
         }

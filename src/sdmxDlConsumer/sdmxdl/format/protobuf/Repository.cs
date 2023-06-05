@@ -25,49 +25,48 @@ namespace Sdmxdl.Format.Protobuf {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CidzZG14ZGwvZm9ybWF0L3Byb3RvYnVmL3JlcG9zaXRvcnkucHJvdG8SFnNk",
-            "bXhkbC5mb3JtYXQucHJvdG9idWYaH2dvb2dsZS9wcm90b2J1Zi90aW1lc3Rh",
-            "bXAucHJvdG8isAEKCUF0dHJpYnV0ZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIg",
-            "ASgJEjcKCGNvZGVsaXN0GAMgASgLMiAuc2RteGRsLmZvcm1hdC5wcm90b2J1",
-            "Zi5Db2RlbGlzdEgAiAEBEkMKDHJlbGF0aW9uc2hpcBgEIAEoDjItLnNkbXhk",
-            "bC5mb3JtYXQucHJvdG9idWYuQXR0cmlidXRlUmVsYXRpb25zaGlwQgsKCV9j",
-            "b2RlbGlzdCKBAQoIQ29kZWxpc3QSCwoDcmVmGAEgASgJEjoKBWNvZGVzGAIg",
-            "AygLMisuc2RteGRsLmZvcm1hdC5wcm90b2J1Zi5Db2RlbGlzdC5Db2Rlc0Vu",
-            "dHJ5GiwKCkNvZGVzRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJ",
-            "OgI4ASJlCghEYXRhZmxvdxILCgNyZWYYASABKAkSFAoMc3RydWN0dXJlUmVm",
-            "GAIgASgJEgwKBG5hbWUYAyABKAkSGAoLZGVzY3JpcHRpb24YBCABKAlIAIgB",
-            "AUIOCgxfZGVzY3JpcHRpb24iTAoJRGF0YVF1ZXJ5EgsKA2tleRgBIAEoCRIy",
-            "CgZkZXRhaWwYAiABKA4yIi5zZG14ZGwuZm9ybWF0LnByb3RvYnVmLkRhdGFE",
-            "ZXRhaWwiowIKDkRhdGFSZXBvc2l0b3J5EgwKBG5hbWUYASABKAkSOQoKc3Ry",
-            "dWN0dXJlcxgCIAMoCzIlLnNkbXhkbC5mb3JtYXQucHJvdG9idWYuRGF0YVN0",
-            "cnVjdHVyZRIvCgVmbG93cxgDIAMoCzIgLnNkbXhkbC5mb3JtYXQucHJvdG9i",
-            "dWYuRGF0YWZsb3cSMQoIZGF0YVNldHMYBCADKAsyHy5zZG14ZGwuZm9ybWF0",
-            "LnByb3RvYnVmLkRhdGFTZXQSMAoMY3JlYXRpb25UaW1lGAUgASgLMhouZ29v",
-            "Z2xlLnByb3RvYnVmLlRpbWVzdGFtcBIyCg5leHBpcmF0aW9uVGltZRgGIAEo",
-            "CzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAidgoHRGF0YVNldBILCgNy",
-            "ZWYYASABKAkSMAoFcXVlcnkYAiABKAsyIS5zZG14ZGwuZm9ybWF0LnByb3Rv",
-            "YnVmLkRhdGFRdWVyeRIsCgRkYXRhGAMgAygLMh4uc2RteGRsLmZvcm1hdC5w",
-            "cm90b2J1Zi5TZXJpZXMi5AEKDURhdGFTdHJ1Y3R1cmUSCwoDcmVmGAEgASgJ",
-            "EjUKCmRpbWVuc2lvbnMYAiADKAsyIS5zZG14ZGwuZm9ybWF0LnByb3RvYnVm",
-            "LkRpbWVuc2lvbhI1CgphdHRyaWJ1dGVzGAMgAygLMiEuc2RteGRsLmZvcm1h",
-            "dC5wcm90b2J1Zi5BdHRyaWJ1dGUSHAoPdGltZURpbWVuc2lvbklkGAQgASgJ",
-            "SACIAQESGAoQcHJpbWFyeU1lYXN1cmVJZBgFIAEoCRIMCgRuYW1lGAYgASgJ",
-            "QhIKEF90aW1lRGltZW5zaW9uSWQiawoJRGltZW5zaW9uEgoKAmlkGAEgASgJ",
-            "EgwKBG5hbWUYAiABKAkSMgoIY29kZWxpc3QYAyABKAsyIC5zZG14ZGwuZm9y",
-            "bWF0LnByb3RvYnVmLkNvZGVsaXN0EhAKCHBvc2l0aW9uGAQgASgFIoYBCgNP",
-            "YnMSDgoGcGVyaW9kGAEgASgJEg0KBXZhbHVlGAIgASgBEjMKBG1ldGEYAyAD",
-            "KAsyJS5zZG14ZGwuZm9ybWF0LnByb3RvYnVmLk9icy5NZXRhRW50cnkaKwoJ",
-            "TWV0YUVudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEipAEK",
-            "BlNlcmllcxILCgNrZXkYASABKAkSNgoEbWV0YRgCIAMoCzIoLnNkbXhkbC5m",
-            "b3JtYXQucHJvdG9idWYuU2VyaWVzLk1ldGFFbnRyeRIoCgNvYnMYAyADKAsy",
-            "Gy5zZG14ZGwuZm9ybWF0LnByb3RvYnVmLk9icxorCglNZXRhRW50cnkSCwoD",
-            "a2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ASpaChVBdHRyaWJ1dGVSZWxh",
-            "dGlvbnNoaXASCwoHVU5LTk9XThAAEgwKCERBVEFGTE9XEAESCQoFR1JPVVAQ",
-            "AhIKCgZTRVJJRVMQAxIPCgtPQlNFUlZBVElPThAEKkgKCkRhdGFEZXRhaWwS",
-            "CAoERlVMTBAAEg0KCURBVEFfT05MWRABEhQKEFNFUklFU19LRVlTX09OTFkQ",
-            "AhILCgdOT19EQVRBEAMqNAoHRmVhdHVyZRISCg5EQVRBX1FVRVJZX0tFWRAA",
-            "EhUKEURBVEFfUVVFUllfREVUQUlMEAFCAlABYgZwcm90bzM="));
+            "bXhkbC5mb3JtYXQucHJvdG9idWYisAEKCUF0dHJpYnV0ZRIKCgJpZBgBIAEo",
+            "CRIMCgRuYW1lGAIgASgJEjcKCGNvZGVsaXN0GAMgASgLMiAuc2RteGRsLmZv",
+            "cm1hdC5wcm90b2J1Zi5Db2RlbGlzdEgAiAEBEkMKDHJlbGF0aW9uc2hpcBgE",
+            "IAEoDjItLnNkbXhkbC5mb3JtYXQucHJvdG9idWYuQXR0cmlidXRlUmVsYXRp",
+            "b25zaGlwQgsKCV9jb2RlbGlzdCKBAQoIQ29kZWxpc3QSCwoDcmVmGAEgASgJ",
+            "EjoKBWNvZGVzGAIgAygLMisuc2RteGRsLmZvcm1hdC5wcm90b2J1Zi5Db2Rl",
+            "bGlzdC5Db2Rlc0VudHJ5GiwKCkNvZGVzRW50cnkSCwoDa2V5GAEgASgJEg0K",
+            "BXZhbHVlGAIgASgJOgI4ASJmCghEYXRhZmxvdxILCgNyZWYYASABKAkSFQoN",
+            "c3RydWN0dXJlX3JlZhgCIAEoCRIMCgRuYW1lGAMgASgJEhgKC2Rlc2NyaXB0",
+            "aW9uGAQgASgJSACIAQFCDgoMX2Rlc2NyaXB0aW9uIkwKCURhdGFRdWVyeRIL",
+            "CgNrZXkYASABKAkSMgoGZGV0YWlsGAIgASgOMiIuc2RteGRsLmZvcm1hdC5w",
+            "cm90b2J1Zi5EYXRhRGV0YWlsIu0BCg5EYXRhUmVwb3NpdG9yeRIMCgRuYW1l",
+            "GAEgASgJEjkKCnN0cnVjdHVyZXMYAiADKAsyJS5zZG14ZGwuZm9ybWF0LnBy",
+            "b3RvYnVmLkRhdGFTdHJ1Y3R1cmUSLwoFZmxvd3MYAyADKAsyIC5zZG14ZGwu",
+            "Zm9ybWF0LnByb3RvYnVmLkRhdGFmbG93EjEKCGRhdGFTZXRzGAQgAygLMh8u",
+            "c2RteGRsLmZvcm1hdC5wcm90b2J1Zi5EYXRhU2V0EhUKDWNyZWF0aW9uX3Rp",
+            "bWUYBSABKAkSFwoPZXhwaXJhdGlvbl90aW1lGAYgASgJInYKB0RhdGFTZXQS",
+            "CwoDcmVmGAEgASgJEjAKBXF1ZXJ5GAIgASgLMiEuc2RteGRsLmZvcm1hdC5w",
+            "cm90b2J1Zi5EYXRhUXVlcnkSLAoEZGF0YRgDIAMoCzIeLnNkbXhkbC5mb3Jt",
+            "YXQucHJvdG9idWYuU2VyaWVzIuoBCg1EYXRhU3RydWN0dXJlEgsKA3JlZhgB",
+            "IAEoCRI1CgpkaW1lbnNpb25zGAIgAygLMiEuc2RteGRsLmZvcm1hdC5wcm90",
+            "b2J1Zi5EaW1lbnNpb24SNQoKYXR0cmlidXRlcxgDIAMoCzIhLnNkbXhkbC5m",
+            "b3JtYXQucHJvdG9idWYuQXR0cmlidXRlEh4KEXRpbWVfZGltZW5zaW9uX2lk",
+            "GAQgASgJSACIAQESGgoScHJpbWFyeV9tZWFzdXJlX2lkGAUgASgJEgwKBG5h",
+            "bWUYBiABKAlCFAoSX3RpbWVfZGltZW5zaW9uX2lkImsKCURpbWVuc2lvbhIK",
+            "CgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEjIKCGNvZGVsaXN0GAMgASgLMiAu",
+            "c2RteGRsLmZvcm1hdC5wcm90b2J1Zi5Db2RlbGlzdBIQCghwb3NpdGlvbhgE",
+            "IAEoBSKGAQoDT2JzEg4KBnBlcmlvZBgBIAEoCRINCgV2YWx1ZRgCIAEoARIz",
+            "CgRtZXRhGAMgAygLMiUuc2RteGRsLmZvcm1hdC5wcm90b2J1Zi5PYnMuTWV0",
+            "YUVudHJ5GisKCU1ldGFFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiAB",
+            "KAk6AjgBIqQBCgZTZXJpZXMSCwoDa2V5GAEgASgJEjYKBG1ldGEYAiADKAsy",
+            "KC5zZG14ZGwuZm9ybWF0LnByb3RvYnVmLlNlcmllcy5NZXRhRW50cnkSKAoD",
+            "b2JzGAMgAygLMhsuc2RteGRsLmZvcm1hdC5wcm90b2J1Zi5PYnMaKwoJTWV0",
+            "YUVudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEqWgoVQXR0",
+            "cmlidXRlUmVsYXRpb25zaGlwEgsKB1VOS05PV04QABIMCghEQVRBRkxPVxAB",
+            "EgkKBUdST1VQEAISCgoGU0VSSUVTEAMSDwoLT0JTRVJWQVRJT04QBCpICgpE",
+            "YXRhRGV0YWlsEggKBEZVTEwQABINCglEQVRBX09OTFkQARIUChBTRVJJRVNf",
+            "S0VZU19PTkxZEAISCwoHTk9fREFUQRADKjwKB0ZlYXR1cmUSGgoWREFUQV9R",
+            "VUVSWV9BTExfS0VZV09SRBAAEhUKEURBVEFfUVVFUllfREVUQUlMEAFCAlAB",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Sdmxdl.Format.Protobuf.AttributeRelationship), typeof(global::Sdmxdl.Format.Protobuf.DataDetail), typeof(global::Sdmxdl.Format.Protobuf.Feature), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Sdmxdl.Format.Protobuf.Attribute), global::Sdmxdl.Format.Protobuf.Attribute.Parser, new[]{ "Id", "Name", "Codelist", "Relationship" }, new[]{ "Codelist" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sdmxdl.Format.Protobuf.Codelist), global::Sdmxdl.Format.Protobuf.Codelist.Parser, new[]{ "Ref", "Codes" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
@@ -101,7 +100,7 @@ namespace Sdmxdl.Format.Protobuf {
   }
 
   public enum Feature {
-    [pbr::OriginalName("DATA_QUERY_KEY")] DataQueryKey = 0,
+    [pbr::OriginalName("DATA_QUERY_ALL_KEYWORD")] DataQueryAllKeyword = 0,
     [pbr::OriginalName("DATA_QUERY_DETAIL")] DataQueryDetail = 1,
   }
 
@@ -691,7 +690,7 @@ namespace Sdmxdl.Format.Protobuf {
       }
     }
 
-    /// <summary>Field number for the "structureRef" field.</summary>
+    /// <summary>Field number for the "structure_ref" field.</summary>
     public const int StructureRefFieldNumber = 2;
     private string structureRef_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1208,8 +1207,8 @@ namespace Sdmxdl.Format.Protobuf {
       structures_ = other.structures_.Clone();
       flows_ = other.flows_.Clone();
       dataSets_ = other.dataSets_.Clone();
-      creationTime_ = other.creationTime_ != null ? other.creationTime_.Clone() : null;
-      expirationTime_ = other.expirationTime_ != null ? other.expirationTime_.Clone() : null;
+      creationTime_ = other.creationTime_;
+      expirationTime_ = other.expirationTime_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1264,27 +1263,27 @@ namespace Sdmxdl.Format.Protobuf {
       get { return dataSets_; }
     }
 
-    /// <summary>Field number for the "creationTime" field.</summary>
+    /// <summary>Field number for the "creation_time" field.</summary>
     public const int CreationTimeFieldNumber = 5;
-    private global::Google.Protobuf.WellKnownTypes.Timestamp creationTime_;
+    private string creationTime_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Google.Protobuf.WellKnownTypes.Timestamp CreationTime {
+    public string CreationTime {
       get { return creationTime_; }
       set {
-        creationTime_ = value;
+        creationTime_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "expirationTime" field.</summary>
+    /// <summary>Field number for the "expiration_time" field.</summary>
     public const int ExpirationTimeFieldNumber = 6;
-    private global::Google.Protobuf.WellKnownTypes.Timestamp expirationTime_;
+    private string expirationTime_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Google.Protobuf.WellKnownTypes.Timestamp ExpirationTime {
+    public string ExpirationTime {
       get { return expirationTime_; }
       set {
-        expirationTime_ = value;
+        expirationTime_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -1307,8 +1306,8 @@ namespace Sdmxdl.Format.Protobuf {
       if(!structures_.Equals(other.structures_)) return false;
       if(!flows_.Equals(other.flows_)) return false;
       if(!dataSets_.Equals(other.dataSets_)) return false;
-      if (!object.Equals(CreationTime, other.CreationTime)) return false;
-      if (!object.Equals(ExpirationTime, other.ExpirationTime)) return false;
+      if (CreationTime != other.CreationTime) return false;
+      if (ExpirationTime != other.ExpirationTime) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1320,8 +1319,8 @@ namespace Sdmxdl.Format.Protobuf {
       hash ^= structures_.GetHashCode();
       hash ^= flows_.GetHashCode();
       hash ^= dataSets_.GetHashCode();
-      if (creationTime_ != null) hash ^= CreationTime.GetHashCode();
-      if (expirationTime_ != null) hash ^= ExpirationTime.GetHashCode();
+      if (CreationTime.Length != 0) hash ^= CreationTime.GetHashCode();
+      if (ExpirationTime.Length != 0) hash ^= ExpirationTime.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1347,13 +1346,13 @@ namespace Sdmxdl.Format.Protobuf {
       structures_.WriteTo(output, _repeated_structures_codec);
       flows_.WriteTo(output, _repeated_flows_codec);
       dataSets_.WriteTo(output, _repeated_dataSets_codec);
-      if (creationTime_ != null) {
+      if (CreationTime.Length != 0) {
         output.WriteRawTag(42);
-        output.WriteMessage(CreationTime);
+        output.WriteString(CreationTime);
       }
-      if (expirationTime_ != null) {
+      if (ExpirationTime.Length != 0) {
         output.WriteRawTag(50);
-        output.WriteMessage(ExpirationTime);
+        output.WriteString(ExpirationTime);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1372,13 +1371,13 @@ namespace Sdmxdl.Format.Protobuf {
       structures_.WriteTo(ref output, _repeated_structures_codec);
       flows_.WriteTo(ref output, _repeated_flows_codec);
       dataSets_.WriteTo(ref output, _repeated_dataSets_codec);
-      if (creationTime_ != null) {
+      if (CreationTime.Length != 0) {
         output.WriteRawTag(42);
-        output.WriteMessage(CreationTime);
+        output.WriteString(CreationTime);
       }
-      if (expirationTime_ != null) {
+      if (ExpirationTime.Length != 0) {
         output.WriteRawTag(50);
-        output.WriteMessage(ExpirationTime);
+        output.WriteString(ExpirationTime);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1396,11 +1395,11 @@ namespace Sdmxdl.Format.Protobuf {
       size += structures_.CalculateSize(_repeated_structures_codec);
       size += flows_.CalculateSize(_repeated_flows_codec);
       size += dataSets_.CalculateSize(_repeated_dataSets_codec);
-      if (creationTime_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CreationTime);
+      if (CreationTime.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CreationTime);
       }
-      if (expirationTime_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpirationTime);
+      if (ExpirationTime.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ExpirationTime);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1420,17 +1419,11 @@ namespace Sdmxdl.Format.Protobuf {
       structures_.Add(other.structures_);
       flows_.Add(other.flows_);
       dataSets_.Add(other.dataSets_);
-      if (other.creationTime_ != null) {
-        if (creationTime_ == null) {
-          CreationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-        }
-        CreationTime.MergeFrom(other.CreationTime);
+      if (other.CreationTime.Length != 0) {
+        CreationTime = other.CreationTime;
       }
-      if (other.expirationTime_ != null) {
-        if (expirationTime_ == null) {
-          ExpirationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-        }
-        ExpirationTime.MergeFrom(other.ExpirationTime);
+      if (other.ExpirationTime.Length != 0) {
+        ExpirationTime = other.ExpirationTime;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1464,17 +1457,11 @@ namespace Sdmxdl.Format.Protobuf {
             break;
           }
           case 42: {
-            if (creationTime_ == null) {
-              CreationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(CreationTime);
+            CreationTime = input.ReadString();
             break;
           }
           case 50: {
-            if (expirationTime_ == null) {
-              ExpirationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(ExpirationTime);
+            ExpirationTime = input.ReadString();
             break;
           }
         }
@@ -1509,17 +1496,11 @@ namespace Sdmxdl.Format.Protobuf {
             break;
           }
           case 42: {
-            if (creationTime_ == null) {
-              CreationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(CreationTime);
+            CreationTime = input.ReadString();
             break;
           }
           case 50: {
-            if (expirationTime_ == null) {
-              ExpirationTime = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(ExpirationTime);
+            ExpirationTime = input.ReadString();
             break;
           }
         }
@@ -1873,7 +1854,7 @@ namespace Sdmxdl.Format.Protobuf {
       get { return attributes_; }
     }
 
-    /// <summary>Field number for the "timeDimensionId" field.</summary>
+    /// <summary>Field number for the "time_dimension_id" field.</summary>
     public const int TimeDimensionIdFieldNumber = 4;
     private string timeDimensionId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1884,20 +1865,20 @@ namespace Sdmxdl.Format.Protobuf {
         timeDimensionId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "timeDimensionId" field is set</summary>
+    /// <summary>Gets whether the "time_dimension_id" field is set</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasTimeDimensionId {
       get { return timeDimensionId_ != null; }
     }
-    /// <summary>Clears the value of the "timeDimensionId" field</summary>
+    /// <summary>Clears the value of the "time_dimension_id" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearTimeDimensionId() {
       timeDimensionId_ = null;
     }
 
-    /// <summary>Field number for the "primaryMeasureId" field.</summary>
+    /// <summary>Field number for the "primary_measure_id" field.</summary>
     public const int PrimaryMeasureIdFieldNumber = 5;
     private string primaryMeasureId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

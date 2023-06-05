@@ -158,7 +158,7 @@ public class Consumer : IClient
     {
         var cancelSource = new CancellationTokenSource();
         var sources = new Queue<Source>();
-        var response = Client.GetSources( new Google.Protobuf.WellKnownTypes.Empty() );
+        var response = Client.GetSources( new Empty() );
         while ( await response.ResponseStream.MoveNext( cancelSource.Token ) )
         {
             sources.Enqueue( response.ResponseStream.Current.Adapt<Source>() );

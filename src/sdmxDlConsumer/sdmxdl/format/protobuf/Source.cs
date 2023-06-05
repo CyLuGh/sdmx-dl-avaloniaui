@@ -25,18 +25,18 @@ namespace Sdmxdl.Format.Protobuf.Web {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiNzZG14ZGwvZm9ybWF0L3Byb3RvYnVmL3NvdXJjZS5wcm90bxIac2RteGRs",
-            "LmZvcm1hdC5wcm90b2J1Zi53ZWIi2QMKDVNkbXhXZWJTb3VyY2USCgoCaWQY",
+            "LmZvcm1hdC5wcm90b2J1Zi53ZWIi2wMKDVNkbXhXZWJTb3VyY2USCgoCaWQY",
             "ASABKAkSQwoFbmFtZXMYAiADKAsyNC5zZG14ZGwuZm9ybWF0LnByb3RvYnVm",
             "LndlYi5TZG14V2ViU291cmNlLk5hbWVzRW50cnkSDgoGZHJpdmVyGAMgASgJ",
             "EhQKB2RpYWxlY3QYBCABKAlIAIgBARIQCghlbmRwb2ludBgFIAEoCRJNCgpw",
             "cm9wZXJ0aWVzGAYgAygLMjkuc2RteGRsLmZvcm1hdC5wcm90b2J1Zi53ZWIu",
             "U2RteFdlYlNvdXJjZS5Qcm9wZXJ0aWVzRW50cnkSDwoHYWxpYXNlcxgHIAMo",
             "CRIUCgd3ZWJzaXRlGAggASgJSAGIAQESFAoHbW9uaXRvchgJIAEoCUgCiAEB",
-            "EhsKDm1vbml0b3JXZWJzaXRlGAogASgJSAOIAQEaLAoKTmFtZXNFbnRyeRIL",
-            "CgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBGjEKD1Byb3BlcnRpZXNF",
-            "bnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBQgoKCF9kaWFs",
-            "ZWN0QgoKCF93ZWJzaXRlQgoKCF9tb25pdG9yQhEKD19tb25pdG9yV2Vic2l0",
-            "ZUICUAFiBnByb3RvMw=="));
+            "EhwKD21vbml0b3Jfd2Vic2l0ZRgKIAEoCUgDiAEBGiwKCk5hbWVzRW50cnkS",
+            "CwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ARoxCg9Qcm9wZXJ0aWVz",
+            "RW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4AUIKCghfZGlh",
+            "bGVjdEIKCghfd2Vic2l0ZUIKCghfbW9uaXRvckISChBfbW9uaXRvcl93ZWJz",
+            "aXRlQgJQAWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -241,7 +241,7 @@ namespace Sdmxdl.Format.Protobuf.Web {
       monitor_ = null;
     }
 
-    /// <summary>Field number for the "monitorWebsite" field.</summary>
+    /// <summary>Field number for the "monitor_website" field.</summary>
     public const int MonitorWebsiteFieldNumber = 10;
     private string monitorWebsite_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -252,13 +252,13 @@ namespace Sdmxdl.Format.Protobuf.Web {
         monitorWebsite_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
-    /// <summary>Gets whether the "monitorWebsite" field is set</summary>
+    /// <summary>Gets whether the "monitor_website" field is set</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasMonitorWebsite {
       get { return monitorWebsite_ != null; }
     }
-    /// <summary>Clears the value of the "monitorWebsite" field</summary>
+    /// <summary>Clears the value of the "monitor_website" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearMonitorWebsite() {
